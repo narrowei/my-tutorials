@@ -1,5 +1,3 @@
-# my-tutorials
-
 # My-Tutorials
 
 My-Tutorials is a platform where students could seek for tutorials as well as tutors could register tutorials. The website is lightweight, interactive, RESTful, could support reasonable size Database. The front-end and back-end are powered by Vue.JS and Node.JS respectively.
