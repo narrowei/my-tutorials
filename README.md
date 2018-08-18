@@ -2,7 +2,7 @@
 
 My-Tutorials is a platform where students could seek for tutorials as well as tutors could register tutorials. The website is lightweight, interactive, RESTful, could support reasonable size Database. The front-end and back-end are powered by Vue.JS and Node.JS respectively.
 
-# Features
+## Features
 
   - User sign-up and log-in/log-out
   - Different classes of User have different profile page
@@ -15,7 +15,7 @@ Users can also:
   - Edit profile page, update personal information
   - Check tutorial history
 
-# Technologies
+## Technologies
 
 My-Tutorials uses a number of open source projects to work properly:
 
@@ -25,7 +25,7 @@ My-Tutorials uses a number of open source projects to work properly:
 * [Webpack](https://webpack.js.org/) - A static module bundler for modern JavaScript applications
 * [Babel](https://babeljs.io/) - A JavaScript compiler
 
-## Project setup
+### Project setup
 ```
 npm install
 ```
