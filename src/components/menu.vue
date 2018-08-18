@@ -8,6 +8,7 @@
             background-color="#545c64"
             text-color="#fff"
             active-text-color="#ffd04b">
+        <h3>My-Tutorials</h3>
         <el-menu-item index="1">Menu</el-menu-item>
         <el-submenu index="2">
             <template slot="title">my tutorial</template>
@@ -30,6 +31,7 @@
 
 <script>
     export default {
+        name: 'Menu',
         data() {
             return {
                 activeIndex: '1',
