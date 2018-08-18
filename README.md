@@ -24,6 +24,7 @@ My-Tutorials uses a number of open source projects to work properly:
 * [Express](http://expressjs.com/) - Fast Node.js web application framework
 * [Webpack](https://webpack.js.org/) - A static module bundler for modern JavaScript applications
 * [Babel](https://babeljs.io/) - A JavaScript compiler
+* [Element](http://element.eleme.io/#/en-US) - Vue 2.0 based component library 
 
 ### Project setup
 ```
