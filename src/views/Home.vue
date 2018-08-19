@@ -1,17 +1,21 @@
 <template>
   <div class="home">
-    <Menu/>
+    <Tutorial></Tutorial>
+    <Tutorial></Tutorial>
+    <Tutorial></Tutorial>
+    <Tutorial></Tutorial>
+    <Tutorial></Tutorial>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Menu from '@/components/menu.vue'
+import Tutorial from '@/components/tutorial.vue'
 
 export default {
   name: 'home',
   components: {
-    Menu
+    Tutorial
   }
 }
 </script>
