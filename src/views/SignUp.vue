@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>Sign Up Form</h1>
-        <el-form ref="form" :model="form" label-width="150px">
+        <el-form ref="form" :label-position="labelPosition" :model="form" label-width="150px">
             <el-form-item label="Username">
                 <el-input v-model="form.username"></el-input>
             </el-form-item>
@@ -30,6 +30,7 @@
         name: "SignUp",
         data() {
             return {
+                labelPosition: 'left',
                 form: [{
                     username: '',
                     email: '',

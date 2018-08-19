@@ -17,7 +17,7 @@
                 <Menu></Menu>
           </el-header>
           <el-container>
-              <el-aside width="200px">Sidebar</el-aside>
+              <!-- <el-aside width="200px">Sidebar</el-aside> -->
               <el-main>
                     <el-row :gutter="20">
 
