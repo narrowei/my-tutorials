@@ -33,6 +33,21 @@ export default new Router({
           path: '/createTutorial',
           name: 'createTutorial',
           component:   () => import(/* webpackChunkName: "about" */ './views/CreateTutorial.vue')
+      },
+      {
+          path: '/sign-up',
+          name: 'signup',
+          component:   () => import(/* webpackChunkName: "about" */ './views/SignUp.vue')
+      },
+      {
+          path: '/log-in',
+          name: 'login',
+          component:   () => import(/* webpackChunkName: "about" */ './views/Login.vue')
+      },
+      {
+          path: '/log-out',
+          name: 'logout',
+          component:   () => import(/* webpackChunkName: "about" */ './views/Logout.vue')
       }
   ]
 })

@@ -9,7 +9,7 @@
             <el-table-column
                     prop="date"
                     label="date"
-                    width="120">
+                    width="150">
             </el-table-column>
             <el-table-column
                     prop="name"
@@ -39,7 +39,7 @@
             <el-table-column
                     prop="date"
                     label="date"
-                    width="120">
+                    width="150">
             </el-table-column>
             <el-table-column
                     prop="name"

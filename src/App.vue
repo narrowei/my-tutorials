@@ -9,37 +9,35 @@
 <!--</template>-->
 <template>
   <div id="app">
-<<<<<<< HEAD
-    <div id="nav">
-      <!-- <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> -->
-    </div>
-    <!-- <router-view/> -->
-=======
-    <el-container>
-      <el-header>
-        <MENU></MENU>
-      </el-header>
-      <el-main>
-        <el-row :gutter="20">
+      <h1>My-Tutorials</h1>
+      <div id="nav">
+      </div>
+      <el-container>
+          <el-header>
+                <Menu></Menu>
+          </el-header>
+          <el-container>
+              <el-aside width="200px">Sidebar</el-aside>
+              <el-main>
+                    <el-row :gutter="20">
 
-          <el-col :span="12" :offset="6"><router-view/></el-col>
+                    <el-col :span="12" :offset="6"><router-view/></el-col>
 
-        </el-row>
+                    </el-row>
 
-      </el-main>
-    </el-container>
->>>>>>> ed4cc412aa1f99ac5a2535c7bf51b6bba826cc19
+              </el-main>
+          </el-container>
+      </el-container>
   </div>
 </template>
 <script>
     // @ is an alias to /src
-    import MENU from '@/components/menu.vue'
+    import Menu from '@/components/menu.vue'
 
     export default {
         name: 'home',
         components: {
-            MENU
+            Menu
         }
     }
 </script>
@@ -51,6 +49,5 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
