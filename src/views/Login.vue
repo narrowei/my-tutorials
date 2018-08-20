@@ -9,7 +9,7 @@
                 <el-input type="password" v-model="form.password"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSubmit">Sign Up</el-button>
+                <el-button type="primary" @click="onSubmit">Log in</el-button>
                 <el-button>Cancel</el-button>
             </el-form-item>
         </el-form>
