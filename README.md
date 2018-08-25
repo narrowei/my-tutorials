@@ -30,6 +30,7 @@ My-Tutorials uses a number of open source projects to work properly:
 
 ### Project setup
 ```
+cd front-end
 npm install
 ```
 
@@ -51,7 +52,7 @@ npm run lint
 
 ### Project setup
 ```
-npm install 
+cd Server
 npm install gulp-cli -g (if you haven't install gulp)
 npm install --save-dev gulp
 ```
