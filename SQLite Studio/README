@@ -1,0 +1,11 @@
+###INSTALLATION
+
+Windows users, please run the installer.
+
+Linux and mac users, install qt development files, download the .tar.gz file, extract the files, 
+open a command prompt at the extraction point and run:
+
+1. qmake
+2. make
+
+You will get an executable called sqlitebrowser.

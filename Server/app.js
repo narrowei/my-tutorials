@@ -67,7 +67,7 @@ classRoter.delete('/:id', function(req, res) {
 // Attach the routers for their respective paths
 app.use('/class', classRoter);
 app.use('/user', userRoter);
-app.get('/', (req, res) => res.send('Hello express!'));
+app.get('/', (req, res) => res.send('Server is running'));
 app.listen(3000, () => console.log('Example app listening on port 3000!'));
 
 module.exports = app;
