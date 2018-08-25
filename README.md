@@ -51,8 +51,9 @@ npm run lint
 
 ### Project setup
 ```
+npm install 
 npm install gulp-cli -g (if you haven't install gulp)
-npm install
+npm install --save-dev gulp
 ```
 ### Compiles and hot-reloads for development
 ```
