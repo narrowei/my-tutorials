@@ -26,7 +26,7 @@ My-Tutorials uses a number of open source projects to work properly:
 * [Babel](https://babeljs.io/) - A JavaScript compiler
 * [Element](http://element.eleme.io/#/en-US) - Vue 2.0 based component library 
 
-## Installation Guide
+## Installation Guide (client side)
 
 ### Project setup
 ```
@@ -47,7 +47,17 @@ npm run build
 ```
 npm run lint
 ```
+## Installation Guide (server side)
 
+### Project setup
+```
+npm install npm install gulp-cli -g (if you haven't install gulp)
+npm install
+```
+### Compiles and hot-reloads for development
+```
+gulp serve
+```
 
 
 ## Code Style

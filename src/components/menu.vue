@@ -23,6 +23,7 @@
         <el-menu-item index="4"><router-link to="/myInfo">My Info</router-link></el-menu-item>
         <el-menu-item index="5"><router-link to="/sign-up">Sign Up</router-link></el-menu-item>
         <el-menu-item index="6"><router-link to="/log-in">Log In</router-link></el-menu-item>
+        <el-menu-item index="7">Hi {{name}}</el-menu-item>
     </el-menu>
     </div>
 
@@ -31,17 +32,25 @@
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         data() {
             return {
                 activeIndex: '1',
-                activeIndex2: '1'
+                activeIndex2: '1',
+                name:null,
             };
         },
         methods: {
             handleSelect(key, keyPath) {
                 console.log(key, keyPath);
             }
+        },
+        mounted () {
+            axios
+                .get('http://localhost:3000/user')
+                .then(response => (this.name = response.data[0].name))
+                .catch(error => console.log(error))
         }
     }
 </script>
