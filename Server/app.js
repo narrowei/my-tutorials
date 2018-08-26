@@ -19,8 +19,23 @@ userRoter.get('/', function(req, res,next) {
 // A POST to the root of a resource should create a new object
 userRoter.post('/', function(req, res) {
 
-});
+    res.header("Access-Control-Allow-Origin", "*");
 
+    const newUser = {
+        name: req.name,
+        gender: req.gender,
+        email: req.email,
+        phoneNumber: req.phoneNumber,
+        type: req.type,
+        password: req.password,
+    };
+    db.run("INSERT INTO user(name,gender,email,phoneNumber, type, password) VALUES (?)", newUser, function (err) {
+        if (err) {
+            return console.error(err.message);
+        }
+    });
+
+});
 // We specify a param in our path for the GET of a specific object
 userRoter.get('/:id', function(req, res) {
 

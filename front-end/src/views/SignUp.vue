@@ -2,7 +2,7 @@
     <div>
         <h1>Sign Up Form</h1>
         <el-form ref="form" :label-position="labelPosition"
-                 :model="form" label-width="150px">
+                  label-width="150px">
             <el-form-item label="* Username">
                 <el-input v-model.trim="form.username"
                           @input="$v.form.username.$touch()"></el-input>
@@ -44,7 +44,7 @@
                 <el-input type="password" v-model.trim="form.conpassword"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSubmit">Sign Up</el-button>
+                <el-button type="primary" @click="submitForm">Sign Up</el-button>
                 <el-button>Cancel</el-button>
             </el-form-item>
         </el-form>
@@ -53,6 +53,7 @@
 
 <script>
     import { required, email, minLength, maxLength, numeric, alphaNum } from 'vuelidate/lib/validators'
+    import axios from "axios";
     export default {
         name: "SignUp",
         data() {
@@ -95,12 +96,8 @@
             },
         },
         methods: {
-            onSubmit() {
-                if(this.$v.$invalid === true){
-                    return;
-                }
-
-                const user = {
+            submitForm: function() {
+                let newUser = {
                     name : this.form.username,
                     gender : this.form.gender,
                     email: this.form.email,
@@ -108,7 +105,10 @@
                     type: this.form.student? 1 : 0,
                     password: this.form.password,
                 }
-                console.log('submit!');
+                axios
+                    .post('http://localhost:3000/user',newUser)
+                    .then(response => (this.classes = response.data))
+                    .catch(error => console.log(error))
             }
         }
 
