@@ -38,7 +38,18 @@ userRoter.post('/', function(req, res) {
 });
 // We specify a param in our path for the GET of a specific object
 userRoter.get('/:id', function(req, res) {
-
+    const nameToLookUp = req.params.id;
+    db.all("SELECT * FROM user WHERE name=$name",{$name: nameToLookUp},
+        (err, rows) => {
+            if (err) {
+                throw err;
+            }
+            if(rows.length > 0){
+                res.send(rows[0]);
+            }else{
+                res.send({});
+            }
+        })
 });
 
 // Similar to the GET on an object, to update it we can PATCH
