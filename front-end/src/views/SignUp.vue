@@ -53,7 +53,7 @@
 
 <script>
     import { required, email, minLength, maxLength, numeric, alphaNum } from 'vuelidate/lib/validators'
-    import axios from "axios";
+    import axios from 'axios';
     export default {
         name: "SignUp",
         data() {
