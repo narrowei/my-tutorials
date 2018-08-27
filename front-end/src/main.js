@@ -11,10 +11,10 @@ import axios from 'axios'
 Vue.use(ElementUI);
 Vue.use(Vuelidate);
 
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
-Vue.prototype.$ajax = axios
-Vue.config.productionTip = false
-/*axios.interceptors.request.use((config) => {
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+Vue.prototype.$axios = axios;
+/*Vue.config.productionTip = false
+axios.interceptors.request.use((config) => {
     config.data = qs.stringify(config.data);
     return config;
 }, function(error) {

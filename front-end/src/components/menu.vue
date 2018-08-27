@@ -24,6 +24,13 @@
         <el-menu-item index="5"><router-link to="/sign-up">Sign Up</router-link></el-menu-item>
         <el-menu-item index="6"><router-link to="/log-in">Log In</router-link></el-menu-item>
         <el-menu-item index="7">Hi {{name}}</el-menu-item>
+        <el-menu-item index="8">
+            <el-input
+                    placeholder="search"
+                    prefix-icon="el-icon-search"
+                    v-model="search">
+            </el-input>
+        </el-menu-item>
     </el-menu>
     </div>
 
@@ -39,6 +46,7 @@
                 activeIndex: '1',
                 activeIndex2: '1',
                 name:null,
+                search: '',
             };
         },
         methods: {
