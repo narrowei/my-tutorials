@@ -6,11 +6,20 @@ import './plugins/element.js'
 import router from './router'
 import Vuelidate from 'vuelidate'
 import axios from 'axios'
-
-Vue.config.productionTip = false
+//import qs from 'qs'
 
 Vue.use(ElementUI);
 Vue.use(Vuelidate);
+
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+Vue.prototype.$ajax = axios
+Vue.config.productionTip = false
+axios.interceptors.request.use((config) => {
+    config.data = qs.stringify(config.data);
+    return config;
+}, function(error) {
+    return Promise.reject(error);
+});
 
 new Vue({
   router,

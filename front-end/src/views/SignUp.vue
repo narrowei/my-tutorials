@@ -97,7 +97,8 @@
         },
         methods: {
             submitForm: function() {
-                let newUser = {
+
+                /*let newUser = {
                     name : this.form.username,
                     gender : this.form.gender,
                     email: this.form.email,
@@ -108,7 +109,24 @@
                 axios
                     .post('http://localhost:3000/user',newUser)
                     .then(response => (this.classes = response.data))
-                    .catch(error => console.log(error))
+                    .catch(error => console.log(error))*/
+
+                const url = 'http://localhost:3000/user';
+                var params = new URLSearchParams();
+                params.append('name', this.form.username);
+                params.append('gender', this.form.gender);
+                params.append('email', this.form.email);
+                params.append('phoneNumber', this.form.mobile);
+                params.append('type', this.form.student? 1:0);
+                params.append('password', this.form.password);
+                this.$axios({
+                    method: 'post',
+                    url: url,
+                    data: params,
+                }).then((res)=>{
+                    console.log(res);
+                }).catch(error => console.log(error));
+
             }
         }
 
