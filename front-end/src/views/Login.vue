@@ -1,21 +1,15 @@
 <template>
     <div>
         <h1>Login Form</h1>
-        <el-form ref="form" :model="form" :labelPosition="labelPosition" label-width="150px">
-            <el-form-item label="Username">
-                <el-input v-model.trim="form.username"
-                          @input="$v.form.username.$touch()"></el-input>
-                <span class="error" v-if="!$v.form.username.required">
-                    Username can not be null.</span>
+        <el-form ref="form" :model="form" :labelPosition="labelPosition" :rules="rules" label-width="150px">
+            <el-form-item label="Username" prop="name" required>
+                <el-input v-model.trim="form.name"></el-input>
             </el-form-item>
-            <el-form-item label="Password">
-                <el-input type="password" v-model.trim="form.password"
-                          @input="$v.form.password.$touch()"></el-input>
-                <span class="error" v-if="!$v.form.password.required">
-                    Password can not be null.</span>
+            <el-form-item label="Password" prop="password" required>
+                <el-input type="password" v-model.trim="form.password"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSubmit">Log in</el-button>
+                <el-button type="primary" @click="submitForm(form)">Log in</el-button>
                 <el-button>Cancel</el-button>
             </el-form-item>
         </el-form>
@@ -24,27 +18,34 @@
 
 <script>
 
-    import { required } from 'vuelidate/lib/validators'
     export default {
         name: "Login",
         data() {
+
+            var validatePass = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('Please input the password'));
+                } else {
+                    callback();
+                }
+            };
+
             return {
                 labelPosition: 'left',
-                form: [{
-                    username: '',
+                form: {
+                    name: '',
                     password: '',
-                }]
-            }
-        },
-        validations: {
-            form: {
-                username: {
-                    required,
                 },
-                password: {
-                    required,
+                rules: {
+                    name: [
+                        { required: true, message: 'Please input username.', trigger: 'blur'},
+                        { min: 3, max: 12, message: 'Username length must be 3-12 characters.', trigger: 'blur'},
+                    ],
+                    password: [
+                        { validator: validatePass, trigger: 'blur' }
+                    ],
                 }
-            },
+            }
         },
         methods: {
             onSubmit() {

@@ -21,8 +21,8 @@
             <el-form-item label="Password" prop="password" required>
                 <el-input type="password" v-model.trim="form.password"></el-input>
             </el-form-item>
-            <el-form-item label="Confirm Password" prop="conpassword" required>
-                <el-input type="password" v-model.trim="form.conpassword"></el-input>
+            <el-form-item label="Confirm" prop="confirm" required>
+                <el-input type="password" v-model.trim="form.confirm"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm(form)">Sign Up</el-button>
@@ -33,11 +33,39 @@
 </template>
 
 <script>
-    import { required, email, minLength, maxLength, numeric, alphaNum } from 'vuelidate/lib/validators'
 
     export default {
         name: "SignUp",
         data() {
+
+            let validateGender = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('Please select gender'));
+                }else{
+                    callback();
+                }
+            };
+
+            var validatePass = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('Please input the password'));
+                } else {
+                    if (this.form.confirm !== '') {
+                        this.$refs.form.validateField('confirm');
+                    }
+                    callback();
+                }
+            };
+            var validatePass2 = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('Please input the password again'));
+                } else if (value !== this.form.password) {
+                    callback(new Error('Password doesn\'t match!'));
+                } else {
+                    callback();
+                }
+            };
+
             return {
                 labelPosition: 'left',
                 form: {
@@ -46,7 +74,7 @@
                     mobile: '',
                     gender: '',
                     password: '',
-                    conpassword: '',
+                    confirm: '',
                 },
                 rules: {
                     name: [
@@ -63,38 +91,18 @@
                         { min: 9, max: 10, message: 'Mobile length must be 9-10 digital.', trigger: 'blur'},
                     ],
                     gender: [
-                        { required: true, message: 'Please select gender', trigger: 'change'},
+                        { required: true,  validator: validateGender, trigger: 'change'},
                     ],
-                    password: [],
+                    password: [
+                        { validator: validatePass, trigger: 'blur' }
+                        ],
+                    confirm: [
+                        { validator: validatePass2, trigger: 'blur'}
+                    ],
 
                 }
             }
         },
-        // validations: {
-        //     form: {
-        //         username: {
-        //             required,
-        //             minLength: minLength(2),
-        //             maxLength: maxLength(16),
-        //         },
-        //         email: {
-        //             required, email
-        //         },
-        //         mobile: {
-        //             required,
-        //             numeric,
-        //             minLength: minLength(10),
-        //             maxLength: maxLength(10),
-        //         },
-        //         password: {
-        //             required,
-        //             alphaNum,
-        //             minLength: minLength(2),
-        //             maxLength: maxLength(16),
-        //
-        //         }
-        //     },
-        // },
         methods: {
             submitForm(formName) {
 
