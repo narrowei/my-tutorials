@@ -18,7 +18,6 @@ userRoter.get('/', function(req, res,next) {
 });
 // A POST to the root of a resource should create a new object
 userRoter.post('/', function(req, res) {
-
     res.header("Access-Control-Allow-Origin", "*");
 
     const newUser = {
