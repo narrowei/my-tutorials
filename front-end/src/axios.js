@@ -3,7 +3,7 @@ import router from './router/index'
 import store from './store/index'
 import * as types from './store/types'
 
-axios.default.timeout = 5000
+axios.default.timeout = 3000
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 const instance = axios.create();
@@ -29,18 +29,22 @@ instance.interceptors.response.use(response => {
 export default {
 	// sign up
 	userRegister(data) {
-		return instance.post('/api/register', data)
+		return instance.post('/user/register', data)
 	},
 	// login
 	UserLogin(data) {
-		return instance.post('/api/login', data)
+		return instance.post('/user/login', data)
 	},
 	// get user
 	getUser() {
-		return instance.get('/api/user')
+		return instance.get('/user')
 	},
 	// delete user
 	delUser(data) {
-		return instance.post('/api/delUser', data)
+		return instance.post('/user/delUser', data)
+	},
+	// HOME page, get all tutorial
+	getAllTutorial(){
+		return instance.get('/tutorial')
 	}
 }

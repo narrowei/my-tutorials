@@ -5,7 +5,7 @@ var nodemon = require('gulp-nodemon');
 //start express
 gulp.task("node", function() {
     nodemon({
-        script: 'app.js',
+        script: 'server.js',
         ignore : [
             //ignore some files to boost up the performance
             "static/"
@@ -18,7 +18,7 @@ gulp.task("node", function() {
 
 gulp.task('serve', ["node"], function() {
     var files = [
-        "app.js",
+        "server.js",
     ];
     browserSync.init({
         proxy: 'http://localhost:3000',

@@ -1,23 +1,28 @@
 const express = require('express')
-const model = require('../db/db.js')
-const router = express.Router()
+//const model = require('../db/db.js')
+const userRouter = express.Router()
 const moment = require('moment')
 const objectIdToTimestamp = require('objectid-to-timestamp')
 const createToken = require('../middleware/createToken.js')
 const sha1 = require('sha1')
 const checkToken = require('../middleware/checkToken.js')
 
-// 注册
-const Register = (req, res) => {
-	let userRegister = new model.User({
-		email: req.body.email,
-		password: sha1(req.body.password),
-		recheck: req.body.recheck,
-		token: createToken(this.email)
-	})
+let sqlite3 = require('sqlite3').verbose();
+let db = new sqlite3.Database('db/my-tutorial.db');
 
-	// 将 objectid 转换为 用户创建时间
-	userRegister.create_time = moment(objectIdToTimestamp(userRegister._id))
+// user sign up
+const Register = (req, res) => {
+    let newUser = {
+        name: req.body.name,
+        gender: req.body.gender,
+        email: req.body.email,
+        mobile: req.body.mobile,
+        password: sha1(req.body.password),
+        token: createToken(this.email)
+    };
+
+	// create register time
+	newUser.create_time = moment(objectIdToTimestamp(newUser._id))
 		.format('YYYY-MM-DD HH:mm:ss');
 
 	model.User.findOne({

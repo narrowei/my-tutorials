@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 let sqlite3 = require('sqlite3').verbose();
-let db = new sqlite3.Database('DB/my-tutorial.db');
+let db = new sqlite3.Database('db/my-tutorial.db');
 
 // Create the express router object for users
 let userRoter = express.Router();
@@ -24,7 +24,7 @@ userRoter.post('/', function(req, res) {
         name: req.name,
         gender: req.gender,
         email: req.email,
-        phoneNumber: req.phoneNumber,
+        mobile: req.mobile,
         type: req.type,
         password: req.password,
     };
