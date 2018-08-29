@@ -5,21 +5,16 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './plugins/element.js'
 import router from './router'
 import axios from 'axios'
-//import qs from 'qs'
+import store from './store/index.js'
 
 Vue.use(ElementUI);
 
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-Vue.prototype.$axios = axios;
-/*Vue.config.productionTip = false
-axios.interceptors.request.use((config) => {
-    config.data = qs.stringify(config.data);
-    return config;
-}, function(error) {
-    return Promise.reject(error);
-});*/
+// Vue.prototype.$axios = axios;
+
 
 new Vue({
-  router,
-  render: h => h(App)
+    router,
+    axios,
+    store,
+    render: h => h(App)
 }).$mount('#app')

@@ -21,10 +21,9 @@
         </el-submenu>
         <el-menu-item index="3" ><router-link to="/createTutorial">Create Tutorial</router-link></el-menu-item>
         <el-menu-item index="4"><router-link to="/myInfo">My Info</router-link></el-menu-item>
-        <el-menu-item index="5"><router-link to="/sign-up">Sign Up</router-link></el-menu-item>
-        <el-menu-item index="6"><router-link to="/log-in">Log In</router-link></el-menu-item>
-        <el-menu-item index="7">Hi {{name}}</el-menu-item>
-        <el-menu-item index="8">
+        <el-menu-item index="5"><router-link to="/log-in">Log In</router-link></el-menu-item>
+        <el-menu-item index="6">Hi {{name}}</el-menu-item>
+        <el-menu-item index="7">
             <el-input
                     placeholder="search"
                     prefix-icon="el-icon-search"
