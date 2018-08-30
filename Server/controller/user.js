@@ -2,8 +2,9 @@ const express = require('express')
 const db = require('../db/db.js')
 const userRouter = express.Router()
 const createToken = require('../middleware/createToken.js')
-const sha1 = require('sha1')
+const bcrypt = require('bcrypt')
 const checkToken = require('../middleware/checkToken.js')
+const saltRounds = 10
 
 userRouter.get('/', function(req, res,next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -17,32 +18,47 @@ userRouter.get('/', function(req, res,next) {
 // create a new user
 userRouter.post('/register', function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
-    let newUser = {
-        name: req.body.name,
-        gender: req.body.gender,
-        email: req.body.email,
-        mobile: req.body.mobile,
-        password: sha1(req.body.password),
-        token: createToken(this.email)
-    };
-    db.run("INSERT INTO user(name,gender,email,mobile,password,token) VALUES (?)", newUser, function (err) {
-        if (err) {
-            return console.error(err.message);
-        }
-    });
+
+    bcrypt.hash(req.body.password, saltRounds, function(err, hash){
+        let newUser = {
+            name: req.body.name,
+            gender: req.body.gender,
+            email: req.body.email,
+            mobile: req.body.mobile,
+            password: hash,
+            token: createToken(this.email)
+        };
+        db.run("INSERT INTO user(name,gender,email,mobile,password,token) VALUES (?)", newUser, function (err) {
+            if (err) {
+                return console.error(err.message);
+            }
+        });
+	});
+
+
 });
 // We specify a param in our path for the GET of a specific object
-userRouter.get('/login/:id', function(req, res) {
-    const nameToLookUp = req.params.id;
-    db.all("SELECT * FROM user WHERE name=$name",{$name: nameToLookUp},
+userRouter.post('/login', function(req, res) {
+    let username = req.body.name;
+    let enteredPassword = req.body.password;
+
+    db.all("SELECT * FROM user WHERE name=$name",{$name: username},
         (err, rows) => {
             if (err) {
                 throw err;
             }
             if(rows.length > 0){
                 res.send(rows[0]);
+                console.log("User exists in the database.");
+                bcryp.compare(enteredPassword, rows[0].password, function(err, res){
+                	if(res){
+                		console.log("password matches! Redirecting...")
+						res.redirect('/')
+					}
+				});
+
             }else{
-                res.send({});
+                console.log("Password did not match...")
             }
         })
 });
