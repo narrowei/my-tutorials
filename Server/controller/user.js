@@ -1,17 +1,22 @@
 const express = require('express')
-//const model = require('../db/db.js')
+const db = require('../db/db.js')
 const userRouter = express.Router()
-const moment = require('moment')
-const objectIdToTimestamp = require('objectid-to-timestamp')
 const createToken = require('../middleware/createToken.js')
 const sha1 = require('sha1')
 const checkToken = require('../middleware/checkToken.js')
 
-let sqlite3 = require('sqlite3').verbose();
-let db = new sqlite3.Database('db/my-tutorial.db');
-
-// user sign up
-const Register = (req, res) => {
+userRouter.get('/', function(req, res,next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    db.all("SELECT ID,name,gender,email FROM user", function(err, rows){
+        if (err) {
+            throw err;
+        }
+        res.json(rows);
+    });
+});
+// create a new user
+userRouter.post('/register', function(req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
     let newUser = {
         name: req.body.name,
         gender: req.body.gender,
@@ -20,90 +25,47 @@ const Register = (req, res) => {
         password: sha1(req.body.password),
         token: createToken(this.email)
     };
+    db.run("INSERT INTO user(name,gender,email,mobile,password,token) VALUES (?)", newUser, function (err) {
+        if (err) {
+            return console.error(err.message);
+        }
+    });
+});
+// We specify a param in our path for the GET of a specific object
+userRouter.get('/login/:id', function(req, res) {
+    const nameToLookUp = req.params.id;
+    db.all("SELECT * FROM user WHERE name=$name",{$name: nameToLookUp},
+        (err, rows) => {
+            if (err) {
+                throw err;
+            }
+            if(rows.length > 0){
+                res.send(rows[0]);
+            }else{
+                res.send({});
+            }
+        })
+});
 
-	// create register time
-	newUser.create_time = moment(objectIdToTimestamp(newUser._id))
-		.format('YYYY-MM-DD HH:mm:ss');
+// Similar to the GET on an object, to update it we can PATCH
+userRouter.patch('/:id', function(req, res) {
 
-	model.User.findOne({
-		email: (userRegister.email)
-			.toLowerCase()
-	}, (err, doc) => {
-		if(err) console.log(err)
-		// 用户名已存在，不能注册
-		if(doc) {
-			res.json({
-				success: false
-			})
-		} else {
-			userRegister.save(err => {
-				if(err) console.log(err)
-				console.log('register success')
-				res.json({
-					success: true
-				})
-			})
-		}
-	})
-}
+});
 
-// 登录
-const Login = (req, res) => {
-	let userLogin = new model.User({
-		email: req.body.email,
-		password: sha1(req.body.password),
-		token: createToken(this.email)
-	})
-	model.User.findOne({ email: userLogin.email }, (err, doc) => {
-		if(err) console.log(err)
-		if(!doc) {
-			console.log("账号不存在");
-			res.json({
-				info: false
-			})
-		} else if(userLogin.password === doc.password) {
-			console.log('登录成功')
-			var name = req.body.email;
-			res.json({
-				success: true,
-				email: doc.email,
-				// 账户创建日期
-				time: moment(objectIdToTimestamp(doc._id))
-					.format('YYYY-MM-DD HH:mm:ss'),
-				// token 信息验证
-				token: createToken(name)
-			})
-		} else {
-			console.log('密码错误')
-			res.json({
-				success: false
-			})
-		}
-	})
-}
+// Delete a specific object
+userRouter.delete('/delUser/:id', function(req, res) {
+    const nameToLookUp = req.params.id;
+    db.all("DELETE FROM user WHERE name=$name",{$name: nameToLookUp},
+        (err, rows) => {
+            if (err) {
+                throw err;
+            }
+            if(rows.length > 0){
+                res.send(rows[0]);
+            }else{
+                res.send({});
+            }
+        })
+});
 
-// 所有用户打印
-const User = (req, res) => {
-	model.User.find({}, (err, doc) => {
-		if(err) console.log(err)
-		res.send(doc)
-	})
-}
-
-// 删除用户
-const delUser = (req, res) => {
-	model.User.findOneAndRemove({ _id: req.body.id }, err => {
-		if(err) console.log(err)
-		console.log('删除用户成功')
-		res.json({
-			success: true
-		})
-	})
-}
-
-module.exports = (router) => {
-	router.post('/register', Register),
-		router.post('/login', Login),
-		router.get('/user', checkToken, User),
-		router.post('/delUser', checkToken, delUser)
-}
+module.exports = userRouter

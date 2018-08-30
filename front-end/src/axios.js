@@ -27,24 +27,20 @@ instance.interceptors.response.use(response => {
 })
 
 export default {
-	// sign up
-	userRegister(data) {
-		return instance.post('/user/register', data)
-	},
-	// login
-	UserLogin(data) {
-		return instance.post('/user/login', data)
-	},
-	// get user
-	getUser() {
-		return instance.get('/user')
-	},
-	// delete user
-	delUser(data) {
-		return instance.post('/user/delUser', data)
-	},
-	// HOME page, get all tutorial
-	getAllTutorial(){
-		return instance.get('/tutorial')
-	}
+    // sign up
+    userRegister(data) {
+        return instance.post('/user/register', data)
+    },
+    // login
+    UserLogin(data) {
+        return instance.post('/user/login', data)
+    },
+    // get user
+    getUser() {
+        return instance.get('/user')
+    },
+    // delete user
+    delUser(data) {
+        return instance.post('/user/delUser', data)
+    }
 }
