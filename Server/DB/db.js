@@ -6,8 +6,6 @@ let db = new sqlite3.Database('my-tutorial.db', (err) => {
     } else {
         console.log('Connected to database')
     }
-})
-
-
+});
 
 module.exports = db;

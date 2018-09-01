@@ -1,20 +1,23 @@
+/* eslint-disable */
 import axios from 'axios'
 import router from './router/index'
 import store from './store/index'
 import * as types from './store/types'
 
 axios.default.timeout = 3000
-axios.defaults.headers.post['Content-Type'] = 'application/json'
+const backendAddr = "http://localhost:3000";
 
 const instance = axios.create();
-instance.defaults.headers.post['Content-Type'] = 'application/json'
+instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 axios.interceptors.request.use = instance.interceptors.request.use
 instance.interceptors.request.use(config => {
 	if(localStorage.getItem('token')) {
-		config.headers.Authorization = `token ${localStorage.getItem('token')}`
+		config.headers.Authorization = `${localStorage.getItem('token')}`
 			.replace(/(^\")|(\"$)/g, '')
-	}
+	}else{
+        config.headers.Authorization = '';
+    }
 	return config
 }, err => {
 	return Promise.reject(err)
@@ -29,18 +32,22 @@ instance.interceptors.response.use(response => {
 export default {
     // sign up
     userRegister(data) {
-        return instance.post('/user/register', data)
+        console.log(data);
+        return instance.post(backendAddr+'/user/register', data)
     },
     // login
     UserLogin(data) {
-        return instance.post('/user/login', data)
+        return instance.post(backendAddr+'/user/login', data)
     },
     // get user
-    getUser() {
-        return instance.get('/user')
+    GetUser () {
+        return instance.get(backendAddr+'/user')
     },
     // delete user
     delUser(data) {
-        return instance.post('/user/delUser', data)
+        return instance.post(backendAddr+'/user/delUser', data)
+    },
+    getAllTutorial(){
+        return instance.get(backendAddr + '/tutorial')
     }
 }

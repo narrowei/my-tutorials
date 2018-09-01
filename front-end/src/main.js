@@ -9,7 +9,7 @@ import store from './store/index.js'
 
 Vue.use(ElementUI);
 
-// Vue.prototype.$axios = axios;
+
 
 
 new Vue({

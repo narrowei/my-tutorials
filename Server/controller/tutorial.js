@@ -1,7 +1,15 @@
-const express = require('express')
-const db = require('../db/db.js')
-const tutorialRouter = express.Router()
-
+const express = require('express');
+let sqlite3 = require('sqlite3').verbose();
+let db = new sqlite3.Database('db/my-tutorial.db');
+const tutorialRouter = express.Router();
+const checkToken = require('../middleware/checkToken.js');
+let cors = require('cors');
+tutorialRouter.use(cors());
+let bodyParser = require('body-parser')
+tutorialRouter.use( bodyParser.json() );       // to support JSON-encoded bodies
+tutorialRouter.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+    extended: true
+}));
 // A GET to the root of a resource returns a list of that resource
 tutorialRouter.get('/', function(req, res,next) {
     //allowed CSRF
@@ -15,7 +23,7 @@ tutorialRouter.get('/', function(req, res,next) {
 });
 
 // when register a class, insert into database
-tutorialRouter.post('/', function(req, res) {
+tutorialRouter.post('/',checkToken, function(req, res) {
     const newClass = {
         tutorID: req.tutorID,
         name: req.name,
@@ -36,8 +44,8 @@ tutorialRouter.post('/', function(req, res) {
 
 // GET a specific class
 tutorialRouter.get('/:id', function(req, res) {
-    const nameToLookUp = req.params.id;
-    db.all("SELECT * FROM class WHERE name=$name",{$name: nameToLookUp},
+    const id = req.params.id;
+    db.all("SELECT * FROM class WHERE ID=$id",{$id: id},
         (err, rows) => {
             if (err) {
                 throw err;
@@ -54,7 +62,7 @@ tutorialRouter.patch('/:id', function(req, res) {
 
 });
 // delete a class
-tutorialRouter.delete('/:id', function(req, res) {
+tutorialRouter.delete('/:id',checkToken, function(req, res) {
     const nameToLookUp = req.params.id;
     db.all("DELETE FROM class WHERE name=$name",{$name: nameToLookUp},
         (err, rows) => {

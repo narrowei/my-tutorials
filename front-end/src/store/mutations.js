@@ -8,7 +8,9 @@ const mutations = {
 	},
 	[types.LOGOUT]: (state) => {
 		localStorage.removeItem('token');
-		state.token = null
+		state.token = null;
+        localStorage.removeItem('username');
+        state.username = null;
 	},
 	[types.USERNAME]: (state, data) => {
 		localStorage.setItem('username', data)

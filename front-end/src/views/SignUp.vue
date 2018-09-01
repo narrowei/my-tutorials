@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template>
     <div>
         <h1>Sign Up Form</h1>
@@ -81,7 +82,7 @@
                     ],
                     mobile: [
                         { required: true, message: 'Please input mobile.', trigger: 'blur'},
-                        { type: 'number', message: 'Mobile must be all digital'},
+                        // { type: 'number', message: 'Mobile must be all digital'},
                         { min: 9, max: 10, message: 'Mobile length must be 9-10 digital.', trigger: 'blur'},
                     ],
                     gender: [
@@ -106,27 +107,31 @@
 
             submitForm(formName) {
 
-                /*let newUser = {
-                    name : this.form.username,
-                    gender : this.form.gender,
-                    email: this.form.email,
-                    phoneNumber: this.form.mobile,
-                    type: this.form.student? 1 : 0,
-                    password: this.form.password,
-                }
-                axios
-                    .post('http://localhost:3000/user',newUser)
-                    .then(response => (this.classes = response.data))
-                    .catch(error => console.log(error))*/
+                // let newUser = {
+                //     name : this.form.username,
+                //     gender : this.form.gender,
+                //     email: this.form.email,
+                //     phoneNumber: this.form.mobile,
+                //     password: this.form.password,
+                // };
+                // axios
+                //     .post('http://localhost:3000/user',newUser)
+                //     .then(response => (this.classes = response.data))
+                //     .catch(error => console.log(error))
 
 
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-
-                        let opt = this.signUpForm;
-
-                        api.userRegister(opt).then(({data}) => {
-                            if (data.success) {
+                        let newUser = {
+                                name : this.signUpForm.name,
+                                gender : this.signUpForm.gender,
+                                email: this.signUpForm.email,
+                                phoneNumber: this.signUpForm.mobile,
+                                password: this.signUpForm.password,
+                            };
+                        console.log(newUser);
+                        api.userRegister(newUser).then(({data}) => {
+                            if (data.success="success") {
                                 this.$message({
                                     type: 'success',
                                     message: `Sign up successfully! Please log in.`

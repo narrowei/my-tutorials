@@ -68,22 +68,25 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        let opt = this.loginForm;
-                        api.UserLogin(opt).then(({data}) => {
-                            console.log(data)
-                            if (!data.info) {
-                                this.$message({
-                                    type: 'info',
-                                    message: 'User doesn\'t exists.'
-                                })
-                            }
-                            if (data.success) {
+                        let userInfo = {
+                            name: this.loginForm.name,
+                            password: this.loginForm.password
+                        };
+                        api.UserLogin(userInfo).then(({data}) => {
+                            // if (!data.info) {
+                            //     this.$message({
+                            //         type: 'info',
+                            //         message: 'User doesn\'t exists.'
+                            //     })
+                            // }
+                            if (data.success==="success") {
                                 this.$message({
                                     type: 'success',
                                     message: 'Login successfully.'
                                 })
-                                this.$store.dispatch('UserLogin', data.token)
-                                this.$store.dispatch('UserName', data.email)
+                                //this.$store.dispatch('UserLogin', userInfo.token)
+                                this.$store.dispatch('UserName', data.email);
+                                this.$store.dispatch('UserLogin', data.token);
                                 let redirect = decodeURIComponent(this.$route.query.redirect || '/');
                                 this.$router.push({
                                     path: redirect

@@ -1,36 +1,51 @@
 const express = require('express')
-const db = require('../db/db.js')
+let sqlite3 = require('sqlite3').verbose();
+let db = new sqlite3.Database('db/my-tutorial.db');
 const userRouter = express.Router()
+let cors = require('cors')
 const createToken = require('../middleware/createToken.js')
 const bcrypt = require('bcrypt')
 const checkToken = require('../middleware/checkToken.js')
-const saltRounds = 10
+const saltRounds = 10;
+const jwt = require('jsonwebtoken')
+let bodyParser = require('body-parser')
+userRouter.use( bodyParser.json() );       // to support JSON-encoded bodies
+userRouter.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+    extended: true
+}));
+userRouter.use(cors());
 
-userRouter.get('/', function(req, res,next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    db.all("SELECT ID,name,gender,email FROM user", function(err, rows){
-        if (err) {
-            throw err;
-        }
-        res.json(rows);
-    });
+userRouter.get('/',checkToken ,function(req, res,next) {
+    //res.header("Access-Control-Allow-Origin", "*");
+    if(req.headers['authorization']){
+        let token = req.headers['authorization'];
+        let decoded = jwt.decode(token, 'secret');
+        res.json({token: createToken(decoded.name)});
+    }
+    res.json({});
 });
 // create a new user
 userRouter.post('/register', function(req, res) {
-    res.header("Access-Control-Allow-Origin", "*");
+    //res.header("Access-Control-Allow-Origin", "*");
 
+    console.log(req.body);
     bcrypt.hash(req.body.password, saltRounds, function(err, hash){
-        let newUser = {
-            name: req.body.name,
-            gender: req.body.gender,
-            email: req.body.email,
-            mobile: req.body.mobile,
-            password: hash,
-            token: createToken(this.email)
-        };
-        db.run("INSERT INTO user(name,gender,email,mobile,password,token) VALUES (?)", newUser, function (err) {
+        let newUser = [
+            req.body.name,
+            req.body.gender,
+            req.body.email,
+            req.body.phoneNumber,
+            hash,
+            createToken(this.email)
+        ];
+        db.run("INSERT INTO user(name,gender,email,mobile,password,token) VALUES (?,?,?,?,?,?)",newUser , function (err) {
             if (err) {
                 return console.error(err.message);
+            }else{
+
+                res.json({success: 'success',
+
+                });
             }
         });
 	});
@@ -48,17 +63,23 @@ userRouter.post('/login', function(req, res) {
                 throw err;
             }
             if(rows.length > 0){
-                res.send(rows[0]);
                 console.log("User exists in the database.");
-                bcryp.compare(enteredPassword, rows[0].password, function(err, res){
-                	if(res){
+                bcrypt.compare(enteredPassword, rows[0].password, function(err, result){
+                    console.log(result);
+                	if(result){
                 		console.log("password matches! Redirecting...")
-						res.redirect('/')
-					}
+                        res.json({success: 'success',
+                            token: createToken(rows[0].email),
+                            email: rows[0].email
+                        });
+					}else{
+                        res.json({success: 'failed'});
+                    }
 				});
 
             }else{
                 console.log("Password did not match...")
+                res.json({success: 'failed'});
             }
         })
 });

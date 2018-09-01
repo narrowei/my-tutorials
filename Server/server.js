@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //app.use(compression({ threshold: 0 }))
 app.use('/user', userRoute)
-app.use('/tutorial', userRoute)
+app.use('/tutorial', tutorialRoute)
 // app.use(function (req, res, next) {
 // 	var err = new Error('This page not found');
 // 	err.status = 404;
