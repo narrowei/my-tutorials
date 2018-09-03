@@ -28,7 +28,7 @@
                 </template>
             </el-table-column>
         </el-table>
-        <h1>finished class</h1>
+        <h1>Finished class</h1>
         <el-table
                 :data="finished"
                 height="300px"
