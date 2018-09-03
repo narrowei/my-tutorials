@@ -28,12 +28,6 @@ export default {
     },
     mounted () {
         this.get_Tutorial()
-        //this.username = localStorage.getItem('username')
-
-        // axios
-        //     .get('http://localhost:3000/class')
-        //     .then(response => (this.classes = response.data))
-        //     .catch(error => console.log(error))
     },
     methods: {
         get_Tutorial() {

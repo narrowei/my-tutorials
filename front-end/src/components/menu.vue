@@ -19,14 +19,14 @@
                 <el-menu-item index="2-2-3">choose 3</el-menu-item>
             </el-submenu>
         </el-submenu>
-        <el-menu-item index="3" ><router-link to="/createTutorial">Create Tutorial</router-link></el-menu-item>
-        <el-menu-item index="4"><router-link to="/myInfo">My Info</router-link></el-menu-item>
-        <el-menu-item index="5" v-if="this.$store.state.username === null || this.$store.state.username === 'undefined' "><router-link to="/log-in">Log In</router-link></el-menu-item>
-        <el-submenu index="6" v-else>
-            <template slot="title"> Hi {{$store.state.username}}</template>
-            <el-menu-item index="6-1">logout</el-menu-item>
+        <el-menu-item index="3" v-if="this.$store.state.username === null || this.$store.state.username === 'undefined' "><router-link to="/log-in">Log In</router-link></el-menu-item>
+        <el-submenu index="4" v-else>
+            <template slot="title"> Hi, {{$store.state.username}}</template>
+            <el-menu-item index="4-1"><router-link to="/myInfo">My Info</router-link></el-menu-item>
+            <el-menu-item index="4-2" ><router-link to="/createTutorial">Create Tutorial</router-link></el-menu-item>
+            <el-menu-item index="4-3">Logout</el-menu-item>
         </el-submenu>
-        <el-menu-item index="7">
+        <el-menu-item index="5">
             <el-input
                     placeholder="search"
                     prefix-icon="el-icon-search"
@@ -35,9 +35,6 @@
         </el-menu-item>
     </el-menu>
     </div>
-
-
-    
 </template>
 
 <script>
@@ -54,7 +51,7 @@
         methods: {
             handleSelect(key, keyPath) {
                 console.log(keyPath);
-                if(keyPath[0]==='6'){
+                if(keyPath[1]==='4-3'){
                     this.$store.dispatch('UserLogout');
                     if (!this.$store.state.token) {
                         this.$router.push('/login');
@@ -73,10 +70,6 @@
         },
         mounted () {
             console.log(this.$store.state.username)
-            // axios
-            //     .get('http://localhost:3000/user')
-            //     .then(response => (this.name = response.data[0].name))
-            //     .catch(error => console.log(error))
         }
     }
 </script>

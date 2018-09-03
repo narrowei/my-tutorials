@@ -73,12 +73,6 @@
                             password: this.loginForm.password
                         };
                         api.UserLogin(userInfo).then(({data}) => {
-                            // if (!data.info) {
-                            //     this.$message({
-                            //         type: 'info',
-                            //         message: 'User doesn\'t exists.'
-                            //     })
-                            // }
                             if (data.success==="success") {
                                 this.$message({
                                     type: 'success',

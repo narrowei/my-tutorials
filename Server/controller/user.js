@@ -15,7 +15,7 @@ userRouter.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 userRouter.use(cors());
 
-userRouter.get('/',checkToken ,function(req, res,next) {
+userRouter.get('/',checkToken ,function(req, res, next) {
     //res.header("Access-Control-Allow-Origin", "*");
     if(req.headers['authorization']){
         let token = req.headers['authorization'];
@@ -34,7 +34,7 @@ userRouter.post('/register', function(req, res) {
             req.body.name,
             req.body.gender,
             req.body.email,
-            req.body.phoneNumber,
+            req.body.mobile,
             hash,
             createToken(this.email)
         ];
@@ -42,15 +42,11 @@ userRouter.post('/register', function(req, res) {
             if (err) {
                 return console.error(err.message);
             }else{
-
                 res.json({success: 'success',
-
                 });
             }
         });
 	});
-
-
 });
 // We specify a param in our path for the GET of a specific object
 userRouter.post('/login', function(req, res) {
@@ -62,7 +58,7 @@ userRouter.post('/login', function(req, res) {
             if (err) {
                 throw err;
             }
-            if(rows.length > 0){
+            else if(rows.length > 0){
                 console.log("User exists in the database.");
                 bcrypt.compare(enteredPassword, rows[0].password, function(err, result){
                     console.log(result);
@@ -76,7 +72,6 @@ userRouter.post('/login', function(req, res) {
                         res.json({success: 'failed'});
                     }
 				});
-
             }else{
                 console.log("Password did not match...")
                 res.json({success: 'failed'});

@@ -27,7 +27,7 @@
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('signUpForm')">Sign Up</el-button>
-                <el-button @click="resetForm('signUpForm')">Cancel</el-button>
+                <el-button @click="resetForm('signUpForm')">Reset</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -39,7 +39,6 @@
     export default {
         name: "login",
         data() {
-
             var validatePass = (rule, value, callback) => {
 
                 // at least one lowercase, one uppercase, one digital
@@ -82,7 +81,7 @@
                     ],
                     mobile: [
                         { required: true, message: 'Please input mobile.', trigger: 'blur'},
-                        // { type: 'number', message: 'Mobile must be all digital'},
+                        //{ type: 'number', message: 'Mobile must be all digitals'},
                         { min: 9, max: 10, message: 'Mobile length must be 9-10 digital.', trigger: 'blur'},
                     ],
                     gender: [
@@ -96,7 +95,6 @@
                         { required: true, message: 'Please input password.', trigger: 'blur'},
                         { validator: validatePass2, trigger: 'blur'},
                     ],
-
                 }
             }
         },
@@ -119,19 +117,18 @@
                 //     .then(response => (this.classes = response.data))
                 //     .catch(error => console.log(error))
 
-
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         let newUser = {
                                 name : this.signUpForm.name,
                                 gender : this.signUpForm.gender,
                                 email: this.signUpForm.email,
-                                phoneNumber: this.signUpForm.mobile,
+                                mobile: this.signUpForm.mobile,
                                 password: this.signUpForm.password,
                             };
                         console.log(newUser);
                         api.userRegister(newUser).then(({data}) => {
-                            if (data.success="success") {
+                            if (data.success==="success") {
                                 this.$message({
                                     type: 'success',
                                     message: `Sign up successfully! Please log in.`
@@ -148,33 +145,13 @@
                         }).catch((err) => {
                             console.log(err);
                         })
-
-                        // const url = 'http://localhost:3000/user';
-                        // var params = new URLSearchParams();
-                        // params.append('name', this.form.username);
-                        // params.append('gender', this.form.gender);
-                        // params.append('email', this.form.email);
-                        // params.append('phoneNumber', this.form.mobile);
-                        // params.append('password', this.form.password);
-                        //
-                        // this.$axios({
-                        //     method: 'post',
-                        //     url: url,
-                        //     data: params,
-                        // }).then((res)=>{
-                        //     console.log(res);
-                        // }).catch(error => console.log(error));
-
                     } else {
                         console.log('error submit!!');
                         return false;
                     }
                 });
-
-
             }
         }
-
     }
 </script>
 

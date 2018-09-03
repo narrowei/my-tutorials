@@ -50,7 +50,7 @@
                             console.log('token');
                             this.$message({
                                 type: 'info',
-                                message: 'you need login first!'
+                                message: 'You need login first!'
                             });
                             this.$router.push({name: 'login'});
                             this.$store.dispatch('UserLogout');
