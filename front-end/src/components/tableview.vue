@@ -2,7 +2,6 @@
     <el-table
             :data="enrolled"
             stripe
-            border
             style="width: 100%">
         <el-table-column
                 prop="date"

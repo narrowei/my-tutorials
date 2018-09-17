@@ -47,7 +47,12 @@ export default {
     delUser(data) {
         return instance.post(backendAddr+'/user/delUser', data)
     },
+    // get tutorials
     getAllTutorial(){
         return instance.get(backendAddr + '/tutorial')
+    },
+    // enroll tutorial
+    enrollTutorial(data){
+        return instance.post(backendAddr+'/tutorial/enroll', data)
     }
 }
