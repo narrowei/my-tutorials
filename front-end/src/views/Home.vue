@@ -4,7 +4,11 @@
           v-for="tutorial in tutorials"
           v-bind:key="tutorial.ID"
           v-bind:name="tutorial.name"
+          v-bind:tutor="tutorial.tutorID"
           v-bind:description="tutorial.description"
+          v-bind:time="tutorial.time"
+          v-bind:maxNumberStudent="tutorial.maxNumberStudent"
+          v-bind:attachment="tutorial.attachment"
       ></tutorial>
 
   </div>
