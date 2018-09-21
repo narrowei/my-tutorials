@@ -52,7 +52,10 @@ export default {
         return instance.get(backendAddr + '/tutorial')
     },
     // enroll tutorial
+    createTutorial(data){
+        return instance.post(backendAddr+'/tutorial', data)
+    },
     enrollTutorial(data){
-        return instance.post(backendAddr+'/tutorial/enroll', data)
+        return instance.post(backendAddr+'/enroll', data)
     }
 }

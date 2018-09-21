@@ -22,7 +22,7 @@ userRouter.get('/',checkToken ,function(req, res, next) {
         let decoded = jwt.decode(token, 'secret');
         res.json({token: createToken(decoded.name)});
     }
-    res.json({});
+    //res.json({});
 });
 // create a new user
 userRouter.post('/register', function(req, res) {

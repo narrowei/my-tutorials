@@ -20,7 +20,7 @@
                 <img :src=attachment class="image">
                 <div style="padding: 14px;">
                     <span>{{name}}</span>
-                    <el-button style="float: right; padding: 5px 5px" type="primary" @click="submitForm(this)">Enroll</el-button>
+                    <el-button style="float: right; padding: 5px 5px" type="primary" @click="submitForm(id)">Enroll</el-button>
                     <div class="bottom clearfix">
                         <p class="card-text">Tutor: {{tutor}}</p>
                         <p class="card-text">Description: {{description}}</p>
@@ -35,6 +35,8 @@
 </template>
 
 <script>
+    import api from '../axios'
+
     export default {
         name: "tutorial",
         data(){
@@ -42,7 +44,26 @@
 
             }
         },
-        props:['name','description','tutor','time','maxNumberStudent','attachment']
+        props:['id','name','description','tutor','time','maxNumberStudent','attachment'],
+        methods:{
+            submitForm(data){
+                console.log(data);
+
+                api.enrollTutorial({id:data}).then(({data})=>{
+                    if (data.success==="success") {
+                        this.$message({
+                            type: 'success',
+                            message: 'enroll successfully.'
+                        });
+                    }else{
+                        this.$message({
+                            type: 'fail',
+                            message: 'already enrolled'
+                        });
+                    }
+                })
+            }
+        }
     }
 </script>
 

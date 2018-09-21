@@ -2,36 +2,32 @@
     <div id="CreateTutorial-Form">
     <el-form ref="form" :label-position="labelPosition" :model="form" label-width="100px">
         <el-form-item label="Tutorial Name">
-            <el-input v-model="form.name"></el-input>
+            <el-input placeholder="Tutorial Name" v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item label="Location">
-            <el-select v-model="form.region" placeholder="Please select a location" style="width: 100%;">
-                <el-option label="USYD" value="Sydney"></el-option>
-                <el-option label="UTS" value="UTS"></el-option>
-                <el-option label="UNSW" value="Sydney"></el-option>
-            </el-select>
-        </el-form-item>
+
         <el-form-item label="Date">
-            <el-col :span="11">
-                <el-date-picker type="date" placeholder="Please select date" v-model="form.date1" style="float: left;"></el-date-picker>
-            </el-col>
-            <el-col class="line" :span="2">-</el-col>
-            <el-col :span="11">
-                <el-time-picker type="fixed-time" placeholder="Please select time" v-model="form.date2" style="float: right;"></el-time-picker>
-            </el-col>
+            <el-date-picker
+                    v-model="form.date1"
+                    type="datetimerange"
+                    range-separator="-"
+                    start-placeholder="start date"
+                    end-placeholder="end date">
+            </el-date-picker>
         </el-form-item>
-        <el-form-item label="Free">
-            <el-switch v-model="form.delivery" style="float: left"></el-switch>
+        <el-form-item label="price">
+            <el-input placeholder="price"   v-model="form.price"></el-input>
         </el-form-item>
-        <el-form-item label="Type">
-            <el-checkbox-group v-model="form.type" style="float: left">
-                <el-checkbox label="Tutorial" name="type"></el-checkbox>
-                <el-checkbox label="Work shop" name="type"></el-checkbox>
-                <el-checkbox label="Lecture" name="type"></el-checkbox>
-            </el-checkbox-group>
+        <el-form-item label="Total Enrollment">
+            <el-input-number v-model="form.maxNumberStudent" controls-position="right" :min="1" ></el-input-number>
         </el-form-item>
         <el-form-item label="Detail">
             <el-input type="textarea" v-model="form.description" :autosize="{ minRows: 2, maxRows: 4}"></el-input>
+        </el-form-item>
+        <el-form-item label="Video Link">
+            <el-input placeholder="video link" v-model="form.video_link"></el-input>
+        </el-form-item>
+        <el-form-item label="Picture Link">
+            <el-input placeholder="video link" v-model="form.attachment"></el-input>
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="onSubmit">Create</el-button>
@@ -42,6 +38,9 @@
 </template>
 
 <script>
+    import api from '../axios'
+
+
     export default {
         name: "CreateTutorial",
         data() {
@@ -49,18 +48,33 @@
                 labelPosition: 'left',
                 form: {
                     name: '',
-                    region: '',
-                    date1: '',
-                    date2: '',
-                    delivery: false,
-                    type: [],
-                    description: ''
+                    date1: [],
+                    maxNumberStudent: '',
+                    description: '',
+                    video_link:'',
+                    price:'',
+                    attachment:''
                 }
             }
         },
         methods: {
             onSubmit() {
                 console.log('submit!');
+                api.createTutorial(this.form).then(({data})=>{
+                    if (data.success==="success") {
+                        this.$message({
+                            type: 'success',
+                            message: 'Tutorial created!'
+                        });
+
+                        this.$router.push('/')
+                    }else{
+                        this.$message({
+                            type: 'failed',
+                            message: 'error'
+                        })
+                    }
+                })
             }
         }
     }

@@ -77,7 +77,7 @@
                                 this.$message({
                                     type: 'success',
                                     message: 'Login successfully.'
-                                })
+                                });
                                 //this.$store.dispatch('UserLogin', userInfo.token)
                                 this.$store.dispatch('UserName', data.email);
                                 this.$store.dispatch('UserLogin', data.token);

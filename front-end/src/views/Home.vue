@@ -3,6 +3,7 @@
       <tutorial
           v-for="tutorial in tutorials"
           v-bind:key="tutorial.ID"
+          v-bind:id="tutorial.ID"
           v-bind:name="tutorial.name"
           v-bind:tutor="tutorial.tutorID"
           v-bind:description="tutorial.description"
