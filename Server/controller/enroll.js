@@ -23,20 +23,16 @@ enrollRouter.get('/',checkToken ,function(req, res, next) {
         let decoded = jwt.decode(token, 'secret');
         email = decoded.name;
     }
-    let id='';
-    let name='';
-    db.get("select ID,name from user where email=?",email, (err,row)=> {
+    let userID='';
+    db.get("select ID from user where email=$email",{$email: email}, (err,row)=> {
         if (err) {
             return res.json({success: 'failed'});
         } else {
-            id = row.ID;
-            name = row.name;
-
+            userID = row.ID;
         }
     });
-
 });
-// create a new user
+// enroll tutorial
 enrollRouter.post('/',checkToken ,function(req, res) {
     //res.header("Access-Control-Allow-Origin", "*");
     let email;
@@ -45,20 +41,19 @@ enrollRouter.post('/',checkToken ,function(req, res) {
         let decoded = jwt.decode(token, 'secret');
         email = decoded.name;
     }
-    let id='';
-    let name='';
-    db.get("select ID,name from user where email=?",email, (err,row)=>{
-        if(err){
-            return res.json({success: 'failed'});
-        }else{
-            id = row.ID;
-            name = row.name;
-            let enroll = [
-                id,
-                req.body.id,
-            ];
+    let userID='';
 
-            db.get("select * from enrollment where classID = ? and studentID = ?",enroll,function (err,row) {
+    db.get("select ID from user where email=$email",{$email: email}, (err,row)=>{
+        if(err){
+            return res.json({success: 'user not found'});
+        }else{
+            userID = row.ID;
+
+            let enroll = [
+                req.body.id,
+                userID,
+            ];
+            db.get("select * from enrollment where classID = ? and studentID = ?", enroll ,function (err,row) {
                 if(err){
                     console.log(err);
                     return res.json({success: 'failed'});
@@ -83,17 +78,50 @@ enrollRouter.post('/',checkToken ,function(req, res) {
 
 });
 
-
-
-
 // Similar to the GET on an object, to update it we can PATCH
 enrollRouter.patch('/:id', function(req, res) {
 
 });
 
-// Delete a specific object
-enrollRouter.delete('/delUser/:id', function(req, res) {
+// withdraw an enrollment
+enrollRouter.delete('/:id',checkToken, function(req, res) {
+    let email;
+    if(req.headers['authorization']){
+        let token = req.headers['authorization'];
+        let decoded = jwt.decode(token, 'secret');
+        email = decoded.name;
+    }
+    let userID='';
 
+    db.get("select ID from user where email=$email",{$email: email}, (err,row)=>{
+        if(err){
+            return res.json({success: 'user not found'});
+        }else{
+            userID = row.ID;
+
+            let enroll = [
+                req.body.id,
+                userID,
+            ];
+            db.get("select * from enrollment where classID = ? and studentID = ?", enroll ,function (err,row) {
+                if(err){
+                    console.log(err);
+                    return res.json({success: 'failed'});
+                }else if(typeof(row) === "undefined"){
+                    return res.json({success: 'enrollment not found'});
+                }else {
+                    const id = req.params.id;
+                    db.run("DELETE FROM enrollment WHERE WHERE ID=$id",{$id: id},
+                        (err, rows) => {
+                            if (err) {
+                                throw err;
+                            }else{
+                                res.json({success: 'success'});
+                            }
+                        })
+                }
+            });
+        }
+    });
 });
-
 module.exports = enrollRouter;

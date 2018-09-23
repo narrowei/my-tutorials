@@ -1,10 +1,8 @@
 <template>
   <div class="home">
       <ul :style="gridStyle" class="card-list">
-          <li v-for="(tutorial, index) in tutorials" class="card-item">
+          <li v-for="tutorial in tutorials" :key="tutorial.ID" class="card-item">
               <tutorial
-
-                  v-bind:key="tutorial.ID"
                   v-bind:id="tutorial.ID"
                   v-bind:name="tutorial.name"
                   v-bind:tutor="tutorial.tutorID"
@@ -29,7 +27,7 @@ export default {
     name: 'home',
     data() {
         return {
-            tutorials:null,
+            tutorials:[],
             numberOfColumn: 3,
         }
     },
@@ -47,7 +45,6 @@ export default {
                 })
             }, 100)
         },
-
     },
     computed: {
         gridStyle() {

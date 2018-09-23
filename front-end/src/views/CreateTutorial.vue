@@ -4,7 +4,6 @@
             <el-form-item label="Tutorial Name">
                 <el-input placeholder="Tutorial Name" v-model="form.name"></el-input>
             </el-form-item>
-
             <el-form-item label="Date">
                 <el-date-picker
                         v-model="form.date"
@@ -12,7 +11,10 @@
                         range-separator="--"
                         start-placeholder="Start Date"
                         end-placeholder="End Date"
-                        style="width: 100%;">
+                        style="width: 100%;"
+                        format="yyyy-MM-dd HH:mm"
+                        value-format="yyyy-MM-dd HH:mm"
+                        @change="datetimeFormat">
                 </el-date-picker>
             </el-form-item>
             <el-form-item label="Price">
@@ -34,7 +36,7 @@
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit">Create</el-button>
-                <el-button>Cancel</el-button>
+                <el-button type="danger" native-type="reset">Cancel</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -61,6 +63,10 @@
             }
         },
         methods: {
+            datetimeFormat(val) {
+                this.form.date = val;
+                console.log(val);
+            },
             onSubmit() {
                 console.log('submit!');
                 api.createTutorial(this.form).then(({data})=>{

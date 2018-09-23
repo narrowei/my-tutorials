@@ -15,6 +15,7 @@ userRouter.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 userRouter.use(cors());
 
+//get user
 userRouter.get('/',checkToken ,function(req, res, next) {
     //res.header("Access-Control-Allow-Origin", "*");
     if(req.headers['authorization']){
@@ -24,6 +25,7 @@ userRouter.get('/',checkToken ,function(req, res, next) {
     }
     //res.json({});
 });
+
 // create a new user
 userRouter.post('/register', function(req, res) {
     //res.header("Access-Control-Allow-Origin", "*");
@@ -48,6 +50,7 @@ userRouter.post('/register', function(req, res) {
         });
 	});
 });
+
 // We specify a param in our path for the GET of a specific object
 userRouter.post('/login', function(req, res) {
     let username = req.body.name;
@@ -91,11 +94,8 @@ userRouter.delete('/delUser/:id', function(req, res) {
         (err, rows) => {
             if (err) {
                 throw err;
-            }
-            if(rows.length > 0){
-                res.send(rows[0]);
             }else{
-                res.send({});
+                res.json({success: 'success'});
             }
         })
 });

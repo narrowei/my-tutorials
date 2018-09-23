@@ -5,7 +5,7 @@
                 <img :src=attachment class="image" alt="tutorial image not found">
             </div>
             <div slot="header" style="text-align: center;">
-                <span>{{name}}</span>
+                <span>{{name}}</span><span>{{id}}</span>
                 <el-button style="float: right; padding: 5px 5px" type="primary" @click="submitForm(this)">Enroll</el-button>
             </div>
             <div style="text-align: center;">
@@ -29,11 +29,10 @@
 
             }
         },
-        props:['id','name','description','tutor','time','maxNumberStudent','attachment'],
+        props:['id','name','description','tutor','time','maxNumberStudent','attachment','price'],
         methods:{
             submitForm(data){
                 console.log(data);
-
                 api.enrollTutorial({id:data}).then(({data})=>{
                     if (data.success==="success") {
                         this.$message({
