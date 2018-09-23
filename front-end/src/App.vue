@@ -18,13 +18,8 @@
           </el-header>
           <el-container>
               <!-- <el-aside width="200px">Sidebar</el-aside> -->
-              <el-main>
-                    <el-row :gutter="20">
-
-                    <el-col :span="12" :offset="6"><router-view/></el-col>
-
-                    </el-row>
-
+              <el-main style="alignment: center; padding: 20px">
+                    <router-view/>
               </el-main>
           </el-container>
       </el-container>

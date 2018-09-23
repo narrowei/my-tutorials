@@ -45,7 +45,7 @@ tutorialRouter.post('/',checkToken, function(req, res) {
                 name,
                 req.body.description,
                 req.body.maxNumberStudent,
-                req.body.date1[0]+','+req.body.date1[1],
+                req.body.date[0]+','+req.body.date[1],
                 req.body.price,
                 req.body.attachment,
                 req.body.video_link,

@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <el-row>
+    <div class="wrapper">
+        <el-row class="inline">
             <el-col :span="24">
                 <el-tabs v-model="activeName" @tab-click="handleClick">
                     <el-tab-pane label="Login" name="first">
@@ -103,5 +103,11 @@
 </script>
 
 <style scoped>
-
+    .wrapper {
+        text-align: center;
+    }
+    .inline {
+        width: 50%;
+        display: inline-block;
+    }
 </style>

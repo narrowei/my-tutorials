@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <el-row>
+    <div class="wrapper">
+        <el-row class="inline">
             <el-col :span="24">
                 <el-tabs v-model="activeName" @tab-click="handleTabClick">
                     <el-tab-pane label="Enrolled Class" name="first">
@@ -118,51 +118,15 @@
                     date: '2020-04-21',
                     name: 'learning ES6',
                     type: 'workshop',
-                }, {
-                    date: '2020-04-21',
-                    name: 'learning VueJS',
-                    type: 'lecture',
-                }, {
-                    date: '2020-04-21',
-                    name: 'learning React',
-                    type: 'workshop',
-                }, {
-                    date: '2020-04-21',
-                    name: 'learning Angular2',
-                    type: 'workshop',
                 }],
                 finished: [{
                     date: '2018-04-21',
                     name: 'learning ES6',
                     type: 'workshop',
-                }, {
-                    date: '2018-04-21',
-                    name: 'learning VueJS',
-                    type: 'lecture',
-                }, {
-                    date: '2018-04-21',
-                    name: 'learning React',
-                    type: 'workshop',
-                }, {
-                    date: '2020-04-21',
-                    name: 'learning Angular2',
-                    type: 'workshop',
                 }],
                 created: [{
                     date: '2019-04-21',
                     name: 'learning ES6',
-                    type: 'workshop',
-                }, {
-                    date: '2018-04-21',
-                    name: 'learning VueJS',
-                    type: 'lecture',
-                }, {
-                    date: '2017-04-21',
-                    name: 'learning React',
-                    type: 'workshop',
-                }, {
-                    date: '2016-04-21',
-                    name: 'learning Angular2',
                     type: 'workshop',
                 }]
             }
@@ -171,5 +135,11 @@
 </script>
 
 <style scoped>
-
+    .wrapper {
+        text-align: center;
+    }
+    .inline {
+        width: 60%;
+        display: inline-block;
+    }
 </style>
