@@ -39,7 +39,7 @@ export default {
     UserLogin(data) {
         return instance.post(backendAddr+'/user/login', data)
     },
-    // get user
+    // get all user
     GetUser () {
         return instance.get(backendAddr+'/user')
     },
@@ -47,12 +47,44 @@ export default {
     delUser(data) {
         return instance.post(backendAddr+'/user/delUser', data)
     },
-    // get tutorials
+    // get all tutorials
     getAllTutorial(){
         return instance.get(backendAddr + '/tutorial')
     },
+    // create tutorial
+    createTutorial(data){
+        return instance.post(backendAddr+'/tutorial', data)
+    },
     // enroll tutorial
     enrollTutorial(data){
-        return instance.post(backendAddr+'/tutorial/enroll', data)
-    }
+        return instance.post(backendAddr+'/enroll', data)
+    },
+    // get enrolled tutorials
+    getEnrolledTutorial(){
+        return instance.get(backendAddr + '/myinfo/enrolled')
+    },
+    // get finished tutorials
+    getFinishedTutorial(){
+        return instance.get(backendAddr + '/myinfo/finished')
+    },
+    // get created tutorials
+    getCreatedTutorial(){
+        return instance.get(backendAddr + '/myinfo/created')
+    },
+    // view a specific tutorial
+    viewTutorial(data) {
+        return instance.post(backendAddr+'/tutorial', data)
+    },
+    // finish a specific tutorial
+    finishTutorial(data) {
+        return instance.post(backendAddr+'/tutorial/finish', data)
+    },
+    // withdraw a specific enrollment
+    withdraw(data) {
+        return instance.delete(backendAddr+'/enroll', data)
+    },
+    // delete a specific tutorial
+    delTutorial(data) {
+        return instance.delete(backendAddr+'/tutorial', data)
+    },
 }

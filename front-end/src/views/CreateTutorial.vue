@@ -1,47 +1,51 @@
 <template>
-    <div id="CreateTutorial-Form">
-    <el-form ref="form" :label-position="labelPosition" :model="form" label-width="100px">
-        <el-form-item label="Tutorial Name">
-            <el-input v-model="form.name"></el-input>
-        </el-form-item>
-        <el-form-item label="Location">
-            <el-select v-model="form.region" placeholder="Please select a location" style="width: 100%;">
-                <el-option label="USYD" value="Sydney"></el-option>
-                <el-option label="UTS" value="UTS"></el-option>
-                <el-option label="UNSW" value="Sydney"></el-option>
-            </el-select>
-        </el-form-item>
-        <el-form-item label="Date">
-            <el-col :span="11">
-                <el-date-picker type="date" placeholder="Please select date" v-model="form.date1" style="float: left;"></el-date-picker>
-            </el-col>
-            <el-col class="line" :span="2">-</el-col>
-            <el-col :span="11">
-                <el-time-picker type="fixed-time" placeholder="Please select time" v-model="form.date2" style="float: right;"></el-time-picker>
-            </el-col>
-        </el-form-item>
-        <el-form-item label="Free">
-            <el-switch v-model="form.delivery" style="float: left"></el-switch>
-        </el-form-item>
-        <el-form-item label="Type">
-            <el-checkbox-group v-model="form.type" style="float: left">
-                <el-checkbox label="Tutorial" name="type"></el-checkbox>
-                <el-checkbox label="Work shop" name="type"></el-checkbox>
-                <el-checkbox label="Lecture" name="type"></el-checkbox>
-            </el-checkbox-group>
-        </el-form-item>
-        <el-form-item label="Detail">
-            <el-input type="textarea" v-model="form.description" :autosize="{ minRows: 2, maxRows: 4}"></el-input>
-        </el-form-item>
-        <el-form-item>
-            <el-button type="primary" @click="onSubmit">Create</el-button>
-            <el-button>Cancel</el-button>
-        </el-form-item>
-    </el-form>
+    <div id="CreateTutorial-Form" class="wrapper">
+        <el-form ref="form" :label-position="labelPosition" :model="form" label-width="150px" class="inline">
+            <el-form-item label="Tutorial Name">
+                <el-input placeholder="Tutorial Name" v-model="form.name"></el-input>
+            </el-form-item>
+            <el-form-item label="Date">
+                <el-date-picker
+                        v-model="form.date"
+                        type="datetimerange"
+                        range-separator="--"
+                        start-placeholder="Start Date"
+                        end-placeholder="End Date"
+                        style="width: 100%;"
+                        format="yyyy-MM-dd HH:mm"
+                        value-format="yyyy-MM-dd HH:mm"
+                        @change="datetimeFormat">
+                </el-date-picker>
+            </el-form-item>
+            <el-form-item label="Price">
+                <el-input placeholder="Price"   v-model="form.price"></el-input>
+            </el-form-item>
+            <el-form-item label="Number of Student">
+                <el-input-number v-model="form.maxNumberStudent"
+                                 controls-position="both" :min="1"
+                                 style="width: 100%;"></el-input-number>
+            </el-form-item>
+            <el-form-item label="Description">
+                <el-input type="textarea" v-model="form.description" :autosize="{ minRows: 2, maxRows: 4}"></el-input>
+            </el-form-item>
+            <el-form-item label="Video Link">
+                <el-input placeholder="video link" v-model="form.video_link"></el-input>
+            </el-form-item>
+            <el-form-item label="Picture Link">
+                <el-input placeholder="picture link" v-model="form.attachment"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="onSubmit">Create</el-button>
+                <el-button type="danger" native-type="reset">Cancel</el-button>
+            </el-form-item>
+        </el-form>
     </div>
 </template>
 
 <script>
+    import api from '../axios'
+
+
     export default {
         name: "CreateTutorial",
         data() {
@@ -49,23 +53,48 @@
                 labelPosition: 'left',
                 form: {
                     name: '',
-                    region: '',
-                    date1: '',
-                    date2: '',
-                    delivery: false,
-                    type: [],
-                    description: ''
+                    date: [],
+                    maxNumberStudent: '',
+                    description: '',
+                    video_link:'',
+                    price:'',
+                    attachment:''
                 }
             }
         },
         methods: {
+            datetimeFormat(val) {
+                this.form.date = val;
+                console.log(val);
+            },
             onSubmit() {
                 console.log('submit!');
+                api.createTutorial(this.form).then(({data})=>{
+                    if (data.success==="success") {
+                        this.$message({
+                            type: 'success',
+                            message: 'Tutorial created!'
+                        });
+
+                        this.$router.push('/')
+                    }else{
+                        this.$message({
+                            type: 'failed',
+                            message: 'error'
+                        })
+                    }
+                })
             }
         }
     }
 </script>
 
-<style>
-
+<style scoped>
+    .wrapper {
+        text-align: center;
+    }
+    .inline {
+        width: 50%;
+        display: inline-block;
+    }
 </style>

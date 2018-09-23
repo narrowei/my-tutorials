@@ -6,6 +6,8 @@ const bodyParser = require('body-parser')
 //const logger = require('morgan')
 const userRoute = require('./controller/user.js')
 const tutorialRoute = require('./controller/tutorial.js')
+let enrollRouter = require('./controller/enroll.js');
+
 //const config = require('config-lite')
 //const compression = require('compression')
 const app = express()
@@ -16,6 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(cookieParser());
 
 //app.use(compression({ threshold: 0 }))
+app.use('/enroll',enrollRouter);
 app.use('/user', userRoute)
 app.use('/tutorial', tutorialRoute)
 // app.use(function (req, res, next) {
