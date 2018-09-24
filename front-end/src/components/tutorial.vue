@@ -6,7 +6,7 @@
             </div>
             <div slot="header" style="text-align: center;">
                 <span>{{name}}</span><span>{{id}}</span>
-                <el-button style="float: right; padding: 5px 5px" type="primary" @click="submitForm(this)">Enroll</el-button>
+                <el-button style="float: right; padding: 5px 5px" type="primary" @click="submitForm(id)">Enroll</el-button>
             </div>
             <div style="text-align: center;">
                 <p class="card-text">Tutor: {{tutor}}</p>

@@ -58,7 +58,7 @@ enrollRouter.post('/',checkToken ,function(req, res) {
                     console.log(err);
                     return res.json({success: 'failed'});
                 }else if(typeof(row) === "undefined"){
-                    db.run("INSERT INTO 'enrollment'(classID,studentID)VALUES (?,?)",
+                    db.run("INSERT INTO 'enrollment'(classID,studentID) VALUES (?,?)",
                         enroll, function (err) {
                             if (err) {
                                 console.log(err);
