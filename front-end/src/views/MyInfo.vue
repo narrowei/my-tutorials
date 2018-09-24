@@ -131,12 +131,15 @@
             getTutorial() {
                 setTimeout(() => {
                     api.getEnrolledTutorial().then(({data}) => {
+                        console.log(data);
                         this.enrolled = data
                     }),
                     api.getFinishedTutorial().then(({data}) => {
+                        console.log(data);
                         this.finished = data
                     }),
                     api.getCreatedTutorial().then(({data}) => {
+                        console.log(data);
                         this.created = data
                     })
                 }, 100)

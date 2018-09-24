@@ -7,6 +7,7 @@ const bodyParser = require('body-parser')
 const userRoute = require('./controller/user.js')
 const tutorialRoute = require('./controller/tutorial.js')
 let enrollRouter = require('./controller/enroll.js');
+let myinfoRouter = require('./controller/myinfo.js');
 
 //const config = require('config-lite')
 //const compression = require('compression')
@@ -21,6 +22,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/enroll',enrollRouter);
 app.use('/user', userRoute)
 app.use('/tutorial', tutorialRoute)
+app.use('/myinfo',myinfoRouter);
+
 // app.use(function (req, res, next) {
 // 	var err = new Error('This page not found');
 // 	err.status = 404;

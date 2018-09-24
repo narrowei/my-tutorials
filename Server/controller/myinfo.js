@@ -53,11 +53,12 @@ myinfoRouter.get('/enrolled',checkToken ,function(req, res, next) {
         }else{
             userID = row.ID;
 
-            db.all("SELECT c.* FROM enrollment e JOIN class c ON (e.classID = c.ID) " +
-                "WHERE e.studentID = $userID", {$userID: userID}, function(err, rows){
+            db.all("select * from class inner join enrollment on class.ID = enrollment.classID where enrollment.studentID = $userID"
+                , {$userID: userID}, function(err, rows){
                 if (err) {
                     throw err;
                 }else if(rows.length > 0) {
+                    console.log(rows);
                     res.json(rows);
                 }else {
                     return res.json({success: 'You haven\'t enrolled any tutorial'});
@@ -85,12 +86,12 @@ myinfoRouter.get('/finished',checkToken ,function(req, res, next) {
         }else{
             userID = row.ID;
 
-            db.all("SELECT c.* FROM enrollment e JOIN class c ON (e.classID = c.ID) " +
-                "WHERE e.studentID = $userID" +
-                "AND c.finish_ind = 1;", {$userID: userID}, function(err, rows){
+            db.all( "select * from class inner join enrollment on class.ID = enrollment.classID where enrollment.studentID = $userID AND class.finish_ind = 1"
+                , {$userID: userID}, function(err, rows){
                 if (err) {
                     throw err;
                 }else if(rows.length > 0) {
+                    console.log(rows);
                     res.json(rows);
                 }else {
                     return res.json({success: 'You haven\'t finished any tutorial'});
@@ -118,8 +119,7 @@ myinfoRouter.get('/created',checkToken ,function(req, res, next) {
         }else{
             userID = row.ID;
 
-            db.all("SELECT c.* FROM class c JOIN user u ON (u.ID = c.tutorID) " +
-                "WHERE u.ID = $userID", {$userID: userID}, function(err, rows){
+            db.all("select * from class where tutorID = $userID", {$userID: userID}, function(err, rows){
                 if (err) {
                     throw err;
                 }else if(rows.length > 0) {
