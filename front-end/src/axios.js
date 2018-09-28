@@ -81,7 +81,7 @@ export default {
     },
     // withdraw a specific enrollment
     withdraw(data) {
-        return instance.delete(backendAddr+'/enroll', data)
+        return instance.delete(backendAddr+'/enroll/'+data.id)
     },
     // delete a specific tutorial
     delTutorial(data) {

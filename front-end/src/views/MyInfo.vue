@@ -194,12 +194,18 @@
 
         withdraw(row) {
             console.log(row);
-            let tutorial = {'id' : row};
+            let tutorial = {'id' : row.ID};
             api.withdraw(tutorial).then(({data}) => {
                 if (data.success === "success") {
                     this.$message({
                         type: 'success',
                         message: 'Enrollment withdraw successfully.'
+                    });
+                    this.getTutorial();
+                }else{
+                    this.$message({
+                        type: 'fail',
+                        message: 'error'
                     });
                 }
             })
@@ -230,6 +236,8 @@
                             type: 'success',
                             message: 'Thank you for your feedback'
                         });
+                        this.form.description='';
+                        this.form.rate=0;
                         this.getTutorial();
                     }
                 })

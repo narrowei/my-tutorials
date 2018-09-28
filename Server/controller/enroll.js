@@ -100,7 +100,7 @@ enrollRouter.delete('/:id',checkToken, function(req, res) {
             userID = row.ID;
 
             let enroll = [
-                req.body.id,
+                req.params.id,
                 userID,
             ];
             db.get("select * from enrollment where classID = ? and studentID = ?", enroll ,function (err,row) {
@@ -111,7 +111,7 @@ enrollRouter.delete('/:id',checkToken, function(req, res) {
                     return res.json({success: 'enrollment not found'});
                 }else {
                     const id = req.params.id;
-                    db.run("DELETE FROM enrollment WHERE WHERE ID=$id",{$id: id},
+                    db.run("DELETE FROM enrollment WHERE ID=$id",{$id: id},
                         (err, rows) => {
                             if (err) {
                                 throw err;
