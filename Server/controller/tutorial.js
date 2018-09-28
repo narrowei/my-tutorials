@@ -126,16 +126,81 @@ tutorialRouter.delete('/:id',checkToken, function(req, res) {
 });
 
 // finish a specific tutorial
-tutorialRouter.get('/finish/:id', function(req, res) {
-    const id = req.params.id;
-    db.run("UPDATE class SET finish_ind = 1 WHERE ID=$id",{$id: id},
-        (err, rows) => {
-            if (err) {
-                throw err;
-            }else{
-                res.json({success: 'success'});
-            }
-        })
+tutorialRouter.post('/finish', function(req, res) {
+    let email;
+    if(req.headers['authorization']){
+        let token = req.headers['authorization'];
+        let decoded = jwt.decode(token, 'secret');
+        email = decoded.name;
+    }
+    let userID='';
+
+    db.get("select ID from user where email=$email",{$email: email}, (err,row)=>{
+        if(err){
+            return res.json({success: 'user not found'});
+        }else{
+            userID = row.ID;
+            const id = req.body.id;
+            db.run("UPDATE enrollment SET isFinished = 1 WHERE studentID=$sid and classID=$cid",{$sid: userID,$cid: id},
+                (err, rows) => {
+                    if (err) {
+                        throw err;
+                    }else{
+                        res.json({success: 'success'});
+                    }
+                })
+        }
+    });
+
+
+
+
+
+
+
+});
+
+//add feedback
+tutorialRouter.post('/feedback', function(req, res) {
+
+    let email;
+    if(req.headers['authorization']){
+        let token = req.headers['authorization'];
+        let decoded = jwt.decode(token, 'secret');
+        email = decoded.name;
+    }
+    let userID='';
+
+    db.get("select ID from user where email=$email",{$email: email}, (err,row)=>{
+        if(err){
+            return res.json({success: 'user not found'});
+        }else{
+            userID = row.ID;
+            let feedback = [
+                userID,
+                req.body.description,
+                req.body.id,
+                req.body.rate
+            ];
+            db.run("INSERT INTO 'comments'(userID, description, classID, rating)VALUES (?,?,?,?)",
+                feedback, function (err) {
+                    if (err) {
+                        console.log(err);
+                        return res.json({success: 'failed'});
+                    }else{
+                        db.run("UPDATE enrollment SET isFeedback = 1 WHERE studentID=$sid and classID=$cid",{$sid: userID,$cid: req.body.id},
+                            (err, rows) => {
+                                if (err) {
+                                    throw err;
+                                }else{
+                                    res.json({success: 'success'});
+                                }
+                            });
+                        //return res.json({success: 'success'});
+                    }
+            });
+        }
+    });
 });
 
 module.exports = tutorialRouter

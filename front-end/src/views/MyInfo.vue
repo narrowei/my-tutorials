@@ -2,12 +2,11 @@
     <div class="wrapper">
         <el-row class="inline">
             <el-col :span="24">
-                <el-tabs v-model="activeName" @tab-click="handleTabClick">
-                    <el-tab-pane label="Enrolled Tutorials" name="first">
+                <el-tabs v-model="activeName" >
+                    <el-tab-pane v-if="enrolled.success !=='null'" label="Enrolled Tutorials" name="first">
                         <h1>Enrolled Tutorials</h1>
-                        <div v-for="tutorial in enrolled">
                             <el-table
-                                    :data="tutorial"
+                                    :data="enrolled"
                                     height="300px"
                                     stripe
                                     style="width: 100%">
@@ -37,13 +36,11 @@
                                     </div>
                                 </el-table-column>
                             </el-table>
-                        </div>
                     </el-tab-pane>
-                    <el-tab-pane label="Finished Tutorials" name="second">
+                    <el-tab-pane v-if="finished.success !== 'null'" label="Finished Tutorials" name="second">
                         <h1>Finished Tutorials</h1>
-                        <div v-for="tutorial in finished">
                             <el-table
-                                    :data="tutorial"
+                                    :data="finished"
                                     height="300px"
                                     stripe
                                     style="width: 100%">
@@ -65,16 +62,15 @@
                                 <el-table-column label="Operations">
                                     <template slot-scope="scope">
                                         <el-button @click="viewTutorial(scope.row)" type="info" size="small">View</el-button>
+                                        <el-button v-if="scope.row.isFeedback === 0" @click="openFeedbackForm(scope.row.ID)" type="info" size="small">feedback</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
-                        </div>
                     </el-tab-pane>
-                    <el-tab-pane label="My Created Tutorials" name="third">
+                    <el-tab-pane v-if="created.success !== 'null'" label="My Created Tutorials" name="third">
                         <h1>My created Tutorials</h1>
-                        <div v-for="tutorial in finished">
                             <el-table
-                                    :data="tutorial"
+                                    :data="created"
                                     height="300px"
                                     stripe
                                     style="width: 100%">
@@ -95,45 +91,74 @@
                                 </el-table-column>
                                 <el-table-column label="Operations">
                                     <template slot-scope="scope">
-                                        <el-button @click="viewTutorial(scope.row)" type="info" size="small">View</el-button>
+                                        <el-button @click="viewTutorial(scope.row)" type="info"
+                                                   size="small">View
+                                        </el-button>
                                         <el-button @click="delTutorial(scope.row)" type="danger" size="small">Delete</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
-                        </div>
                     </el-tab-pane>
                 </el-tabs>
             </el-col>
         </el-row>
+        <el-dialog title="feedback" :visible.sync="dialogFormVisible">
+            <el-form :model="form">
+                <el-form-item label="rating" :label-width="formLabelWidth">
+                    <rate :length="5" v-model="form.rate"></rate>
+                </el-form-item>
+                <el-form-item label="description" :label-width="formLabelWidth">
+                    <el-input v-model="form.description"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="sendFeedback()">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
+
 </template>
 
 <script>
-    import * as types from '../store/types'
-    import api from '../axios'
+    import * as types from '../store/types';
+    import api from '../axios';
+    import Rate from '@/components/Rate.vue';
 
     export default {
         name: "MyInfo",
         data() {
             return {
                 activeName: this.$store.state.activeName,
-                enrolled:[],
-                finished:[],
-                created:[],
+                enrolled: [],
+                finished: [],
+                created: [],
                 viewTutorial: null,
                 isHidden: true,
+                form:{
+                    id:'',
+                    rate:'',
+                    description:''
+                },
+                formLabelWidth: '120px',
+                dialogFormVisible: false,
+
             }
         },
-        mounted () {
+        mounted() {
             this.getTutorial()
+        },
+        components: {
+            Rate
         },
         methods: {
             getTutorial() {
-                setTimeout(() => {
-                    api.getEnrolledTutorial().then(({data}) => {
-                        console.log(data);
-                        this.enrolled = data
-                    }),
+
+                api.getEnrolledTutorial().then(({data}) => {
+                    console.log(data);
+                    this.enrolled = data;
+                    console.log(this.enrolled);
+                }),
                     api.getFinishedTutorial().then(({data}) => {
                         console.log(data);
                         this.finished = data
@@ -142,56 +167,73 @@
                         console.log(data);
                         this.created = data
                     })
-                }, 100)
-            },
-            handleTabClick(tab, event) {},
-
-            viewTutorial(row) {
-                console.log(row);
-                let tutorial = row;
-                api.viewTutorial(tutorial).then(({data}) => {
-                    this.viewTutorial = data
-                })
             },
 
-            finishTutorial(row) {
-                console.log(row);
-                let tutorial = row;
-                api.finishTutorial(tutorial).then(({data}) => {
-                    if (data.success==="success") {
+
+        viewTutorial(row) {
+            console.log(row);
+            let tutorial = row;
+            api.viewTutorial(tutorial).then(({data}) => {
+                this.viewTutorial = data
+            })
+        },
+
+        finishTutorial(row) {
+            console.log(row);
+            let tutorial = {'id': row.ID};
+            api.finishTutorial(tutorial).then(({data}) => {
+                if (data.success === "success") {
+                    this.$message({
+                        type: 'success',
+                        message: 'Tutorial finished.'
+                    });
+                }
+                this.getTutorial();
+            })
+        },
+
+        withdraw(row) {
+            console.log(row);
+            let tutorial = {'id' : row};
+            api.withdraw(tutorial).then(({data}) => {
+                if (data.success === "success") {
+                    this.$message({
+                        type: 'success',
+                        message: 'Enrollment withdraw successfully.'
+                    });
+                }
+            })
+        },
+
+        delTutorial(row) {
+            console.log(row);
+            let tutorial = row;
+            api.delTutorial(tutorial).then(({data}) => {
+                if (data.success === "success") {
+                    this.$message({
+                        type: 'success',
+                        message: 'Tutorial delete successfully.'
+                    });
+                }
+            })
+        },
+            openFeedbackForm(id){
+                this.form.id = id;
+                this.dialogFormVisible = true;
+
+            },
+            sendFeedback(){
+                this.dialogFormVisible = false;
+                api.sendFeedback(this.form).then(({data}) => {
+                    if (data.success === "success") {
                         this.$message({
                             type: 'success',
-                            message: 'Tutorial finished.'
+                            message: 'Thank you for your feedback'
                         });
+                        this.getTutorial();
                     }
                 })
-            },
-
-            withdraw(row) {
-                console.log(row);
-                let tutorial = row;
-                api.withdraw(tutorial).then(({data}) => {
-                    if (data.success==="success") {
-                        this.$message({
-                            type: 'success',
-                            message: 'Enrollment withdraw successfully.'
-                        });
-                    }
-                })
-            },
-
-            delTutorial(row) {
-                console.log(row);
-                let tutorial = row;
-                api.delTutorial(tutorial).then(({data}) => {
-                    if (data.success==="success") {
-                        this.$message({
-                            type: 'success',
-                            message: 'Tutorial delete successfully.'
-                        });
-                    }
-                })
-            },
+            }
         },
     }
 </script>

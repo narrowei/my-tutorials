@@ -69,7 +69,4 @@
     text-align: center;
     color: #2c3e50;
 }
-    body {
-        background: #ff0;
-    }
 </style>

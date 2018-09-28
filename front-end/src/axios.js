@@ -87,4 +87,7 @@ export default {
     delTutorial(data) {
         return instance.delete(backendAddr+'/tutorial', data)
     },
+    sendFeedback(data){
+        return instance.post(backendAddr+'/tutorial/feedback',data)
+    }
 }

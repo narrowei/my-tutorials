@@ -53,7 +53,7 @@ myinfoRouter.get('/enrolled',checkToken ,function(req, res, next) {
         }else{
             userID = row.ID;
 
-            db.all("select * from class inner join enrollment on class.ID = enrollment.classID where enrollment.studentID = $userID"
+            db.all("select * from class inner join enrollment on class.ID = enrollment.classID where enrollment.studentID = $userID AND enrollment.isFinished=0"
                 , {$userID: userID}, function(err, rows){
                 if (err) {
                     throw err;
@@ -61,7 +61,7 @@ myinfoRouter.get('/enrolled',checkToken ,function(req, res, next) {
                     console.log(rows);
                     res.json(rows);
                 }else {
-                    return res.json({success: 'You haven\'t enrolled any tutorial'});
+                    return res.json({success: 'null'});
                 }
             });
         }
@@ -86,7 +86,7 @@ myinfoRouter.get('/finished',checkToken ,function(req, res, next) {
         }else{
             userID = row.ID;
 
-            db.all( "select * from class inner join enrollment on class.ID = enrollment.classID where enrollment.studentID = $userID AND class.finish_ind = 1"
+            db.all( "select * from class inner join enrollment on class.ID = enrollment.classID where enrollment.studentID = $userID AND enrollment.isFinished=1"
                 , {$userID: userID}, function(err, rows){
                 if (err) {
                     throw err;
@@ -94,7 +94,7 @@ myinfoRouter.get('/finished',checkToken ,function(req, res, next) {
                     console.log(rows);
                     res.json(rows);
                 }else {
-                    return res.json({success: 'You haven\'t finished any tutorial'});
+                    return res.json({success: 'null'});
                 }
             });
         }
@@ -125,7 +125,7 @@ myinfoRouter.get('/created',checkToken ,function(req, res, next) {
                 }else if(rows.length > 0) {
                     res.json(rows);
                 }else {
-                    return res.json({success: 'You haven\'t created any tutorial'});
+                    return res.json({success: 'null'});
                 }
             });
         }
