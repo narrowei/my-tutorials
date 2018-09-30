@@ -26,13 +26,7 @@
             <el-menu-item index="4-2" ><router-link to="/createTutorial">Create Tutorial</router-link></el-menu-item>
             <el-menu-item index="4-3">Logout</el-menu-item>
         </el-submenu>
-        <el-menu-item index="5">
-            <el-input
-                    placeholder="search"
-                    prefix-icon="el-icon-search"
-                    v-model="search">
-            </el-input>
-        </el-menu-item>
+
     </el-menu>
     </div>
 </template>
@@ -45,7 +39,6 @@
                 activeIndex: '1',
                 activeIndex2: '1',
                 name: this.$store.state.username,
-                search: '',
             };
         },
         methods: {
@@ -69,7 +62,7 @@
             }
         },
         mounted () {
-            console.log(this.$store.state.username)
+            console.log(this.$store.state.username);
         }
     }
 </script>

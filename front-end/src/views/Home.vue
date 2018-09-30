@@ -1,7 +1,13 @@
 <template>
   <div class="home">
+      <el-input
+          placeholder="search"
+          prefix-icon="el-icon-search"
+          v-model="search">
+      </el-input>
+
       <ul :style="gridStyle" class="card-list">
-          <li v-for="tutorial in tutorials" :key="tutorial.ID" class="card-item">
+          <li v-for="tutorial in filteredTutorial" :key="tutorial.ID" class="card-item">
               <tutorial
                   v-bind:id="tutorial.ID"
                   v-bind:name="tutorial.name"
@@ -28,13 +34,15 @@ export default {
         return {
             tutorials:[],
             numberOfColumn: 3,
+            search: '',
         }
     },
     components: {
         Tutorial
     },
     mounted () {
-        this.get_Tutorial()
+        this.get_Tutorial();
+        console.log(this.$route.query.search);
     },
     methods: {
         get_Tutorial() {
@@ -51,6 +59,11 @@ export default {
                 gridTemplateColumns: `repeat(${this.numberOfColumn}, minmax(360px, 360px))`
             }
         },
+        filteredTutorial() {
+            return this.tutorials.filter(tutorial => {
+                return tutorial.name.toLowerCase().includes(this.search.toLowerCase())
+            })
+        }
     }
 }
 </script>
