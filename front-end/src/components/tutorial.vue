@@ -6,7 +6,7 @@
             </div>
             <div slot="header" style="text-align: center;">
                 <span>{{name}}</span>
-                <el-button style="float: right; padding: 5px 5px" type="primary">
+                <el-button style="float: right; padding: 5px 5px; margin-left: 10px;" type="primary">
                     <router-link :to="{path:'/tutorialInfo', query:{id: id}}">View</router-link></el-button>
                 <el-button style="float: right; padding: 5px 5px" type="primary" @click="submitForm(id)">Enroll</el-button>
             </div>
@@ -14,7 +14,6 @@
                 <p class="card-text">Tutor: {{tutor}}</p>
                 <p class="card-text">Description: {{description}}</p>
                 <time class="time">Time: {{time}}</time>
-                <p class="card-text">Max Number of Student: {{maxNumberStudent}}</p>
                 <p class="card-text">Price: ${{price}}</p>
             </div>
         </el-card>
@@ -31,7 +30,7 @@
 
             }
         },
-        props:['id','name','description','tutor','time','maxNumberStudent','attachment','price'],
+        props:['id','name','description','tutor','time','attachment','price'],
         methods:{
             submitForm(data){
                 console.log(data);

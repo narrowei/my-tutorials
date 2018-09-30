@@ -3,8 +3,8 @@
         <el-row class="inline">
             <el-col :span="24">
                 <el-tabs v-model="activeName" >
-                    <el-tab-pane v-if="enrolled.success !=='null'" label="Enrolled Tutorials" name="first">
-                        <h1>Enrolled Tutorials</h1>
+                    <el-tab-pane label="Enrolled Tutorials" name="first">
+                        <div v-if="enrolled.success !=='null'" >
                             <el-table
                                     :data="enrolled"
                                     height="300px"
@@ -36,9 +36,13 @@
                                     </div>
                                 </el-table-column>
                             </el-table>
+                        </div>
+                        <div v-else>
+                            <h1>You haven't enrolled any tutorials.</h1>
+                        </div>
                     </el-tab-pane>
-                    <el-tab-pane v-if="finished.success !== 'null'" label="Finished Tutorials" name="second">
-                        <h1>Finished Tutorials</h1>
+                    <el-tab-pane label="Finished Tutorials" name="second">
+                        <div v-if="finished.success !== 'null'">
                             <el-table
                                     :data="finished"
                                     height="300px"
@@ -66,9 +70,13 @@
                                     </template>
                                 </el-table-column>
                             </el-table>
+                        </div>
+                        <div v-else>
+                            <h1>You haven't finished any tutorials.</h1>
+                        </div>
                     </el-tab-pane>
-                    <el-tab-pane v-if="created.success !== 'null'" label="My Created Tutorials" name="third">
-                        <h1>My created Tutorials</h1>
+                    <el-tab-pane label="My Created Tutorials" name="third">
+                        <div v-if="created.success !== 'null'">
                             <el-table
                                     :data="created"
                                     height="300px"
@@ -98,7 +106,12 @@
                                     </template>
                                 </el-table-column>
                             </el-table>
+                        </div>
+                        <div v-else>
+                            <h1>You haven't created any tutorials.</h1>
+                        </div>
                     </el-tab-pane>
+
                 </el-tabs>
             </el-col>
         </el-row>

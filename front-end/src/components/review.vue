@@ -1,8 +1,8 @@
 <template>
     <el-card class="box-card">
         <div slot="header" class="title">
-            <span>Student Name: {{reviewer}}</span>
-            <span>Rating: {{rating}}</span>
+            <span>{{reviewer}}    </span>
+            <star-rating :inline="true" :star-size="20" :read-only="true" :show-rating="false" :rating=rating></star-rating>
         </div>
         <div class="text">
             <span>{{description}}</span>
@@ -11,6 +11,7 @@
 </template>
 
 <script>
+    import starRating from 'vue-star-rating'
     export default {
         name: "review",
         data(){
@@ -19,6 +20,9 @@
             }
         },
         props:['id','reviewer','description','rating'],
+        components: {
+            starRating
+        }
     }
 </script>
 

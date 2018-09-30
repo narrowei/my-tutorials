@@ -15,7 +15,7 @@ tutorialRouter.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 tutorialRouter.get('/', function(req, res, next) {
     //allowed CSRF
     res.header("Access-Control-Allow-Origin", "*");
-    db.all("SELECT * FROM class", function(err, rows){
+    db.all("SELECT class.*, user.name AS tutorName FROM class INNER JOIN user ON class.tutorID = user.ID", function(err, rows){
         if (err) {
             throw err;
         }
@@ -67,7 +67,7 @@ tutorialRouter.post('/',checkToken, function(req, res) {
 tutorialRouter.get('/info/:id', function(req, res) {
     const id = req.params.id;
     console.log(id);
-    db.all("SELECT * FROM class WHERE ID=$id",{$id: id},
+    db.all("SELECT class.*, user.name AS tutorName FROM class INNER JOIN user ON class.tutorID = user.ID WHERE class.ID=$id",{$id: id},
         (err, rows) => {
             if (err) {
                 throw err;
@@ -83,7 +83,7 @@ tutorialRouter.get('/info/:id', function(req, res) {
 tutorialRouter.get('/review/:id', function(req, res) {
     const id = req.params.id;
     console.log(id);
-    db.all("SELECT * FROM comments WHERE classID=$id",{$id: id},
+    db.all("SELECT comments.*, user.name AS reviewer FROM comments INNER JOIN user ON comments.userID = user.ID WHERE comments.classID=$id",{$id: id},
         (err, rows) => {
             if (err) {
                 throw err;

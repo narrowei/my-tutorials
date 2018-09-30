@@ -5,10 +5,9 @@
               <tutorial
                   v-bind:id="tutorial.ID"
                   v-bind:name="tutorial.name"
-                  v-bind:tutor="tutorial.tutorID"
+                  v-bind:tutor="tutorial.tutorName"
                   v-bind:description="tutorial.description"
                   v-bind:time="tutorial.time"
-                  v-bind:maxNumberStudent="tutorial.maxNumberStudent"
                   v-bind:attachment="tutorial.attachment"
                   v-bind:price="tutorial.price"
               ></tutorial>

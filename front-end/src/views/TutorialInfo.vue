@@ -14,7 +14,7 @@
             </tr>
             <tr>
               <td>Tutor Name:</td>
-              <td>{{tutorial.tutorID}}</td>
+              <td>{{tutorial.tutorName}}</td>
             </tr>
             <tr>
               <td>Description:</td>
@@ -29,18 +29,31 @@
               <td>0/{{tutorial.maxNumberStudent}}</td>
             </tr>
           </table>
-          <el-button style="float:left; margin-top:20px; padding: 10px 25px; font-size: 20px" type="primary" @click="submitForm(id)">Enroll</el-button>
+          <el-button style="float:left; margin-top:20px; padding: 10px 25px; font-size: 20px" type="primary" @click="submitForm(tutorial.ID)">Enroll</el-button>
         </el-main>
       </el-container>
     </el-container>
     <hr>
-    <review
-            v-for="review in reviews"
-            v-bind:id="review.ID"
-            v-bind:reviewer="review.userID"
-            v-bind:description="review.description"
-            v-bind:rating="review.rating"
-    ></review>
+    <el-collapse v-model="activeNames" @change="handleChange">
+      <el-collapse-item name="1">
+        <template slot="title">
+          <span style="float: left; padding-left:10px; font-size: x-large; font-weight: bold;">Review</span>
+        </template>
+        <div v-if="reviews.success !== 'null'">
+          <review
+                  v-for="review in reviews"
+                  v-bind:id="review.ID"
+                  v-bind:reviewer="review.reviewer"
+                  v-bind:description="review.description"
+                  v-bind:rating="review.rating"
+          ></review>
+        </div>
+        <div v-else>
+          <h1>No reviews</h1>
+        </div>
+      </el-collapse-item>
+    </el-collapse>
+
   </div>
 </template>
 
@@ -53,7 +66,8 @@
         data(){
             return {
                 tutorial: [],
-                reviews: []
+                reviews: [],
+                activeNames: ['1']
             }
         },
         components: {
@@ -64,34 +78,37 @@
         },
 
         methods:{
-          fetchData(){
-              let tutorialID = this.$route.query.id;
-              console.log(tutorialID);
-              setTimeout(() => {
-                  api.viewTutorial(tutorialID).then(({data}) => {
-                      this.tutorial = data;
-                  }),
-                  api.getReview(tutorialID).then(({data}) => {
-                      this.reviews = data;
-                  })
-              }, 100)
-          },
-          submitForm(data){
-              console.log(data);
-              api.enrollTutorial({id:data}).then(({data})=>{
-                  if (data.success==="success") {
-                      this.$message({
-                          type: 'success',
-                          message: 'enroll successfully.'
-                      });
-                  }else{
-                      this.$message({
-                          type: 'fail',
-                          message: 'already enrolled'
-                      });
-                  }
-              })
-          }
+            handleChange(val) {
+                console.log(val);
+            },
+            fetchData(){
+                let tutorialID = this.$route.query.id;
+                console.log(tutorialID);
+                setTimeout(() => {
+                    api.viewTutorial(tutorialID).then(({data}) => {
+                        this.tutorial = data;
+                    }),
+                    api.getReview(tutorialID).then(({data}) => {
+                        this.reviews = data;
+                    })
+                }, 100)
+            },
+            submitForm(data){
+                console.log(data);
+                api.enrollTutorial({id:data}).then(({data})=>{
+                    if (data.success==="success") {
+                        this.$message({
+                            type: 'success',
+                            message: 'enroll successfully.'
+                        });
+                    }else{
+                        this.$message({
+                            type: 'fail',
+                            message: 'already enrolled'
+                        });
+                    }
+                })
+            }
       }
   }
 </script>
