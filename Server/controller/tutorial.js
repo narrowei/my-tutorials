@@ -63,9 +63,10 @@ tutorialRouter.post('/',checkToken, function(req, res) {
     });
 });
 
-// view a specific tutorial
+// view tutorial info
 tutorialRouter.get('/:id', function(req, res) {
     const id = req.params.id;
+    console.log(id);
     db.all("SELECT * FROM class WHERE ID=$id",{$id: id},
         (err, rows) => {
             if (err) {

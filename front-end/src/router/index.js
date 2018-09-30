@@ -63,6 +63,14 @@ const router = new Router({
             meta: {
                 requireAuth: true
             }
+        },
+        {
+            path: '/tutorialInfo',
+            name: 'tutorialInfo',
+            component:   () => import(/* webpackChunkName: "about" */ '@/views/TutorialInfo.vue'),
+            meta: {
+                requireAuth: true
+            }
         }
     ]
 });

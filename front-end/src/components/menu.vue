@@ -75,5 +75,10 @@
 </script>
 
 <style scoped>
-
+    a {
+        text-decoration: none;
+    }
+    .router-link-active {
+        text-decoration: none;
+    }
 </style>

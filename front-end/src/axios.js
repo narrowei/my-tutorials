@@ -73,7 +73,7 @@ export default {
     },
     // view a specific tutorial
     viewTutorial(data) {
-        return instance.post(backendAddr+'/tutorial', data)
+        return instance.get(backendAddr+'/tutorial/'+data)
     },
     // finish a specific tutorial
     finishTutorial(data) {

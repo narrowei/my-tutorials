@@ -5,7 +5,9 @@
                 <img :src=attachment class="image" alt="tutorial image not found">
             </div>
             <div slot="header" style="text-align: center;">
-                <span>{{name}}</span><span>{{id}}</span>
+                <span>{{name}}</span>
+                <el-button style="float: right; padding: 5px 5px" type="primary">
+                    <router-link :to="{path:'/tutorialInfo', query:{id: id}}">View</router-link></el-button>
                 <el-button style="float: right; padding: 5px 5px" type="primary" @click="submitForm(id)">Enroll</el-button>
             </div>
             <div style="text-align: center;">
@@ -58,5 +60,12 @@
     .image {
         width: 100%;
         height: 220px;
+    }
+    a {
+        text-decoration: none;
+        color: white;
+    }
+    .router-link-active {
+        text-decoration: none;
     }
 </style>
