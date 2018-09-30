@@ -73,7 +73,11 @@ export default {
     },
     // view a specific tutorial
     viewTutorial(data) {
-        return instance.get(backendAddr+'/tutorial/'+data)
+        return instance.get(backendAddr+'/tutorial/info/'+data)
+    },
+    // get all reviews of a specific tutorial
+    getReview(data) {
+        return instance.get(backendAddr+'/tutorial/review/'+data)
     },
     // finish a specific tutorial
     finishTutorial(data) {

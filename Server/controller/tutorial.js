@@ -64,15 +64,14 @@ tutorialRouter.post('/',checkToken, function(req, res) {
 });
 
 // view tutorial info
-tutorialRouter.get('/:id', function(req, res) {
+tutorialRouter.get('/info/:id', function(req, res) {
     const id = req.params.id;
     console.log(id);
     db.all("SELECT * FROM class WHERE ID=$id",{$id: id},
         (err, rows) => {
             if (err) {
                 throw err;
-            }
-            if(rows.length > 0){
+            }else if(rows.length > 0){
                 res.send(rows[0]);
             }else{
                 res.send({});
@@ -80,10 +79,22 @@ tutorialRouter.get('/:id', function(req, res) {
         })
 });
 
-tutorialRouter.patch('/:id', function(req, res) {
-
+// get reviews of a specific tutorial
+tutorialRouter.get('/review/:id', function(req, res) {
+    const id = req.params.id;
+    console.log(id);
+    db.all("SELECT * FROM comments WHERE classID=$id",{$id: id},
+        (err, rows) => {
+            if (err) {
+                throw err;
+            }else if(rows.length > 0) {
+                console.log(rows);
+                res.json(rows);
+            }else {
+                return res.json({success: 'null'});
+            }
+        })
 });
-
 // delete a tutorial
 tutorialRouter.delete('/:id',checkToken, function(req, res) {
     let email;
