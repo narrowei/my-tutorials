@@ -26,7 +26,7 @@
             </tr>
             <tr>
               <td>Already Enrolled/<br/>Max Student Number:</td>
-              <td>0/{{tutorial.maxNumberStudent}}</td>
+              <td>{{tutorial.enrolledNumber}}/{{tutorial.maxNumberStudent}}</td>
             </tr>
           </table>
           <el-button style="float:left; margin-top:20px; padding: 10px 25px; font-size: 20px" type="primary" @click="submitForm(tutorial.ID)">Enroll</el-button>
@@ -99,12 +99,22 @@
                     if (data.success==="success") {
                         this.$message({
                             type: 'success',
-                            message: 'enroll successfully.'
+                            message: 'Enroll successfully.'
+                        });
+                    }else if(data.success==="max number reached"){
+                        this.$message({
+                            type: 'fail',
+                            message: 'Max number of student reached.'
+                        });
+                    }else if(data.success==="already enrolled"){
+                        this.$message({
+                            type: 'fail',
+                            message: 'Already enrolled.'
                         });
                     }else{
                         this.$message({
                             type: 'fail',
-                            message: 'already enrolled'
+                            message: 'Error.'
                         });
                     }
                 })

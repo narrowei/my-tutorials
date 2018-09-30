@@ -128,7 +128,7 @@ tutorialRouter.get('/delete/:id',checkToken, function(req, res) {
                             if (err) {
                                 throw err;
                             }else{
-                                res.json({success: 'tutorial deleted successfully'});
+                                res.json({success: 'success'});
                             }
                         })
                 }
@@ -163,13 +163,6 @@ tutorialRouter.post('/finish', function(req, res) {
                 })
         }
     });
-
-
-
-
-
-
-
 });
 
 //add feedback

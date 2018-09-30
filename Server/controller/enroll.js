@@ -48,38 +48,48 @@ enrollRouter.post('/',checkToken ,function(req, res) {
             return res.json({success: 'user not found'});
         }else{
             userID = row.ID;
-
-            let enroll = [
-                req.body.id,
-                userID,
-            ];
-            db.get("select * from enrollment where classID = ? and studentID = ?", enroll ,function (err,row) {
-                if(err){
-                    console.log(err);
-                    return res.json({success: 'failed'});
-                }else if(typeof(row) === "undefined"){
-                    db.run("INSERT INTO 'enrollment'(classID,studentID,isFinished,isFeedback) VALUES (?,?,0,0)",
-                        enroll, function (err) {
-                            if (err) {
-                                console.log(err);
-                                return res.json({success: 'failed'});
-                            }else{
-                                return res.json({success: 'success'});
-                            }
-                        });
-                }else {
-                    return res.json({success: 'failed'});
-                }
+            let classID = req.body.id;
+            db.get("select * from class where ID = $classID", {$classID: classID}, (err,row)=>{
+               if(err){
+                   return res.json({success: 'class not found'});
+               }else if(row.maxNumberStudent <= row.enrolledNumber){
+                   return res.json({success: 'max number reached'});
+               }else{
+                   let enroll = [
+                       classID,
+                       userID,
+                   ];
+                   db.get("select * from enrollment where classID = ? and studentID = ?", enroll ,function (err,row) {
+                       if(err){
+                           console.log(err);
+                           return res.json({success: 'failed'});
+                       }else if(typeof(row) === "undefined"){
+                           db.run("INSERT INTO 'enrollment'(classID,studentID,isFinished,isFeedback) VALUES (?,?,0,0)",
+                               enroll, function (err) {
+                                   if (err) {
+                                       console.log(err);
+                                       return res.json({success: 'failed'});
+                                   }else{
+                                       return res.json({success: 'success'});
+                                   }
+                               });
+                           db.run("UPDATE class SET enrolledNumber = enrolledNumber + 1",
+                               enroll, function (err) {
+                                   if (err) {
+                                       console.log(err);
+                                       return res.json({success: 'failed'});
+                                   }else{
+                                       return res.json({success: 'success'});
+                                   }
+                               });
+                       }else {
+                           return res.json({success: 'already enrolled'});
+                       }
+                   });
+               }
             });
-
-
         }
     });
-
-});
-
-// Similar to the GET on an object, to update it we can PATCH
-enrollRouter.patch('/:id', function(req, res) {
 
 });
 
@@ -118,7 +128,16 @@ enrollRouter.delete('/:id',checkToken, function(req, res) {
                             }else{
                                 res.json({success: 'success'});
                             }
-                        })
+                        });
+                    db.run("UPDATE class SET enrolledNumber = enrolledNumber - 1",
+                        enroll, function (err) {
+                            if (err) {
+                                console.log(err);
+                                return res.json({success: 'failed'});
+                            }else{
+                                return res.json({success: 'success'});
+                            }
+                        });
                 }
             });
         }

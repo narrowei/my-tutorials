@@ -206,7 +206,7 @@
                 }else{
                     this.$message({
                         type: 'fail',
-                        message: 'error'
+                        message: 'Error'
                     });
                 }
             })
@@ -220,6 +220,12 @@
                     this.$message({
                         type: 'success',
                         message: 'Tutorial delete successfully.'
+                    });
+                    this.getTutorial();
+                }else{
+                    this.$message({
+                        type: 'fail',
+                        message: 'Error.'
                     });
                 }
             })

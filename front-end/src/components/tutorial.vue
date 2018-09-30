@@ -38,12 +38,22 @@
                     if (data.success==="success") {
                         this.$message({
                             type: 'success',
-                            message: 'enroll successfully.'
+                            message: 'Enroll successfully.'
+                        });
+                    }else if(data.success==="max number reached"){
+                        this.$message({
+                            type: 'fail',
+                            message: 'Max number of student reached.'
+                        });
+                    }else if(data.success==="already enrolled"){
+                        this.$message({
+                            type: 'fail',
+                            message: 'Already enrolled.'
                         });
                     }else{
                         this.$message({
                             type: 'fail',
-                            message: 'already enrolled'
+                            message: 'Error.'
                         });
                     }
                 })

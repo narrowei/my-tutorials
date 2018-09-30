@@ -132,10 +132,4 @@ myinfoRouter.get('/created',checkToken ,function(req, res, next) {
     });
 });
 
-// Similar to the GET on an object, to update it we can PATCH
-myinfoRouter.patch('/:id', function(req, res) {
-
-});
-
-
 module.exports = myinfoRouter;
