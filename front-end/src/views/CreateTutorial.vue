@@ -1,12 +1,13 @@
 <template>
     <div id="CreateTutorial-Form" class="wrapper">
-        <el-form ref="form" :label-position="labelPosition" :model="form" label-width="150px" class="inline">
+        <el-form ref="form" :model="form" :rules="rules"
+                 :label-position="labelPosition" label-width="150px" class="inline">
             <el-form-item label="Tutorial Name">
-                <el-input placeholder="Tutorial Name" v-model="form.name"></el-input>
+                <el-input placeholder="Tutorial Name" v-model.trim="form.name"></el-input>
             </el-form-item>
             <el-form-item label="Date">
                 <el-date-picker
-                        v-model="form.date"
+                        v-model.trim="form.date"
                         type="datetimerange"
                         range-separator="--"
                         start-placeholder="Start Date"
@@ -18,21 +19,24 @@
                 </el-date-picker>
             </el-form-item>
             <el-form-item label="Price">
-                <el-input placeholder="Price"   v-model="form.price"></el-input>
+                <el-input-number placeholder="Price" v-model.trim="form.price" :min="1" style="width: 100%;"></el-input-number>
             </el-form-item>
             <el-form-item label="Number of Student">
-                <el-input-number v-model="form.maxNumberStudent"
+                <el-input-number v-model.trim="form.maxNumberStudent"
                                  controls-position="both" :min="1"
                                  style="width: 100%;"></el-input-number>
             </el-form-item>
             <el-form-item label="Description">
-                <el-input type="textarea" v-model="form.description" :autosize="{ minRows: 2, maxRows: 4}"></el-input>
+                <el-input type="textarea" v-model.trim="form.description" :autosize="{ minRows: 2, maxRows: 4}"></el-input>
+            </el-form-item>
+            <el-form-item label="Text">
+                <VueTrix placeholder="Text goes here" v-model.trim="form.text" style="text-align: left;"/>
             </el-form-item>
             <el-form-item label="Video Link">
-                <el-input placeholder="video link" v-model="form.video_link"></el-input>
+                <el-input placeholder="video link" v-model.trim="form.video_link"></el-input>
             </el-form-item>
             <el-form-item label="Picture Link">
-                <el-input placeholder="picture link" v-model="form.attachment"></el-input>
+                <el-input placeholder="picture link" v-model.trim="form.attachment"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit">Create</el-button>
@@ -44,7 +48,7 @@
 
 <script>
     import api from '../axios'
-
+    import VueTrix from 'vue-trix'
 
     export default {
         name: "CreateTutorial",
@@ -59,8 +63,28 @@
                     video_link:'',
                     price:'',
                     attachment:''
+                },
+                rules: {
+                    name: [
+                        { required: true, message: 'Please input tutorial name.', trigger: 'blur'}
+                    ],
+                    date: [
+                        { required: true, message: 'Please input date.', trigger: 'blur'}
+                    ],
+                    maxNumberStudent: [
+                        { required: true, message: 'Please input max number of students.', trigger: 'blur'}
+                    ],
+                    description: [
+                        { required: true, message: 'Please input description.', trigger: 'blur'}
+                    ],
+                    price: [
+                        { required: true, message: 'Please input price.', trigger: 'blur'}
+                    ]
                 }
             }
+        },
+        components: {
+          VueTrix,
         },
         methods: {
             datetimeFormat(val) {
@@ -68,7 +92,7 @@
                 console.log(val);
             },
             onSubmit() {
-                console.log('submit!');
+                console.log(this.form);
                 api.createTutorial(this.form).then(({data})=>{
                     if (data.success==="success") {
                         this.$message({

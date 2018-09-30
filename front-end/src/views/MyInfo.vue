@@ -27,13 +27,11 @@
                                 </el-table-column>
                                 <el-table-column label="Operations">
                                     <template slot-scope="scope">
-                                        <el-button @click="viewTutorial(scope.row); isHidden = !isHidden" type="info" size="small">View</el-button>
+                                        <el-button type="info" size="small">
+                                            <router-link :to="{path:'/tutorialInfo', query:{id: scope.row.ID}}">View</router-link></el-button>
                                         <el-button @click="finishTutorial(scope.row)" type="success" size="small">Finish</el-button>
                                         <el-button @click="withdraw(scope.row)" type="danger" size="small">Withdraw</el-button>
                                     </template>
-                                    <div v-if="!isHidden">
-                                        <span>hhh</span>
-                                    </div>
                                 </el-table-column>
                             </el-table>
                         </div>
@@ -65,8 +63,9 @@
                                 </el-table-column>
                                 <el-table-column label="Operations">
                                     <template slot-scope="scope">
-                                        <el-button @click="viewTutorial(scope.row)" type="info" size="small">View</el-button>
-                                        <el-button v-if="scope.row.isFeedback === 0" @click="openFeedbackForm(scope.row.ID)" type="info" size="small">feedback</el-button>
+                                        <el-button type="info" size="small">
+                                            <router-link :to="{path:'/tutorialInfo', query:{id: scope.row.ID}}">View</router-link></el-button>
+                                        <el-button v-if="scope.row.isFeedback === 0" @click="openFeedbackForm(scope.row.ID)" type="primary" size="small">Feedback</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -99,9 +98,8 @@
                                 </el-table-column>
                                 <el-table-column label="Operations">
                                     <template slot-scope="scope">
-                                        <el-button @click="viewTutorial(scope.row)" type="info"
-                                                   size="small">View
-                                        </el-button>
+                                        <el-button type="info" size="small">
+                                            <router-link :to="{path:'/tutorialInfo', query:{id: scope.row.ID}}">View</router-link></el-button>
                                         <el-button @click="delTutorial(scope.row)" type="danger" size="small">Delete</el-button>
                                     </template>
                                 </el-table-column>
@@ -115,12 +113,12 @@
                 </el-tabs>
             </el-col>
         </el-row>
-        <el-dialog title="feedback" :visible.sync="dialogFormVisible">
+        <el-dialog title="Feedback" :visible.sync="dialogFormVisible">
             <el-form :model="form">
-                <el-form-item label="rating" :label-width="formLabelWidth">
+                <el-form-item label="Rating" :label-width="formLabelWidth">
                     <rate :length="5" v-model="form.rate"></rate>
                 </el-form-item>
-                <el-form-item label="description" :label-width="formLabelWidth">
+                <el-form-item label="Description" :label-width="formLabelWidth">
                     <el-input v-model="form.description"></el-input>
                 </el-form-item>
             </el-form>
@@ -155,7 +153,6 @@
                 },
                 formLabelWidth: '120px',
                 dialogFormVisible: false,
-
             }
         },
         mounted() {
@@ -181,15 +178,6 @@
                         this.created = data
                     })
             },
-
-
-        viewTutorial(row) {
-            console.log(row);
-            let tutorial = row;
-            api.viewTutorial(tutorial).then(({data}) => {
-                this.viewTutorial = data
-            })
-        },
 
         finishTutorial(row) {
             console.log(row);
@@ -226,8 +214,8 @@
 
         delTutorial(row) {
             console.log(row);
-            let tutorial = row;
-            api.delTutorial(tutorial).then(({data}) => {
+            let tutorialID = row.ID;
+            api.delTutorial(tutorialID).then(({data}) => {
                 if (data.success === "success") {
                     this.$message({
                         type: 'success',
@@ -266,5 +254,12 @@
     .inline {
         width: 60%;
         display: inline-block;
+    }
+    a {
+        text-decoration: none;
+        color: white;
+    }
+    .router-link-active {
+        text-decoration: none;
     }
 </style>

@@ -6,11 +6,10 @@ import './plugins/element.js'
 import router from './router'
 import axios from 'axios'
 import store from './store/index.js'
+import VueTrix from 'vue-trix'
+import starRating from 'vue-star-rating'
 
 Vue.use(ElementUI);
-
-
-
 
 new Vue({
     router,

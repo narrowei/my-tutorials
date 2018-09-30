@@ -59,7 +59,15 @@
                     callback();
                 }
             };
+            var validateMobile = (rule, value, callback) => {
 
+                let reg = /^\d{9,10}$/;
+                if (!reg.test(value)) {
+                    callback(new Error('Mobile number must be 9-10 digits'));
+                } else {
+                    callback();
+                }
+            };
             return {
                 labelPosition: 'left',
                 signUpForm: {
@@ -81,8 +89,8 @@
                     ],
                     mobile: [
                         { required: true, message: 'Please input mobile.', trigger: 'blur'},
-                        //{ type: 'number', message: 'Mobile must be all digitals'},
-                        { min: 9, max: 10, message: 'Mobile length must be 9-10 digital.', trigger: 'blur'},
+                        { validator: validateMobile, trigger: 'blur' },
+                        //{ min: 9, max: 10, message: 'Mobile length must be 9-10 digits.', trigger: 'blur'},
                     ],
                     gender: [
                         { required: true, message: 'Please input gender.', trigger: 'change'},
@@ -104,18 +112,6 @@
             },
 
             submitForm(formName) {
-
-                // let newUser = {
-                //     name : this.form.username,
-                //     gender : this.form.gender,
-                //     email: this.form.email,
-                //     phoneNumber: this.form.mobile,
-                //     password: this.form.password,
-                // };
-                // axios
-                //     .post('http://localhost:3000/user',newUser)
-                //     .then(response => (this.classes = response.data))
-                //     .catch(error => console.log(error))
 
                 this.$refs[formName].validate((valid) => {
                     if (valid) {

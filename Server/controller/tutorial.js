@@ -35,7 +35,7 @@ tutorialRouter.post('/',checkToken, function(req, res) {
 
     db.get("select ID,name from user where email=$email",{$email:email}, (err,row)=>{
         if(err){
-            return res.json({success: 'failed'});
+            return res.json({success: 'user not found'});
         }else{
             userID = row.ID;
 
@@ -44,17 +44,17 @@ tutorialRouter.post('/',checkToken, function(req, res) {
                 req.body.name,
                 req.body.description,
                 req.body.maxNumberStudent,
-                req.body.date[0]+','+req.body.date[1],
+                req.body.date[0]+' - '+req.body.date[1],
                 req.body.price,
                 req.body.attachment,
-                req.body.video_link,
+                req.body.video_link
             ];
             console.log(newClass);
-            db.run("INSERT INTO 'class'(tutorID, name, description, maxNumberStudent, time, price, attachment, videoLink)VALUES (?,?,?,?,?,?,?,?)",
+            db.run("INSERT INTO 'class'(tutorID, name, description, maxNumberStudent, time, price, attachment, videoLink) VALUES (?,?,?,?,?,?,?,?)",
                 newClass, function (err) {
                     if (err) {
                         console.log(err);
-                        return res.json({success: 'failed'});
+                        return res.json({success: 'failed creating tutorial'});
                     }else{
                         return res.json({success: 'success'});
                     }
@@ -96,7 +96,7 @@ tutorialRouter.get('/review/:id', function(req, res) {
         })
 });
 // delete a tutorial
-tutorialRouter.delete('/:id',checkToken, function(req, res) {
+tutorialRouter.get('/delete/:id',checkToken, function(req, res) {
     let email;
     if(req.headers['authorization']){
         let token = req.headers['authorization'];
@@ -118,17 +118,17 @@ tutorialRouter.delete('/:id',checkToken, function(req, res) {
             db.get("select * from class where ID = ? and tutorID = ?", tutorial ,function (err,row) {
                 if(err){
                     console.log(err);
-                    return res.json({success: 'failed'});
+                    return res.json({success: 'user not found'});
                 }else if(typeof(row) === "undefined"){
                     return res.json({success: 'tutorial not found'});
                 }else {
                     let id = req.params.id;
-                    db.run("DELETE FROM tutorial WHERE WHERE ID=$id",{$id: id},
+                    db.run("DELETE FROM class WHERE ID=$id",{$id: id},
                         (err, rows) => {
                             if (err) {
                                 throw err;
                             }else{
-                                res.json({success: 'success'});
+                                res.json({success: 'tutorial deleted successfully'});
                             }
                         })
                 }

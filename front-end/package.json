@@ -28,7 +28,8 @@
     "node-sass": "^4.9.2",
     "sass-loader": "^7.0.3",
     "vue-cli-plugin-element": "^1.0.0",
-    "vue-template-compiler": "^2.5.17"
+    "vue-template-compiler": "^2.5.17",
+    "vue-trix": "^0.3.3"
   },
   "eslintConfig": {
     "root": true,
