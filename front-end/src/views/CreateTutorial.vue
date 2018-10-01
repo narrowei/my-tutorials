@@ -27,10 +27,13 @@
                                  style="width: 100%;"></el-input-number>
             </el-form-item>
             <el-form-item label="Description">
-                <el-input type="textarea" v-model.trim="form.description" :autosize="{ minRows: 2, maxRows: 4}"></el-input>
-            </el-form-item>
-            <el-form-item label="Text">
-                <VueTrix placeholder="Text goes here" v-model.trim="form.text" style="text-align: left;"/>
+                <!--<VueTrix placeholder="Text goes here" v-model.trim="form.text" style="text-align: left;"/>-->
+                <editor api-key="h0tmzl02gfh1w6xrqdo1ncg28nlbkeog70oklgynd9m9l27m" :init="{
+                plugins: ['advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table contextmenu paste imagetools wordcount'],
+                toolbar: 'insertfile undo redo  | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image'}"
+                        v-model="form.description"></editor>
             </el-form-item>
             <el-form-item label="Video Link">
                 <el-input placeholder="video link" v-model.trim="form.video_link"></el-input>
@@ -49,7 +52,7 @@
 <script>
     import api from '../axios'
     import VueTrix from 'vue-trix'
-
+    import Editor from '@tinymce/tinymce-vue';
     export default {
         name: "CreateTutorial",
         data() {
@@ -62,7 +65,7 @@
                     description: '',
                     video_link:'',
                     price:'',
-                    attachment:''
+                    attachment:'',
                 },
                 rules: {
                     name: [
@@ -84,7 +87,8 @@
             }
         },
         components: {
-          VueTrix,
+          //VueTrix,
+            'editor': Editor
         },
         methods: {
             datetimeFormat(val) {

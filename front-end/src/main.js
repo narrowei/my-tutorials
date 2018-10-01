@@ -9,6 +9,7 @@ import store from './store/index.js'
 import VueTrix from 'vue-trix'
 import starRating from 'vue-star-rating'
 
+
 Vue.use(ElementUI);
 
 new Vue({

@@ -17,10 +17,6 @@
               <td>{{tutorial.tutorName}}</td>
             </tr>
             <tr>
-              <td>Description:</td>
-              <td>{{tutorial.description}}</td>
-            </tr>
-            <tr>
               <td>Total Price:</td>
               <td>{{tutorial.price}} AUD</td>
             </tr>
@@ -36,6 +32,22 @@
     <hr>
     <el-collapse v-model="activeNames" @change="handleChange">
       <el-collapse-item name="1">
+        <template slot="title">
+          <span style="float: left; padding-left:10px; font-size: x-large; font-weight: bold;">Description</span>
+        </template>
+        <span v-html="tutorial.description"></span>
+      </el-collapse-item>
+    </el-collapse>
+    <el-collapse v-model="activeNames" @change="handleChange">
+      <el-collapse-item name="2">
+        <template slot="title">
+          <span style="float: left; padding-left:10px; font-size: x-large; font-weight: bold;">Video</span>
+        </template>
+        <youtube-media :video-id="videoId"></youtube-media>
+      </el-collapse-item>
+    </el-collapse>
+    <el-collapse v-model="activeNames" @change="handleChange">
+      <el-collapse-item name="3">
         <template slot="title">
           <span style="float: left; padding-left:10px; font-size: x-large; font-weight: bold;">Review</span>
         </template>
@@ -54,12 +66,18 @@
       </el-collapse-item>
     </el-collapse>
 
+
   </div>
 </template>
 
 <script>
     import api from '../axios'
     import Review from '@/components/review.vue'
+    import Vue from 'vue'
+    import VueYouTubeEmbed from 'vue-youtube-embed'
+
+    Vue.use(VueYouTubeEmbed,{ global: true ,componentId: "youtube-media"});
+
 
     export default{
         name: 'tutorialInfo',
@@ -67,11 +85,13 @@
             return {
                 tutorial: [],
                 reviews: [],
-                activeNames: ['1']
+                activeNames: ['1','2','3'],
+                videoId:''
             }
         },
         components: {
             Review,
+
         },
         mounted(){
           this.fetchData();
@@ -87,6 +107,7 @@
                 setTimeout(() => {
                     api.viewTutorial(tutorialID).then(({data}) => {
                         this.tutorial = data;
+                        this.videoId = this.$youtube.getIdFromURL(this.tutorial.videoLink)
                     }),
                     api.getReview(tutorialID).then(({data}) => {
                         this.reviews = data;
