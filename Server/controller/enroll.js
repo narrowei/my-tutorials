@@ -73,8 +73,8 @@ enrollRouter.post('/',checkToken ,function(req, res) {
                                        return res.json({success: 'success'});
                                    }
                                });
-                           db.run("UPDATE class SET enrolledNumber = enrolledNumber + 1",
-                               enroll, function (err) {
+                           db.run("UPDATE class SET enrolledNumber = enrolledNumber + 1 where ID = ?",
+                               classID, function (err) {
                                    if (err) {
                                        console.log(err);
                                        return res.json({success: 'failed'});
@@ -113,7 +113,7 @@ enrollRouter.delete('/:id',checkToken, function(req, res) {
                 req.params.id,
                 userID,
             ];
-            db.get("select * from enrollment where classID = ? and studentID = ?", enroll ,function (err,row) {
+            db.get("select * from enrollment where ID = ? and studentID = ?", enroll ,function (err,row) {
                 if(err){
                     console.log(err);
                     return res.json({success: 'failed'});
@@ -121,6 +121,7 @@ enrollRouter.delete('/:id',checkToken, function(req, res) {
                     return res.json({success: 'enrollment not found'});
                 }else {
                     const id = req.params.id;
+                    let classID = row.classID;
                     db.run("DELETE FROM enrollment WHERE ID=$id",{$id: id},
                         (err, rows) => {
                             if (err) {
@@ -129,8 +130,8 @@ enrollRouter.delete('/:id',checkToken, function(req, res) {
                                 res.json({success: 'success'});
                             }
                         });
-                    db.run("UPDATE class SET enrolledNumber = enrolledNumber - 1",
-                        enroll, function (err) {
+                    db.run("UPDATE class SET enrolledNumber = enrolledNumber - 1 WHERE ID = ?",
+                        classID, function (err) {
                             if (err) {
                                 console.log(err);
                                 return res.json({success: 'failed'});

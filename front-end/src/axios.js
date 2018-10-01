@@ -87,7 +87,7 @@ export default {
     },
     // finish a specific tutorial
     finishTutorial(data) {
-        return instance.post(backendAddr+'/tutorial/finish', data)
+        return instance.get(backendAddr+'/tutorial/finish/'+data)
     },
     // withdraw a specific enrollment
     withdraw(data) {

@@ -44,7 +44,7 @@ export default {
             numberOfColumn: 3,
             search: '',
             maxSize: null,
-            size: 5,
+            size: 6,
         }
     },
     components: {

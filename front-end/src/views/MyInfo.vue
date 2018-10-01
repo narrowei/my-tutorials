@@ -123,8 +123,8 @@
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="sendFeedback()">确 定</el-button>
+                <el-button @click="dialogFormVisible = false">Cancel</el-button>
+                <el-button type="primary" @click="sendFeedback()">Submit</el-button>
             </div>
         </el-dialog>
     </div>
@@ -165,24 +165,20 @@
             getTutorial() {
 
                 api.getEnrolledTutorial().then(({data}) => {
-                    console.log(data);
                     this.enrolled = data;
-                    console.log(this.enrolled);
                 }),
                     api.getFinishedTutorial().then(({data}) => {
-                        console.log(data);
                         this.finished = data
                     }),
                     api.getCreatedTutorial().then(({data}) => {
-                        console.log(data);
                         this.created = data
                     })
             },
 
         finishTutorial(row) {
-            console.log(row);
-            let tutorial = {'id': row.ID};
-            api.finishTutorial(tutorial).then(({data}) => {
+            let tutorialID = row.ID;
+            console.log(tutorialID);
+            api.finishTutorial(tutorialID).then(({data}) => {
                 if (data.success === "success") {
                     this.$message({
                         type: 'success',

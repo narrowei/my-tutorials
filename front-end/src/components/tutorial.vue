@@ -2,7 +2,8 @@
     <div>
         <el-card class="box-card" style="margin-bottom: 20px" shadow="always">
             <div class="img">
-                <img :src=attachment class="image" alt="tutorial image not found">
+                <img v-if="attachment !== ''" :src=attachment class="image" alt="Cover image can not be found">
+                <img v-else src="http://www.kanchipuram.company/business-directory/k2o/uploadimages/company/08-2017/20171123111345tutorial.png" class="image">
             </div>
             <div slot="header" style="text-align: center;">
                 <span>{{name}}</span>
@@ -10,11 +11,21 @@
                     <router-link :to="{path:'/tutorialInfo', query:{id: id}}">View</router-link></el-button>
                 <el-button style="float: right; padding: 5px 5px" type="primary" @click="submitForm(id)">Enroll</el-button>
             </div>
-            <div style="text-align: center;">
-                <p class="card-text">Tutor: {{tutor}}</p>
-                <p class="card-text">Description: {{description}}</p>
-                <time class="time">Time: {{time}}</time>
-                <p class="card-text">Price: ${{price}}</p>
+            <div style="text-align: left;">
+                <table class="infoTable">
+                    <tr>
+                        <td>Tutor:</td>
+                        <td class="tableContent">{{tutor}}</td>
+                    </tr>
+                    <tr>
+                        <td>Time:</td>
+                        <td class="tableContent">{{time}}</td>
+                    </tr>
+                    <tr>
+                        <td>Price:</td>
+                        <td class="tableContent">{{price}} AUD</td>
+                    </tr>
+                </table>
             </div>
         </el-card>
     </div>
@@ -76,5 +87,16 @@
     }
     .router-link-active {
         text-decoration: none;
+    }
+    .infoTable{
+        padding: 10px 50px;
+    }
+    .infoTable td{
+        text-align: left;
+        height: 20px;
+        width: 100px;
+    }
+    .infoTable .tableContent{
+        width: 200px;
     }
 </style>

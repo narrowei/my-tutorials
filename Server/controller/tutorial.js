@@ -27,8 +27,8 @@ tutorialRouter.get('/page/:pageId', function(req, res, next) {
     //allowed CSRF
     res.header("Access-Control-Allow-Origin", "*");
     let pageId = req.params.pageId;
-    let offset = (pageId*5) - 5;
-    db.all("SELECT class.*, user.name AS tutorName FROM class INNER JOIN user ON class.tutorID = user.ID limit 5 offset $offset ",{$offset:offset}, function(err, rows){
+    let offset = (pageId*6) - 6;
+    db.all("SELECT class.*, user.name AS tutorName FROM class INNER JOIN user ON class.tutorID = user.ID limit 6 offset $offset ",{$offset:offset}, function(err, rows){
         if (err) {
             throw err;
         }
@@ -163,7 +163,7 @@ tutorialRouter.get('/delete/:id',checkToken, function(req, res) {
 });
 
 // finish a specific tutorial
-tutorialRouter.post('/finish', function(req, res) {
+tutorialRouter.get('/finish/:id', function(req, res) {
     let email;
     if(req.headers['authorization']){
         let token = req.headers['authorization'];
@@ -177,8 +177,9 @@ tutorialRouter.post('/finish', function(req, res) {
             return res.json({success: 'user not found'});
         }else{
             userID = row.ID;
-            const id = req.body.id;
-            db.run("UPDATE enrollment SET isFinished = 1 WHERE studentID=$sid and classID=$cid",{$sid: userID,$cid: id},
+            const id = req.params.id;
+
+            db.run("UPDATE enrollment SET isFinished = 1 WHERE ID=$id and studentID=$sid",{$sid: userID,$id: id},
                 (err, rows) => {
                     if (err) {
                         throw err;
