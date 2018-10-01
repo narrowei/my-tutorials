@@ -22,6 +22,31 @@ tutorialRouter.get('/', function(req, res, next) {
         res.json(rows);
     });
 });
+// get tutorials by offset
+tutorialRouter.get('/page/:pageId', function(req, res, next) {
+    //allowed CSRF
+    res.header("Access-Control-Allow-Origin", "*");
+    let pageId = req.params.pageId;
+    let offset = (pageId*5) - 5;
+    db.all("SELECT class.*, user.name AS tutorName FROM class INNER JOIN user ON class.tutorID = user.ID limit 5 offset $offset ",{$offset:offset}, function(err, rows){
+        if (err) {
+            throw err;
+        }
+        res.json(rows);
+    });
+});
+
+//count tutorial
+tutorialRouter.get('/size', function(req, res, next) {
+    //allowed CSRF
+    res.header("Access-Control-Allow-Origin", "*");
+    db.all("SELECT count(*) as size from class", function(err, rows){
+        if (err) {
+            throw err;
+        }
+        res.json(rows[0]);
+    });
+});
 
 // create tutorial
 tutorialRouter.post('/',checkToken, function(req, res) {

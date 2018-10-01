@@ -19,6 +19,14 @@
               ></tutorial>
           </li>
       </ul>
+      <el-pagination
+              background
+              layout="prev, pager, next"
+              :total= maxSize
+              :page-size="size"
+              @current-change="handleCurrentChange"
+      >
+      </el-pagination>
   </div>
 </template>
 
@@ -35,23 +43,37 @@ export default {
             tutorials:[],
             numberOfColumn: 3,
             search: '',
+            maxSize: null,
+            size: 5,
         }
     },
     components: {
         Tutorial
     },
     mounted () {
+        this.get_TutorialAmount();
         this.get_Tutorial();
         console.log(this.$route.query.search);
     },
     methods: {
         get_Tutorial() {
             setTimeout(() => {
-                api.getAllTutorial().then(({data}) => {
+                api.getTutorialsByPageId(1).then(({data}) => {
                         this.tutorials = data
                 })
             }, 100)
         },
+        get_TutorialAmount(){
+            api.getTutorialAmount().then(({data})=>{
+                this.maxSize = data.size;
+            })
+        },
+        handleCurrentChange(val) {
+            api.getTutorialsByPageId(val).then(({data}) => {
+                this.tutorials = data
+            })
+        },
+
     },
     computed: {
         gridStyle() {

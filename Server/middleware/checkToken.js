@@ -1,4 +1,4 @@
-// 监测 token 是否过期
+
 const jwt = require('jsonwebtoken')
 module.exports = function (req, res, next) {
     console.log("checking token");
@@ -13,12 +13,11 @@ module.exports = function (req, res, next) {
     jwt.verify(token, 'secret', function(err, decoded) {
         // console.log(decoded.exp)
         // console.log(Date.now() / 1000)
-        // 监测 token 是否过期
         console.log(decoded);
         if(token && decoded.exp <= Date.now() / 1000) {
             return res.json({
                 code: 401,
-                message: 'token过期，请重新登录'
+                message: 'token expired'
             })
         }
         if (err){

@@ -51,6 +51,12 @@ export default {
     getAllTutorial(){
         return instance.get(backendAddr + '/tutorial')
     },
+    getTutorialAmount(){
+        return instance.get(backendAddr + '/tutorial/size')
+    },
+    getTutorialsByPageId(data){
+        return instance.get(backendAddr + '/tutorial/page/'+data)
+    },
     // create tutorial
     createTutorial(data){
         return instance.post(backendAddr+'/tutorial', data)
