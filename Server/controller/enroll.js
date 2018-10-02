@@ -54,6 +54,8 @@ enrollRouter.post('/',checkToken ,function(req, res) {
                    return res.json({success: 'class not found'});
                }else if(row.maxNumberStudent <= row.enrolledNumber){
                    return res.json({success: 'max number reached'});
+               }else if(row.tutorID === userID){
+                   return res.json({success: 'user is tutor'});
                }else{
                    let enroll = [
                        classID,

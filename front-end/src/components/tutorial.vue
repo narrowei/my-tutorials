@@ -61,6 +61,11 @@
                             type: 'fail',
                             message: 'Already enrolled.'
                         });
+                    }else if(data.success==="user is tutor"){
+                        this.$message({
+                            type: 'fail',
+                            message: 'You are the tutor of the tutorial.'
+                        });
                     }else{
                         this.$message({
                             type: 'fail',
