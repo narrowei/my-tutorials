@@ -35,7 +35,12 @@
         <template slot="title">
           <span style="float: left; padding-left:10px; font-size: x-large; font-weight: bold;">Description</span>
         </template>
-        <span v-html="tutorial.description"></span>
+        <div v-if="tutorial.description !== ''">
+          <span v-html="tutorial.description"></span>
+        </div>
+        <div v-else>
+          <h1>No description</h1>
+        </div>
       </el-collapse-item>
     </el-collapse>
     <el-collapse v-model="activeNames" @change="handleChange">

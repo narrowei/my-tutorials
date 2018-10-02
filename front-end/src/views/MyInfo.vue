@@ -127,7 +127,6 @@
                 finished: [],
                 created: [],
                 viewTutorial: null,
-                isHidden: true,
                 form:{
                     id:'',
                     rate:'',
@@ -246,9 +245,5 @@
     }
     .router-link-active {
         text-decoration: none;
-    }
-    .image img{
-        width: 20px;
-        height: 20px;
     }
 </style>

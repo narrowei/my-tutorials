@@ -122,7 +122,6 @@
                                 mobile: this.signUpForm.mobile,
                                 password: this.signUpForm.password,
                             };
-                        console.log(newUser);
                         api.userRegister(newUser).then(({data}) => {
                             if (data.success==="success") {
                                 this.$message({
