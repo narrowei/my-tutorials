@@ -130,10 +130,15 @@
                                 //  go to login page
                                 this.$router.go(0)
                                 this.$router.push('/login')
-                            } else {
+                            } else if(data.success==="Already exists"){
                                 this.$message({
                                     type: 'info',
-                                    message: 'User exists.'
+                                    message: `User already exists.`
+                                })
+                            } else {
+                                this.$message({
+                                    type: 'fail',
+                                    message: 'Error!'
                                 })
                             }
                         }).catch((err) => {

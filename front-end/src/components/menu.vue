@@ -19,7 +19,7 @@
                 <el-menu-item index="2-2-3">choose 3</el-menu-item>
             </el-submenu>
         </el-submenu>
-        <el-menu-item index="3" v-if="this.$store.state.username === null || this.$store.state.username === 'undefined' "><router-link to="/log-in">Log In</router-link></el-menu-item>
+        <el-menu-item index="3" v-if="this.$store.state.username === null || this.$store.state.username === 'undefined' "><router-link to="/log-in">Log In / Sign Up</router-link></el-menu-item>
         <el-submenu index="4" v-else>
             <template slot="title"> Hi, {{$store.state.username}}</template>
             <el-menu-item index="4-1"><router-link to="/myInfo">My Info</router-link></el-menu-item>
@@ -47,15 +47,15 @@
                 if(keyPath[1]==='4-3'){
                     this.$store.dispatch('UserLogout');
                     if (!this.$store.state.token) {
-                        this.$router.push('/login');
                         this.$message({
                             type: 'success',
-                            message: 'logout success'
-                        })
+                            message: 'Logout success'
+                        });
+                        this.$router.push('/');
                     } else {
                         this.$message({
                             type: 'info',
-                            message: 'logout fail'
+                            message: 'Logout fail'
                         })
                     }
                 }

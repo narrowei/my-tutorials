@@ -54,14 +54,6 @@ const router = new Router({
             component:   () => import(/* webpackChunkName: "about" */ '@/views/Login.vue')
         },
         {
-            path: '/log-out',
-            name: 'logout',
-            component:   () => import(/* webpackChunkName: "about" */ '@/views/Logout.vue'),
-            meta: {
-                requireAuth: true
-            }
-        },
-        {
             path: '/tutorialInfo',
             name: 'tutorialInfo',
             component:   () => import(/* webpackChunkName: "about" */ '@/views/TutorialInfo.vue')
@@ -81,7 +73,7 @@ router.beforeEach((to, from, next) => {
         } else {
             Message({
                 type: 'info',
-                message: 'you need login first!'
+                message: 'You need to login first!'
             });
             next({
                 name:'login'

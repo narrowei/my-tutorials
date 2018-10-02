@@ -29,26 +29,33 @@ userRouter.get('/',checkToken ,function(req, res, next) {
 // create a new user
 userRouter.post('/register', function(req, res) {
     //res.header("Access-Control-Allow-Origin", "*");
-
-    console.log(req.body);
-    bcrypt.hash(req.body.password, saltRounds, function(err, hash){
-        let newUser = [
-            req.body.name,
-            req.body.gender,
-            req.body.email,
-            req.body.mobile,
-            hash,
-            // createToken(this.email)
-        ];
-        db.run("INSERT INTO user(name,gender,email,mobile,password ) VALUES (?,?,?,?,?)",newUser , function (err) {
-            if (err) {
-                return console.error(err.message);
-            }else{
-                res.json({success: 'success',
+    db.get("select * from user where name = ?", req.body.name ,function (err,row) {
+        if(err){
+            console.log(err);
+            return res.json({success: 'error'});
+        }else if(typeof(row) === "undefined"){
+            bcrypt.hash(req.body.password, saltRounds, function(err, hash){
+                let newUser = [
+                    req.body.name,
+                    req.body.gender,
+                    req.body.email,
+                    req.body.mobile,
+                    hash,
+                    // createToken(this.email)
+                ];
+                db.run("INSERT INTO user(name,gender,email,mobile,password ) VALUES (?,?,?,?,?)",newUser , function (err) {
+                    if (err) {
+                        return console.error(err.message);
+                    }else{
+                        res.json({success: 'success',
+                        });
+                    }
                 });
-            }
-        });
-	});
+            })
+        }else {
+            return res.json({success: 'Already exists'});
+        }
+    });
 });
 
 // We specify a param in our path for the GET of a specific object
