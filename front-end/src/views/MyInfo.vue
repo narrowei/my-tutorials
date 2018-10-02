@@ -7,23 +7,17 @@
                         <div v-if="enrolled.success !=='null'" >
                             <el-table
                                     :data="enrolled"
-                                    height="300px"
                                     stripe
-                                    style="width: 100%">
+                                    style="width: 100%; text-align: left;">
                                 <el-table-column
                                         prop="time"
                                         label="Date"
-                                        width="120">
+                                        width="280">
                                 </el-table-column>
                                 <el-table-column
                                         prop="name"
                                         label="Name"
-                                        width="150">
-                                </el-table-column>
-                                <el-table-column
-                                        prop="description"
-                                        label="Description"
-                                        width="120">
+                                        width="200">
                                 </el-table-column>
                                 <el-table-column label="Operations">
                                     <template slot-scope="scope">
@@ -43,23 +37,17 @@
                         <div v-if="finished.success !== 'null'">
                             <el-table
                                     :data="finished"
-                                    height="300px"
                                     stripe
-                                    style="width: 100%">
+                                    style="width: 100%; text-align: left;">
                                 <el-table-column
                                         prop="time"
                                         label="Date"
-                                        width="120">
+                                        width="280">
                                 </el-table-column>
                                 <el-table-column
                                         prop="name"
                                         label="Name"
-                                        width="150">
-                                </el-table-column>
-                                <el-table-column
-                                        prop="description"
-                                        label="Description"
-                                        width="120">
+                                        width="200">
                                 </el-table-column>
                                 <el-table-column label="Operations">
                                     <template slot-scope="scope">
@@ -78,23 +66,17 @@
                         <div v-if="created.success !== 'null'">
                             <el-table
                                     :data="created"
-                                    height="300px"
                                     stripe
                                     style="width: 100%">
                                 <el-table-column
                                         prop="time"
                                         label="Date"
-                                        width="120">
+                                        width="280">
                                 </el-table-column>
                                 <el-table-column
                                         prop="name"
                                         label="Name"
-                                        width="150">
-                                </el-table-column>
-                                <el-table-column
-                                        prop="description"
-                                        label="Description"
-                                        width="120">
+                                        width="200">
                                 </el-table-column>
                                 <el-table-column label="Operations">
                                     <template slot-scope="scope">
@@ -252,6 +234,7 @@
 <style scoped>
     .wrapper {
         text-align: center;
+        overflow-y: auto;
     }
     .inline {
         width: 60%;
@@ -263,5 +246,9 @@
     }
     .router-link-active {
         text-decoration: none;
+    }
+    .image img{
+        width: 20px;
+        height: 20px;
     }
 </style>

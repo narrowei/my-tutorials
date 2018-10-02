@@ -27,7 +27,6 @@
                                  style="width: 100%;"></el-input-number>
             </el-form-item>
             <el-form-item label="Description">
-                <!--<VueTrix placeholder="Text goes here" v-model.trim="form.text" style="text-align: left;"/>-->
                 <editor api-key="h0tmzl02gfh1w6xrqdo1ncg28nlbkeog70oklgynd9m9l27m" :init="{
                 plugins: ['advlist autolink lists link image charmap print preview anchor',
                 'searchreplace visualblocks code fullscreen',
@@ -51,7 +50,6 @@
 
 <script>
     import api from '../axios'
-    import VueTrix from 'vue-trix'
     import Editor from '@tinymce/tinymce-vue';
     export default {
         name: "CreateTutorial",
@@ -87,7 +85,6 @@
             }
         },
         components: {
-          //VueTrix,
             'editor': Editor
         },
         methods: {
@@ -103,12 +100,11 @@
                             type: 'success',
                             message: 'Tutorial created!'
                         });
-
                         this.$router.push('/')
                     }else{
                         this.$message({
                             type: 'failed',
-                            message: 'error'
+                            message: 'Error!'
                         })
                     }
                 })

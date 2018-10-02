@@ -43,7 +43,12 @@
         <template slot="title">
           <span style="float: left; padding-left:10px; font-size: x-large; font-weight: bold;">Video</span>
         </template>
-        <youtube-media :video-id="videoId"></youtube-media>
+        <div v-if="videoId !== 0">
+          <youtube-media :video-id="videoId"></youtube-media>
+        </div>
+        <div v-else>
+          <h1>No videos</h1>
+        </div>
       </el-collapse-item>
     </el-collapse>
     <el-collapse v-model="activeNames" @change="handleChange">
@@ -90,8 +95,7 @@
             }
         },
         components: {
-            Review,
-
+            Review
         },
         mounted(){
           this.fetchData();
@@ -103,11 +107,18 @@
             },
             fetchData(){
                 let tutorialID = this.$route.query.id;
-                console.log(tutorialID);
+
                 setTimeout(() => {
                     api.viewTutorial(tutorialID).then(({data}) => {
                         this.tutorial = data;
-                        this.videoId = this.$youtube.getIdFromURL(this.tutorial.videoLink)
+                        let reg = /www\.youtube\.com/;
+                        if(reg.test(this.tutorial.videoLink)){
+                            this.videoId = this.$youtube.getIdFromURL(this.tutorial.videoLink);
+                        }else{
+                            this.videoId = 0;
+                        }
+                        console.log(this.tutorial.videoLink);
+                        console.log(this.videoId);
                     }),
                     api.getReview(tutorialID).then(({data}) => {
                         this.reviews = data;
