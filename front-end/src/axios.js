@@ -99,5 +99,17 @@ export default {
     },
     sendFeedback(data){
         return instance.post(backendAddr+'/tutorial/feedback',data)
-    }
+    },
+    // view a specific tutor
+    viewTutor(data) {
+        return instance.get(backendAddr+'/user/'+data)
+    },
+    // get all review for a specific tutor
+    getReviewForTutor(data) {
+        return instance.get(backendAddr+'/user/review/'+data)
+    },
+    // get created tutorials for a specific tutor
+    getCreatedTutorialForTutor(data){
+        return instance.get(backendAddr + '/user/created/'+data)
+    },
 }

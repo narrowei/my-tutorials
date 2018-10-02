@@ -6,8 +6,8 @@ const bodyParser = require('body-parser')
 //const logger = require('morgan')
 const userRoute = require('./controller/user.js')
 const tutorialRoute = require('./controller/tutorial.js')
-let enrollRouter = require('./controller/enroll.js');
-let myinfoRouter = require('./controller/myinfo.js');
+const enrollRouter = require('./controller/enroll.js');
+const myinfoRouter = require('./controller/myinfo.js');
 
 //const config = require('config-lite')
 //const compression = require('compression')

@@ -82,11 +82,6 @@ userRouter.post('/login', function(req, res) {
         })
 });
 
-// Similar to the GET on an object, to update it we can PATCH
-userRouter.patch('/:id', function(req, res) {
-
-});
-
 // Delete a specific object
 userRouter.delete('/delUser/:id', function(req, res) {
     const nameToLookUp = req.params.id;
@@ -100,4 +95,49 @@ userRouter.delete('/delUser/:id', function(req, res) {
         })
 });
 
+// view a specific tutor
+userRouter.get('/:id', function(req, res) {
+    const userID = req.params.id;
+    db.all("SELECT * FROM user WHERE ID=$id",{$id: userID},
+        (err, rows) => {
+            if (err) {
+                throw err;
+            }else if(rows.length > 0){
+                res.send(rows[0]);
+            }else{
+                res.send({});
+            }
+        })
+});
+
+// get reviews of a specific tutor
+userRouter.get('/review/:id', function(req, res) {
+    const userID = req.params.id;
+    db.all("SELECT comments.*, user.name AS reviewer FROM comments INNER JOIN user ON comments.userID = user.ID WHERE comments.userID=$id",{$id: userID},
+        (err, rows) => {
+            if (err) {
+                throw err;
+            }else if(rows.length > 0) {
+                console.log(rows);
+                res.json(rows);
+            }else {
+                return res.json({success: 'null'});
+            }
+        })
+});
+
+// get created tutorials for a specific tutor
+userRouter.get('/created/:id',function(req, res, next) {
+
+    const userID = req.params.id;
+    db.all("select * from class where tutorID = $userID", {$userID: userID}, function(err, rows){
+        if (err) {
+            throw err;
+        }else if(rows.length > 0) {
+            res.json(rows);
+        }else {
+            return res.json({success: 'null'});
+        }
+    });
+});
 module.exports = userRouter

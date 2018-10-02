@@ -15,7 +15,7 @@
             </tr>
             <tr>
               <td>Tutor Name:</td>
-              <td>{{tutorial.tutorName}}</td>
+              <td><router-link :to="{path:'/tutorInfo', query:{id: tutorial.tutorID}}">{{tutorial.tutorName}}</router-link></td>
             </tr>
             <tr>
               <td>Total Price:</td>
@@ -123,8 +123,6 @@
                         }else{
                             this.videoId = 0;
                         }
-                        console.log(this.tutorial.videoLink);
-                        console.log(this.videoId);
                     }),
                     api.getReview(tutorialID).then(({data}) => {
                         this.reviews = data;

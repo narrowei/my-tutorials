@@ -91,7 +91,6 @@ tutorialRouter.post('/',checkToken, function(req, res) {
 // view tutorial info
 tutorialRouter.get('/info/:id', function(req, res) {
     const id = req.params.id;
-    console.log(id);
     db.all("SELECT class.*, user.name AS tutorName FROM class INNER JOIN user ON class.tutorID = user.ID WHERE class.ID=$id",{$id: id},
         (err, rows) => {
             if (err) {
@@ -107,7 +106,6 @@ tutorialRouter.get('/info/:id', function(req, res) {
 // get reviews of a specific tutorial
 tutorialRouter.get('/review/:id', function(req, res) {
     const id = req.params.id;
-    console.log(id);
     db.all("SELECT comments.*, user.name AS reviewer FROM comments INNER JOIN user ON comments.userID = user.ID WHERE comments.classID=$id",{$id: id},
         (err, rows) => {
             if (err) {
