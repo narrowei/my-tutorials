@@ -90,7 +90,6 @@
                     mobile: [
                         { required: true, message: 'Please input mobile.', trigger: 'blur'},
                         { validator: validateMobile, trigger: 'blur' },
-                        //{ min: 9, max: 10, message: 'Mobile length must be 9-10 digits.', trigger: 'blur'},
                     ],
                     gender: [
                         { required: true, message: 'Please input gender.', trigger: 'change'},

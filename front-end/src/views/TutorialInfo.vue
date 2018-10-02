@@ -2,7 +2,8 @@
   <div class="wrapper">
     <el-container class="info">
       <el-aside width="40%" style="margin-right: 5%;">
-        <img :src=tutorial.attachment class="image"/>
+        <img v-if="tutorial.attachment !== ''" :src=tutorial.attachment class="image" alt="Cover image can not be found">
+        <img v-else src="http://www.kanchipuram.company/business-directory/k2o/uploadimages/company/08-2017/20171123111345tutorial.png" class="image">
       </el-aside>
       <el-container>
         <el-header class="title"><span>{{tutorial.name}}</span></el-header>
@@ -35,7 +36,7 @@
         <template slot="title">
           <span style="float: left; padding-left:10px; font-size: x-large; font-weight: bold;">Description</span>
         </template>
-        <div v-if="tutorial.description !== ''">
+        <div v-if="tutorial.description !== ''" class="description">
           <span v-html="tutorial.description"></span>
         </div>
         <div v-else>
@@ -183,5 +184,9 @@
     height: 30px;
     width: 200px;
     font-size: large;
+  }
+  .description {
+    text-align: left;
+    padding-left: 5%;
   }
 </style>

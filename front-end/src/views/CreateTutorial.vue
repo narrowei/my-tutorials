@@ -54,6 +54,25 @@
     export default {
         name: "CreateTutorial",
         data() {
+            var validateImageUrl = (rule, value, callback) => {
+
+                let reg = /https?:\/\/.+\.(gif|jpg|jpeg|tiff|png)$/;
+                if (value !== '' && !reg.test(value)) {
+                    callback(new Error('Image Url is not valid'));
+                } else {
+                    callback();
+                }
+            };
+            var validateVideoUrl = (rule, value, callback) => {
+
+                let reg = /https:\/\/www\.youtube\.com\/watch\?v=.+$/;
+                if (value !== '' && !reg.test(value)) {
+                    callback(new Error('Video Url is not valid. Hint: Must start with "https://www.youtube.com/watch?v=".'));
+                } else {
+                    callback();
+                }
+            };
+
             return {
                 labelPosition: 'left',
                 form: {
@@ -77,6 +96,12 @@
                     ],
                     price: [
                         { required: true, message: 'Please input price.', trigger: 'blur'}
+                    ],
+                    attachment: [
+                        { validator: validateImageUrl, trigger: 'blur'},
+                    ],
+                    video_link: [
+                        { validator: validateVideoUrl, trigger: 'blur'},
                     ]
                 }
             }
