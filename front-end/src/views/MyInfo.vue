@@ -30,7 +30,7 @@
                             </el-table>
                         </div>
                         <div v-else>
-                            <h1>You haven't enrolled any tutorials.</h1>
+                            <h1>You haven't enrolled any tutorial.</h1>
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="Finished Tutorials" name="second">
@@ -53,13 +53,13 @@
                                     <template slot-scope="scope">
                                         <el-button type="info" size="small">
                                             <router-link :to="{path:'/tutorialInfo', query:{id: scope.row.ID}}">View</router-link></el-button>
-                                        <el-button v-if="scope.row.isFeedback === 0" @click="openFeedbackForm(scope.row.ID)" type="primary" size="small">Feedback</el-button>
+                                        <el-button v-if="scope.row.isFeedback === 0" @click="openFeedbackForm(scope.row.classID)" type="primary" size="small">Feedback</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
                         </div>
                         <div v-else>
-                            <h1>You haven't finished any tutorials.</h1>
+                            <h1>You haven't finished any tutorial.</h1>
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="My Created Tutorials" name="third">
@@ -88,16 +88,93 @@
                             </el-table>
                         </div>
                         <div v-else>
-                            <h1>You haven't created any tutorials.</h1>
+                            <h1>You haven't created any tutorial.</h1>
                         </div>
                     </el-tab-pane>
-
+                    <el-tab-pane label="My Comments" name="fourth">
+                        <div v-if="myComments.success !== 'null'">
+                            <el-table
+                                    :data="myComments"
+                                    stripe
+                                    style="width: 100%; text-align: left;">
+                                <el-table-column
+                                        prop="tutorialName"
+                                        label="Tutorial Name"
+                                        width="150">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="tutorName"
+                                        label="Tutor Name"
+                                        width="150">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="rating"
+                                        label="Rating"
+                                        width="100">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="description"
+                                        label="Comment"
+                                        width="200">
+                                </el-table-column>
+                                <el-table-column label="Operations">
+                                    <template slot-scope="scope">
+                                        <el-button type="info" size="small">
+                                            <router-link :to="{path:'/tutorialInfo', query:{id: scope.row.classID}}">View Tutorial</router-link>
+                                        </el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </div>
+                        <div v-else>
+                            <h1>You haven't left any comment.</h1>
+                        </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="Received Comments" name="fifth">
+                        <div v-if="receivedComments.success !== 'null'">
+                            <el-table
+                                    :data="receivedComments"
+                                    stripe
+                                    style="width: 100%">
+                                <el-table-column
+                                        prop="tutorialName"
+                                        label="Tutorial Name"
+                                        width="150">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="reviewer"
+                                        label="Reviewer"
+                                        width="150">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="rating"
+                                        label="Rating"
+                                        width="100">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="description"
+                                        label="Comment"
+                                        width="200">
+                                </el-table-column>
+                                <el-table-column label="Operations">
+                                    <template slot-scope="scope">
+                                        <el-button type="info" size="small">
+                                            <router-link :to="{path:'/tutorialInfo', query:{id: scope.row.classID}}">View Tutorial</router-link>
+                                        </el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </div>
+                        <div v-else>
+                            <h1>You haven't received any comment.</h1>
+                        </div>
+                    </el-tab-pane>
                 </el-tabs>
             </el-col>
         </el-row>
         <el-dialog title="Feedback" :visible.sync="dialogFormVisible">
-            <el-form :model="form">
-                <el-form-item label="Rating" :label-width="formLabelWidth">
+            <el-form :model="form" :label-position="labelPosition">
+                <el-form-item label="Rating" :label-width="formLabelWidth" style="text-align: left;">
                     <rate :length="5" v-model="form.rate"></rate>
                 </el-form-item>
                 <el-form-item label="Description" :label-width="formLabelWidth">
@@ -123,16 +200,19 @@
         data() {
             return {
                 activeName: this.$store.state.activeName,
+                labelPosition: 'left',
                 enrolled: [],
                 finished: [],
                 created: [],
+                myComments:[],
+                receivedComments: [],
                 viewTutorial: null,
                 form:{
-                    id:'',
+                    tutorialId:'',
                     rate:'',
                     description:''
                 },
-                formLabelWidth: '120px',
+                formLabelWidth: '100px',
                 dialogFormVisible: false,
             }
         },
@@ -144,74 +224,80 @@
         },
         methods: {
             getTutorial() {
-
                 api.getEnrolledTutorial().then(({data}) => {
                     this.enrolled = data;
                 }),
-                    api.getFinishedTutorial().then(({data}) => {
-                        this.finished = data
-                    }),
-                    api.getCreatedTutorial().then(({data}) => {
-                        this.created = data
-                    })
+                api.getFinishedTutorial().then(({data}) => {
+                    this.finished = data
+                }),
+                api.getCreatedTutorial().then(({data}) => {
+                    this.created = data
+                }),
+                api.getMyReview().then(({data}) => {
+                    this.myComments = data
+                }),
+                api.getMyReceivedReview().then(({data}) => {
+                    this.receivedComments = data
+                })
             },
 
-        finishTutorial(row) {
-            let tutorialID = row.ID;
-            console.log(tutorialID);
-            api.finishTutorial(tutorialID).then(({data}) => {
-                if (data.success === "success") {
-                    this.$message({
-                        type: 'success',
-                        message: 'Tutorial finished.'
-                    });
-                }
-                this.getTutorial();
-            })
-        },
-
-        withdraw(row) {
-            console.log(row);
-            let tutorial = {'id' : row.ID};
-            api.withdraw(tutorial).then(({data}) => {
-                if (data.success === "success") {
-                    this.$message({
-                        type: 'success',
-                        message: 'Enrollment withdraw successfully.'
-                    });
+            finishTutorial(row) {
+                let tutorialID = row.ID;
+                console.log(tutorialID);
+                api.finishTutorial(tutorialID).then(({data}) => {
+                    if (data.success === "success") {
+                        this.$message({
+                            type: 'success',
+                            message: 'Tutorial finished.'
+                        });
+                    }
                     this.getTutorial();
-                }else{
-                    this.$message({
-                        type: 'fail',
-                        message: 'Error'
-                    });
-                }
-            })
-        },
+                })
+            },
 
-        delTutorial(row) {
-            console.log(row);
-            let tutorialID = row.ID;
-            api.delTutorial(tutorialID).then(({data}) => {
-                if (data.success === "success") {
-                    this.$message({
-                        type: 'success',
-                        message: 'Tutorial delete successfully.'
-                    });
-                    this.getTutorial();
-                }else{
-                    this.$message({
-                        type: 'fail',
-                        message: 'Error.'
-                    });
-                }
-            })
-        },
+            withdraw(row) {
+                console.log(row);
+                let tutorial = {'id' : row.ID};
+                api.withdraw(tutorial).then(({data}) => {
+                    if (data.success === "success") {
+                        this.$message({
+                            type: 'success',
+                            message: 'Enrollment withdraw successfully.'
+                        });
+                        this.getTutorial();
+                    }else{
+                        this.$message({
+                            type: 'fail',
+                            message: 'Error'
+                        });
+                    }
+                })
+            },
+
+            delTutorial(row) {
+                console.log(row);
+                let tutorialID = row.ID;
+                api.delTutorial(tutorialID).then(({data}) => {
+                    if (data.success === "success") {
+                        this.$message({
+                            type: 'success',
+                            message: 'Tutorial delete successfully.'
+                        });
+                        this.getTutorial();
+                    }else{
+                        this.$message({
+                            type: 'fail',
+                            message: 'Error.'
+                        });
+                    }
+                })
+            },
+
             openFeedbackForm(id){
-                this.form.id = id;
+                this.form.tutorialId = id;
                 this.dialogFormVisible = true;
-
             },
+
             sendFeedback(){
                 this.dialogFormVisible = false;
                 api.sendFeedback(this.form).then(({data}) => {

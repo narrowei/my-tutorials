@@ -208,7 +208,7 @@ tutorialRouter.post('/feedback', function(req, res) {
             let feedback = [
                 userID,
                 req.body.description,
-                req.body.id,
+                req.body.tutorialId,
                 req.body.rate
             ];
             db.run("INSERT INTO 'comments'(userID, description, classID, rating)VALUES (?,?,?,?)",

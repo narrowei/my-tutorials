@@ -70,8 +70,10 @@
 <style scoped>
     a {
         text-decoration: none;
+        color: white;
     }
     .router-link-active {
         text-decoration: none;
+        color: white;
     }
 </style>

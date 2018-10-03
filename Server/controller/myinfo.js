@@ -131,5 +131,71 @@ myinfoRouter.get('/created',checkToken ,function(req, res, next) {
         }
     });
 });
+// get my reviews
+myinfoRouter.get('/myReview',checkToken ,function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    let email;
+    if(req.headers['authorization']){
+        let token = req.headers['authorization'];
+        let decoded = jwt.decode(token, 'secret');
+        email = decoded.name;
+    }
+    let userID='';
 
+    db.get("SELECT ID FROM user WHERE email=$email",{$email:email}, (err,row)=>{
+        if(err){
+            console.log(err);
+            return res.json({success: 'user not found'});
+        }else{
+            userID = row.ID;
+
+            db.all("SELECT comments.*, class.name AS tutorialName, user.name AS tutorName FROM comments " +
+                "LEFT JOIN class ON comments.classID = class.ID " +
+                "LEFT JOIN user ON class.tutorID = user.ID " +
+                "WHERE comments.userID = $userID", {$userID: userID}, function(err, rows){
+                if (err) {
+                    throw err;
+                }else if(rows.length > 0) {
+                    res.json(rows);
+                }else {
+                    return res.json({success: 'null'});
+                }
+            });
+        }
+    });
+});
+
+// get my received reviews
+myinfoRouter.get('/receivedReview',checkToken ,function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    let email;
+    if(req.headers['authorization']){
+        let token = req.headers['authorization'];
+        let decoded = jwt.decode(token, 'secret');
+        email = decoded.name;
+    }
+    let userID='';
+
+    db.get("SELECT ID FROM user WHERE email=$email",{$email:email}, (err,row)=>{
+        if(err){
+            console.log(err);
+            return res.json({success: 'user not found'});
+        }else{
+            userID = row.ID;
+
+            db.all("SELECT comments.*, class.name AS tutorialName, user.name AS reviewer FROM comments " +
+                "LEFT JOIN class ON comments.classID = class.ID " +
+                "LEFT JOIN user ON comments.userID = user.ID " +
+                "WHERE class.tutorID = $userID", {$userID: userID}, function(err, rows){
+                if (err) {
+                    throw err;
+                }else if(rows.length > 0) {
+                    res.json(rows);
+                }else {
+                    return res.json({success: 'null'});
+                }
+            });
+        }
+    });
+});
 module.exports = myinfoRouter;

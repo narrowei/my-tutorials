@@ -109,7 +109,7 @@
                     api.viewTutor(tutorID).then(({data}) => {
                         this.tutor = data;
                     }),
-                    api.getReviewForTutor(tutorID).then(({data}) => {
+                    api.getReviewById(tutorID).then(({data}) => {
                         this.reviews = data;
                     }),
                     api.getCreatedTutorialForTutor(tutorID).then(({data}) => {

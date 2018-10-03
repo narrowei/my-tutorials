@@ -76,7 +76,7 @@ enrollRouter.post('/',checkToken ,function(req, res) {
                                    }
                                });
                            db.run("UPDATE class SET enrolledNumber = enrolledNumber + 1 where ID = ?",
-                               classID, function (err) {
+                               classID, function (err,row) {
                                    if (err) {
                                        console.log(err);
                                        return res.json({success: 'failed'});
@@ -133,7 +133,7 @@ enrollRouter.delete('/:id',checkToken, function(req, res) {
                             }
                         });
                     db.run("UPDATE class SET enrolledNumber = enrolledNumber - 1 WHERE ID = ?",
-                        classID, function (err) {
+                        classID, function (err,row) {
                             if (err) {
                                 console.log(err);
                                 return res.json({success: 'failed'});

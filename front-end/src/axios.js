@@ -43,6 +43,18 @@ export default {
     GetUser () {
         return instance.get(backendAddr+'/user')
     },
+    // view a specific tutor
+    viewTutor(data) {
+        return instance.get(backendAddr+'/user/'+data)
+    },
+    // get all review for a specific user
+    getReviewById(data) {
+        return instance.get(backendAddr+'/user/review/'+data)
+    },
+    // get created tutorials for a specific tutor
+    getCreatedTutorialForTutor(data){
+        return instance.get(backendAddr + '/user/created/'+data)
+    },
     // delete user
     delUser(data) {
         return instance.post(backendAddr+'/user/delUser', data)
@@ -61,9 +73,32 @@ export default {
     createTutorial(data){
         return instance.post(backendAddr+'/tutorial', data)
     },
+    // view a specific tutorial
+    viewTutorial(data) {
+        return instance.get(backendAddr+'/tutorial/info/'+data)
+    },
+    // get all reviews of a specific tutorial
+    getReview(data) {
+        return instance.get(backendAddr+'/tutorial/review/'+data)
+    },
+    // finish a specific tutorial
+    finishTutorial(data) {
+        return instance.get(backendAddr+'/tutorial/finish/'+data)
+    },
+    // delete a specific tutorial
+    delTutorial(data) {
+        return instance.get(backendAddr+'/tutorial/delete/'+data)
+    },
+    sendFeedback(data){
+        return instance.post(backendAddr+'/tutorial/feedback',data)
+    },
     // enroll tutorial
     enrollTutorial(data){
         return instance.post(backendAddr+'/enroll', data)
+    },
+    // withdraw a specific enrollment
+    withdraw(data) {
+        return instance.delete(backendAddr+'/enroll/'+data.id)
     },
     // get enrolled tutorials
     getEnrolledTutorial(){
@@ -77,39 +112,12 @@ export default {
     getCreatedTutorial(){
         return instance.get(backendAddr + '/myinfo/created')
     },
-    // view a specific tutorial
-    viewTutorial(data) {
-        return instance.get(backendAddr+'/tutorial/info/'+data)
+    // get my reviews
+    getMyReview() {
+        return instance.get(backendAddr+'/myinfo/myReview')
     },
-    // get all reviews of a specific tutorial
-    getReview(data) {
-        return instance.get(backendAddr+'/tutorial/review/'+data)
-    },
-    // finish a specific tutorial
-    finishTutorial(data) {
-        return instance.get(backendAddr+'/tutorial/finish/'+data)
-    },
-    // withdraw a specific enrollment
-    withdraw(data) {
-        return instance.delete(backendAddr+'/enroll/'+data.id)
-    },
-    // delete a specific tutorial
-    delTutorial(data) {
-        return instance.get(backendAddr+'/tutorial/delete/'+data)
-    },
-    sendFeedback(data){
-        return instance.post(backendAddr+'/tutorial/feedback',data)
-    },
-    // view a specific tutor
-    viewTutor(data) {
-        return instance.get(backendAddr+'/user/'+data)
-    },
-    // get all review for a specific tutor
-    getReviewForTutor(data) {
-        return instance.get(backendAddr+'/user/review/'+data)
-    },
-    // get created tutorials for a specific tutor
-    getCreatedTutorialForTutor(data){
-        return instance.get(backendAddr + '/user/created/'+data)
+    // get my received reviews
+    getMyReceivedReview() {
+        return instance.get(backendAddr+'/myinfo/receivedReview')
     },
 }
