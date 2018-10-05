@@ -6,7 +6,7 @@
 </template>
 
 <html>
-<head> About </head>
+<head><title> About </title></head>
 
 <body>
 
@@ -38,3 +38,4 @@ Element - Vue 2.0 based component library
 
 
 </body>
+</html>
