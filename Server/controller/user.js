@@ -41,9 +41,10 @@ userRouter.post('/register', function(req, res) {
                     req.body.email,
                     req.body.mobile,
                     hash,
+                    new Date()
                     // createToken(this.email)
                 ];
-                db.run("INSERT INTO user(name,gender,email,mobile,password ) VALUES (?,?,?,?,?)",newUser , function (err) {
+                db.run("INSERT INTO user(name,gender,email,mobile,password,regDate ) VALUES (?,?,?,?,?,?)",newUser , function (err) {
                     if (err) {
                         return console.error(err.message);
                     }else{
