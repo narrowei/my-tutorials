@@ -72,18 +72,18 @@ enrollRouter.post('/',checkToken ,function(req, res) {
                                        console.log(err);
                                        return res.json({success: 'failed'});
                                    }else{
-                                       return res.json({success: 'success'});
+                                       db.run("UPDATE class SET enrolledNumber = enrolledNumber + 1 where ID = ?",
+                                           classID, function (err,row) {
+                                               if (err) {
+                                                   console.log(err);
+                                                   return res.json({success: 'failed'});
+                                               }else{
+                                                   return res.json({success: 'success'});
+                                               }
+                                           });
                                    }
                                });
-                           db.run("UPDATE class SET enrolledNumber = enrolledNumber + 1 where ID = ?",
-                               classID, function (err,row) {
-                                   if (err) {
-                                       console.log(err);
-                                       return res.json({success: 'failed'});
-                                   }else{
-                                       return res.json({success: 'success'});
-                                   }
-                               });
+
                        }else {
                            return res.json({success: 'already enrolled'});
                        }
