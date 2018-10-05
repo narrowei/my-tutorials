@@ -100,6 +100,9 @@ export default {
     withdraw(data) {
         return instance.delete(backendAddr+'/enroll/'+data.id)
     },
+    updateTutorial(data){
+        return instance.put(backendAddr+'/tutorial/info/'+data.classId,data)
+    },
     // get enrolled tutorials
     getEnrolledTutorial(){
         return instance.get(backendAddr + '/myinfo/enrolled')

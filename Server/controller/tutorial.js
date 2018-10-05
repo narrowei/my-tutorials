@@ -103,6 +103,29 @@ tutorialRouter.get('/info/:id', function(req, res) {
         })
 });
 
+//update tutorial info
+tutorialRouter.put('/info/:id', function (req,res) {
+    const data = [
+        req.body.name,
+        req.body.description,
+        req.body.maxNumberStudent,
+        req.body.date[0]+' - '+req.body.date[1],
+        req.body.price,
+        req.body.attachment,
+        req.body.video_link,
+        req.body.classId
+    ];
+    db.run('update class set name = ?, description = ?, maxNumberStudent = ?, time = ?, price = ?, attachment = ?, videoLink =? where ID = ?',data,
+        function (err) {
+        if (err) {
+            console.log(err);
+            return res.json({success: 'failed update tutorial'});
+        }else{
+            return res.json({success: 'success'});
+        }
+    })
+});
+
 // get reviews of a specific tutorial
 tutorialRouter.get('/review/:id', function(req, res) {
     const id = req.params.id;

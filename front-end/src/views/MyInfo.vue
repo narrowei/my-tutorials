@@ -83,6 +83,7 @@
                                         <el-button type="info" size="small">
                                             <router-link :to="{path:'/tutorialInfo', query:{id: scope.row.ID}}">View</router-link></el-button>
                                         <el-button @click="delTutorial(scope.row)" type="danger" size="small">Delete</el-button>
+                                        <el-button type="primary" size="small"> <router-link :to="{path:'/editTutorial', query:{id: scope.row.ID}}">Modify</router-link></el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>

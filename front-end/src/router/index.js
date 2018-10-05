@@ -62,11 +62,16 @@ const router = new Router({
             path: '/tutorInfo',
             name: 'tutorInfo',
             component:   () => import(/* webpackChunkName: "about" */ '@/views/TutorInfo.vue')
+        },
+        {
+            path: '/editTutorial',
+            name: 'editTutorial',
+            component:   () => import(/* webpackChunkName: "about" */ '@/views/editTutorial.vue')
         }
     ]
 });
 router.beforeEach((to, from, next) => {
-    let token = localStorage.getItem('token')
+    let token = localStorage.getItem('token');
     if(to.meta.requireAuth) {
         if(token) {
             next()
