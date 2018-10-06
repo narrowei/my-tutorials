@@ -3,13 +3,16 @@
 My-Tutorials is a platform where students could seek for tutorials as well as tutors could register tutorials. The website is lightweight, interactive, RESTful, could support reasonable size Database. The front-end and back-end are powered by Vue.JS and Node.JS respectively.
 
 ## Features
-
-  - User sign-up and log-in/log-out
-  - Different classes of User have different profile page
-  - Students browse through tutorials
-  - Tutors register new tutorials
-  - Students enroll in selected tutorials
-  - Students check out payment
+  
+  - Users sign-up and log-in/log-out
+  - Users browse through tutorials
+  - Users browse through tutor profiles
+  - Users register new tutorials
+  - Users enroll in selected tutorials
+  - Users view tutorial enrollment history
+  - Users view tutorial creation history
+  - Users provide feedback upon finish tutorials
+  - Users view their feedback and received feedback
 
 Users can also:
   - Edit profile page, update personal information
