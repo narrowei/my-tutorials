@@ -45,7 +45,7 @@
                 let reg = /(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^[^\s\u4e00-\u9fa5]{6,16}$/;
                 if (!reg.test(value)) {
                     callback(new Error('Password must contain at least 2 types of characters(number, letter, special characters)' +
-                        ', 6-16 in length, no space allowed.'));
+                        ', no space allowed.'));
                 } else {
                     callback();
                 }
@@ -106,6 +106,7 @@
                     ],
                     password: [
                         { required: true, message: 'Please input password.', trigger: 'blur'},
+                        { min: 6, max: 16, message: 'Password must be 6-16 characters.', trigger: 'blur'},
                         { validator: validatePass, trigger: 'blur' },
                         ],
                     confirm: [

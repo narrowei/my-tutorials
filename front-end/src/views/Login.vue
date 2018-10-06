@@ -88,7 +88,7 @@
                             } else {
                                 this.$message({
                                     type: 'info',
-                                    message: 'Password incorrect.'
+                                    message: 'Username or password incorrect.'
                                 })
                             }
                         })

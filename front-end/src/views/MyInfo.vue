@@ -67,7 +67,7 @@
                             <el-table
                                     :data="created"
                                     stripe
-                                    style="width: 100%">
+                                    style="width: 100%; text-align: left;">
                                 <el-table-column
                                         prop="time"
                                         label="Date"
@@ -136,7 +136,7 @@
                             <el-table
                                     :data="receivedComments"
                                     stripe
-                                    style="width: 100%">
+                                    style="width: 100%; text-align: left;">
                                 <el-table-column
                                         prop="tutorialName"
                                         label="Tutorial Name"

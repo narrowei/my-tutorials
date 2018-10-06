@@ -45,7 +45,7 @@
             <el-table-column
                     prop="name"
                     label="Name"
-                    width="200">
+                    width="380">
             </el-table-column>
           </el-table>
         </div>

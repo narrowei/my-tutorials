@@ -240,7 +240,7 @@ tutorialRouter.post('/feedback', function(req, res) {
                         console.log(err);
                         return res.json({success: 'failed'});
                     }else{
-                        db.run("UPDATE enrollment SET isFeedback = 1 WHERE studentID=$sid and classID=$cid",{$sid: userID,$cid: req.body.id},
+                        db.run("UPDATE enrollment SET isFeedback = 1 WHERE studentID=$sid and classID=$cid",{$sid: userID,$cid: req.body.tutorialId},
                             (err, rows) => {
                                 if (err) {
                                     throw err;
