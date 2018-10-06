@@ -54,6 +54,15 @@
     export default {
         name: "CreateTutorial",
         data() {
+            var validateTutorialName = (rule, value, callback) => {
+
+                let reg = /^[a-zA-Z0-9-_:\ \.]{3,50}$/;
+                if (value !== '' && !reg.test(value)) {
+                    callback(new Error('Only underscore, hyphen, comma, dot, space, and alphanumeric characters allowed.'));
+                } else {
+                    callback();
+                }
+            };
             var validateImageUrl = (rule, value, callback) => {
 
                 let reg = /https?:\/\/.+\.(gif|jpg|jpeg|tiff|png)$/;
@@ -86,7 +95,9 @@
                 },
                 rules: {
                     name: [
-                        { required: true, message: 'Please input tutorial name.', trigger: 'blur'}
+                        { required: true, message: 'Please input tutorial name.', trigger: 'blur'},
+                        { min: 3, max: 50, message: 'Tutorial name length must be 3-50 characters.', trigger: 'blur'},
+                        { validator: validateTutorialName, trigger: 'blur'},
                     ],
                     date: [
                         { required: true, message: 'Please input date.', trigger: 'blur'}

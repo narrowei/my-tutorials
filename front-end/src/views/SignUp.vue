@@ -68,6 +68,15 @@
                     callback();
                 }
             };
+            var validateUsername = (rule, value, callback) => {
+
+                let reg = /^[a-zA-Z0-9_-]{3,15}$/;
+                if (value !== '' && !reg.test(value)) {
+                    callback(new Error('Username can only consist of underscore, hyphen and alphanumeric characters.'));
+                } else {
+                    callback();
+                }
+            };
             return {
                 labelPosition: 'left',
                 signUpForm: {
@@ -81,7 +90,8 @@
                 rules: {
                     name: [
                         { required: true, message: 'Please input username.', trigger: 'blur'},
-                        { min: 3, max: 12, message: 'Username length must be 3-12 characters.', trigger: 'blur'},
+                        { min: 3, max: 15, message: 'Username length must be 3-15 characters.', trigger: 'blur'},
+                        { validator: validateUsername, trigger: 'blur'},
                         ],
                     email: [
                         { required: true, message: 'Please input email.', trigger: 'blur'},

@@ -19,7 +19,7 @@
             <template slot="title"> Hi, {{$store.state.username}}</template>
             <el-menu-item index="4-1"><router-link to="/myInfo"><i class="el-icon-info"></i>My Info</router-link></el-menu-item>
             <el-menu-item index="4-2" ><router-link to="/createTutorial"><i class="el-icon-edit-outline"></i>Create Tutorial</router-link></el-menu-item>
-            <el-menu-item index="4-3"><i class="el-icon-delete"></i>Logout</el-menu-item>
+            <el-menu-item index="4-3"><i class="el-icon-close"></i>Logout</el-menu-item>
         </el-submenu>
 
     </el-menu>

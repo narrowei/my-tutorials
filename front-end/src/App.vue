@@ -17,7 +17,7 @@
   </div>
 </template>
 <script>
-    // @ is an alias to /src
+
     import Menu from '@/components/menu.vue'
     import api from './axios.js'
 
