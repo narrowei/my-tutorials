@@ -6,6 +6,6 @@ module.exports = function (name) {
 
 	const token = jwt.sign({
 		name: name
-	}, 'secret', { expiresIn: '6000s' });
+	}, 'secret', { expiresIn: '12000s' });
 	return token;
 }

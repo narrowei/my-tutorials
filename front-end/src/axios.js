@@ -4,8 +4,8 @@ import router from './router/index'
 import store from './store/index'
 import * as types from './store/types'
 
-axios.default.timeout = 3000
-const backendAddr = "http://localhost:3000";
+axios.default.timeout = 3000;
+const backendAddr = 'http://'+location.hostname+':3000';//"http://localhost:3000";
 
 const instance = axios.create();
 instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';

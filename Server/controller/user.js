@@ -49,6 +49,8 @@ userRouter.post('/register', function(req, res) {
                         return console.error(err.message);
                     }else{
                         res.json({success: 'success',
+                            token: createToken(req.body.email),
+                            email: req.body.email
                         });
                     }
                 });
@@ -121,7 +123,7 @@ userRouter.get('/:id', function(req, res) {
 // get reviews of a specific tutor
 userRouter.get('/review/:id', function(req, res) {
     const userID = req.params.id;
-    db.all("SELECT comments.*, user.name AS reviewer FROM comments INNER JOIN user ON comments.userID = user.ID WHERE comments.userID=$id",{$id: userID},
+    db.all("SELECT comments.*, user.name AS reviewer FROM comments INNER JOIN class ON comments.classID = class.ID INNER JOIN user on user.ID = comments.userID WHERE class.tutorID=$id",{$id: userID},
         (err, rows) => {
             if (err) {
                 throw err;

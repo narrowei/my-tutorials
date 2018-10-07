@@ -136,11 +136,15 @@
                             if (data.success==="success") {
                                 this.$message({
                                     type: 'success',
-                                    message: `Sign up successfully! Please log in.`
+                                    message: `Sign up successfully!`
                                 })
                                 //  go to login page
-                                this.$router.go(0)
-                                this.$router.push('/login')
+                                this.$store.dispatch('UserName', data.email);
+                                this.$store.dispatch('UserLogin', data.token);
+                                let redirect = decodeURIComponent(this.$route.query.redirect || '/');
+                                this.$router.push({
+                                    path: redirect
+                                })
                             } else if(data.success==="Already exists"){
                                 this.$message({
                                     type: 'info',
