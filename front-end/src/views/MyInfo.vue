@@ -251,6 +251,11 @@
                             type: 'success',
                             message: 'Tutorial finished.'
                         });
+                    }else if(data.code === 401){
+                        this.$message({
+                            type: 'fail',
+                            message: 'You are not log in.'
+                        });
                     }
                     this.getTutorial();
                 })
@@ -266,6 +271,11 @@
                             message: 'Enrollment withdraw successfully.'
                         });
                         this.getTutorial();
+                    }else if(data.code === 401){
+                        this.$message({
+                            type: 'fail',
+                            message: 'You are not log in.'
+                        });
                     }else{
                         this.$message({
                             type: 'fail',
@@ -285,6 +295,11 @@
                             message: 'Tutorial delete successfully.'
                         });
                         this.getTutorial();
+                    }else if(data.code === 401){
+                        this.$message({
+                            type: 'fail',
+                            message: 'You are not log in.'
+                        });
                     }else{
                         this.$message({
                             type: 'fail',
@@ -310,6 +325,11 @@
                         this.form.description='';
                         this.form.rate=0;
                         this.getTutorial();
+                    }else if(data.code === 401){
+                        this.$message({
+                            type: 'fail',
+                            message: 'You are not log in.'
+                        });
                     }
                 })
             }

@@ -152,6 +152,11 @@
                             type: 'fail',
                             message: 'You are the tutor of the tutorial.'
                         });
+                    }else if(data.code === 401){
+                        this.$message({
+                            type: 'fail',
+                            message: 'You are not log in.'
+                        });
                     }else{
                         this.$message({
                             type: 'fail',

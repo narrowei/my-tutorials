@@ -135,6 +135,11 @@
                                     message: 'Tutorial created!'
                                 });
                                 this.$router.push('/myInfo')
+                            }else if(data.code === 401){
+                                this.$message({
+                                    type: 'fail',
+                                    message: 'You are not log in.'
+                                });
                             }else{
                                 this.$message({
                                     type: 'failed',

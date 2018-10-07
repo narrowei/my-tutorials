@@ -26,6 +26,7 @@
             <li><a href="https://webpack.js.org/">Webpack</a> - A static module bundler for modern JavaScript applications</li>
             <li><a href="https://babeljs.io/">Babel</a> - A JavaScript compiler</li>
             <li><a href="https://element.eleme.io/#/">Element UI</a> - Vue 2.0 based component library</li>
+            <li><a href="https://gulpjs.com/">Gulp</a> - Automation toolkit for front-end development</li>
         </ul>
   </div>
 </template>
