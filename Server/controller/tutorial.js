@@ -1,6 +1,6 @@
 const express = require('express');
 let sqlite3 = require('sqlite3').verbose();
-let db = new sqlite3.Database('db/my-tutorial.db');
+let db = new sqlite3.Database('DB/my-tutorial.db');
 const tutorialRouter = express.Router();
 const checkToken = require('../middleware/checkToken.js');
 let cors = require('cors');

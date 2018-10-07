@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 
 let sqlite3 = require('sqlite3').verbose();
-let db = new sqlite3.Database('db/my-tutorial.db');
+let db = new sqlite3.Database('DB/my-tutorial.db');
 
 // Create the express router objects
 let userRouter = require('./controller/user.js');
