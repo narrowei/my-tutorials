@@ -35,7 +35,12 @@
                     name: 'Xiaoping Wang',
                     studentID: '12765501',
                     email: '12765501@student.uts.edu.au'
-                }]
+                },{
+                    name: 'Yicheng Ma',
+                    studentID: '12488348',
+                    email: '12488348@student.uts.edu.au'
+                }
+                ]
             }
         }
     }
