@@ -1,14 +1,14 @@
-const express = require('express')
+const express = require('express');
 let sqlite3 = require('sqlite3').verbose();
 let db = new sqlite3.Database('DB/my-tutorial.db');
-const userRouter = express.Router()
-let cors = require('cors')
-const createToken = require('../middleware/createToken.js')
-const bcrypt = require('bcrypt')
-const checkToken = require('../middleware/checkToken.js')
+const userRouter = express.Router();
+let cors = require('cors');
+const createToken = require('../middleware/createToken.js');
+const bcrypt = require('bcrypt');
+const checkToken = require('../middleware/checkToken.js');
 const saltRounds = 10;
-const jwt = require('jsonwebtoken')
-let bodyParser = require('body-parser')
+const jwt = require('jsonwebtoken');
+let bodyParser = require('body-parser');
 userRouter.use( bodyParser.json() );       // to support JSON-encoded bodies
 userRouter.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
@@ -72,11 +72,8 @@ userRouter.post('/login', function(req, res) {
                 throw err;
             }
             else if(rows.length > 0){
-                console.log("User exists in the database.");
                 bcrypt.compare(enteredPassword, rows[0].password, function(err, result){
-                    console.log(result);
                 	if(result){
-                		console.log("password matches! Redirecting...")
                         res.json({success: 'success',
                             token: createToken(rows[0].email),
                             email: rows[0].email
@@ -86,7 +83,6 @@ userRouter.post('/login', function(req, res) {
                     }
 				});
             }else{
-                console.log("Password did not match...")
                 res.json({success: 'failed'});
             }
         })
@@ -128,7 +124,6 @@ userRouter.get('/review/:id', function(req, res) {
             if (err) {
                 throw err;
             }else if(rows.length > 0) {
-                console.log(rows);
                 res.json(rows);
             }else {
                 return res.json({success: 'null'});
@@ -150,4 +145,4 @@ userRouter.get('/created/:id',function(req, res, next) {
         }
     });
 });
-module.exports = userRouter
+module.exports = userRouter;

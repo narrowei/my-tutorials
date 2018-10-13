@@ -74,7 +74,6 @@ tutorialRouter.post('/',checkToken, function(req, res) {
                 req.body.attachment,
                 req.body.video_link
             ];
-            console.log(newClass);
             db.run("INSERT INTO 'class'(tutorID, name, description, maxNumberStudent, time, price, attachment, videoLink) VALUES (?,?,?,?,?,?,?,?)",
                 newClass, function (err) {
                     if (err) {
@@ -255,4 +254,4 @@ tutorialRouter.post('/feedback', function(req, res) {
     });
 });
 
-module.exports = tutorialRouter
+module.exports = tutorialRouter;

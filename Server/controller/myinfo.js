@@ -14,9 +14,8 @@ myinfoRouter.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
 myinfoRouter.use(cors());
-
+//get user info
 myinfoRouter.get('/',checkToken ,function(req, res, next) {
-    //res.header("Access-Control-Allow-Origin", "*");
     let email;
     if(req.headers['authorization']){
         let token = req.headers['authorization'];

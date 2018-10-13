@@ -1,8 +1,6 @@
-
-const jwt = require('jsonwebtoken')
+//validate json token
+const jwt = require('jsonwebtoken');
 module.exports = function (req, res, next) {
-    console.log("checking token");
-    console.log(req.headers['authorization']);
     if(!req.headers['authorization']){
         return res.json({
             code: 401,
@@ -11,9 +9,6 @@ module.exports = function (req, res, next) {
 	}
     let token = req.headers['authorization'];
     jwt.verify(token, 'secret', function(err, decoded) {
-        // console.log(decoded.exp)
-        // console.log(Date.now() / 1000)
-        console.log(decoded);
         if(token && decoded.exp <= Date.now() / 1000) {
             return res.json({
                 code: 401,
@@ -26,7 +21,6 @@ module.exports = function (req, res, next) {
                 message: err.toString()
             })
 		}
-        console.log("end checking token");
         next();
     });
 };

@@ -9,14 +9,13 @@ const checkToken = require('../middleware/checkToken.js');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 let bodyParser = require('body-parser');
-enrollRouter.use( bodyParser.json() );       // to support JSON-encoded bodies
-enrollRouter.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+enrollRouter.use( bodyParser.json() );
+enrollRouter.use(bodyParser.urlencoded({
     extended: true
 }));
 enrollRouter.use(cors());
-
+// get user id
 enrollRouter.get('/',checkToken ,function(req, res, next) {
-    //res.header("Access-Control-Allow-Origin", "*");
     let email;
     if(req.headers['authorization']){
         let token = req.headers['authorization'];
@@ -34,7 +33,6 @@ enrollRouter.get('/',checkToken ,function(req, res, next) {
 });
 // enroll tutorial
 enrollRouter.post('/',checkToken ,function(req, res) {
-    //res.header("Access-Control-Allow-Origin", "*");
     let email;
     if(req.headers['authorization']){
         let token = req.headers['authorization'];
@@ -117,7 +115,6 @@ enrollRouter.delete('/:id',checkToken, function(req, res) {
             ];
             db.get("select * from enrollment where ID = ? and studentID = ?", enroll ,function (err,row) {
                 if(err){
-                    console.log(err);
                     return res.json({success: 'failed'});
                 }else if(typeof(row) === "undefined"){
                     return res.json({success: 'enrollment not found'});
