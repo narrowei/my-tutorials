@@ -5,6 +5,7 @@ import store from './store/index'
 import * as types from './store/types'
 
 axios.default.timeout = 3000;
+// back-end port is 3000
 const backendAddr = 'http://'+location.hostname+':3000';//"http://localhost:3000";
 
 const instance = axios.create();
@@ -63,9 +64,11 @@ export default {
     getAllTutorial(){
         return instance.get(backendAddr + '/tutorial')
     },
+    // get tutorial amount
     getTutorialAmount(){
         return instance.get(backendAddr + '/tutorial/size')
     },
+    // manage pagination
     getTutorialsByPageId(data){
         return instance.get(backendAddr + '/tutorial/page/'+data)
     },
@@ -89,6 +92,7 @@ export default {
     delTutorial(data) {
         return instance.get(backendAddr+'/tutorial/delete/'+data)
     },
+    // feedback form submission
     sendFeedback(data){
         return instance.post(backendAddr+'/tutorial/feedback',data)
     },
@@ -100,6 +104,7 @@ export default {
     withdraw(data) {
         return instance.delete(backendAddr+'/enroll/'+data.id)
     },
+    // update a specific tutorial information
     updateTutorial(data){
         return instance.put(backendAddr+'/tutorial/info/'+data.classId,data)
     },

@@ -89,7 +89,6 @@
 
     Vue.use(VueYouTubeEmbed,{ global: true ,componentId: "youtube-media"});
 
-
     export default{
         name: 'tutorialInfo',
         data(){
@@ -104,12 +103,13 @@
             Review
         },
         mounted(){
+            // when mounting the contents, fetch the specific tutorial data
           this.fetchData();
         },
 
         methods:{
+            // handle collapse tabs
             handleChange(val) {
-                console.log(val);
             },
             fetchData(){
                 let tutorialID = this.$route.query.id;
@@ -130,7 +130,7 @@
                 }, 100)
             },
             submitForm(data){
-                console.log(data);
+                // when submit the form, enroll the tutorial
                 api.enrollTutorial({id:data}).then(({data})=>{
                     if (data.success==="success") {
                         this.$message({

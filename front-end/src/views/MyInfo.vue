@@ -194,7 +194,7 @@
 <script>
     import * as types from '../store/types';
     import api from '../axios';
-    import Rate from '@/components/Rate.vue';
+    import Rate from '@/components/rate.vue';
 
     export default {
         name: "MyInfo",
@@ -218,6 +218,7 @@
             }
         },
         mounted() {
+            // when mounting the content, fetch data from back-end
             this.getTutorial()
         },
         components: {
@@ -241,10 +242,10 @@
                     this.receivedComments = data
                 })
             },
-
+            // handle 'finish' button click
             finishTutorial(row) {
                 let tutorialID = row.ID;
-                console.log(tutorialID);
+
                 api.finishTutorial(tutorialID).then(({data}) => {
                     if (data.success === "success") {
                         this.$message({
@@ -260,9 +261,8 @@
                     this.getTutorial();
                 })
             },
-
+            // handle 'withdraw' button click
             withdraw(row) {
-                console.log(row);
                 let tutorial = {'id' : row.ID};
                 api.withdraw(tutorial).then(({data}) => {
                     if (data.success === "success") {
@@ -284,9 +284,8 @@
                     }
                 })
             },
-
+            // handle 'delete' button click
             delTutorial(row) {
-                console.log(row);
                 let tutorialID = row.ID;
                 api.delTutorial(tutorialID).then(({data}) => {
                     if (data.success === "success") {
@@ -308,12 +307,12 @@
                     }
                 })
             },
-
+            // handle 'feedback' button click, open feedback form
             openFeedbackForm(id){
                 this.form.tutorialId = id;
                 this.dialogFormVisible = true;
             },
-
+            // handle feedback form submission
             sendFeedback(){
                 this.dialogFormVisible = false;
                 api.sendFeedback(this.form).then(({data}) => {

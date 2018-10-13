@@ -37,10 +37,11 @@
             };
         },
         methods: {
+            // handle menu item selection, direct to different router link
             handleSelect(key, keyPath) {
-                console.log(keyPath);
                 if(keyPath[1]==='4-3'){
                     this.$store.dispatch('UserLogout');
+                    // check token
                     if (!this.$store.state.token) {
                         this.$message({
                             type: 'success',
@@ -55,9 +56,6 @@
                     }
                 }
             }
-        },
-        mounted () {
-            console.log(this.$store.state.username);
         }
     }
 </script>

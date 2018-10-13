@@ -87,6 +87,7 @@
                     password: '',
                     confirm: '',
                 },
+                // validation rules
                 rules: {
                     name: [
                         { required: true, message: 'Please input username.', trigger: 'blur'},
@@ -117,12 +118,13 @@
             }
         },
         methods: {
+            // reset form
             resetForm(formName){
                 this.$refs[formName].resetFields();
             },
 
             submitForm(formName) {
-
+            // before submission, validate the form
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         let newUser = {

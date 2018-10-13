@@ -9,22 +9,22 @@ const router = new Router({
         {
             path: '/',
             name: 'home',
-            component: () => import(/* webpackChunkName: "about" */ '@/views/Home.vue')
+            component: () => import('@/views/Home.vue')
         },
         {
             path: '/about',
             name: 'about',
-            component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue')
+            component: () => import('@/views/About.vue')
         },
         {
             path: '/contact',
             name: 'contact',
-            component: () => import(/* webpackChunkName: "about" */ '@/views/Contact.vue')
+            component: () => import('@/views/Contact.vue')
         },
         {
             path: '/myInfo',
             name: 'my-info',
-            component:   () => import(/* webpackChunkName: "about" */ '@/views/MyInfo.vue'),
+            component:   () => import('@/views/MyInfo.vue'),
             meta: {
                 requireAuth: true
             }
@@ -32,7 +32,7 @@ const router = new Router({
         {
             path: '/enroll',
             name: 'enroll',
-            component:   () => import(/* webpackChunkName: "about" */ '@/views/Enroll.vue'),
+            component:   () => import('@/views/Enroll.vue'),
             meta: {
                 requireAuth: true
             }
@@ -40,7 +40,7 @@ const router = new Router({
         {
             path: '/createTutorial',
             name: 'createTutorial',
-            component:   () => import(/* webpackChunkName: "about" */ '@/views/CreateTutorial.vue'),
+            component:   () => import('@/views/CreateTutorial.vue'),
             meta: {
                 requireAuth: true
             }
@@ -48,27 +48,27 @@ const router = new Router({
         {
             path: '/sign-up',
             name: 'signup',
-            component:   () => import(/* webpackChunkName: "about" */ '@/views/SignUp.vue')
+            component:   () => import('@/views/SignUp.vue')
         },
         {
             path: '/log-in',
             name: 'login',
-            component:   () => import(/* webpackChunkName: "about" */ '@/views/Login.vue')
+            component:   () => import('@/views/Login.vue')
         },
         {
             path: '/tutorialInfo',
             name: 'tutorialInfo',
-            component:   () => import(/* webpackChunkName: "about" */ '@/views/TutorialInfo.vue')
+            component:   () => import('@/views/TutorialInfo.vue')
         },
         {
             path: '/tutorInfo',
             name: 'tutorInfo',
-            component:   () => import(/* webpackChunkName: "about" */ '@/views/TutorInfo.vue')
+            component:   () => import('@/views/TutorInfo.vue')
         },
         {
             path: '/editTutorial',
             name: 'editTutorial',
-            component:   () => import(/* webpackChunkName: "about" */ '@/views/editTutorial.vue'),
+            component:   () => import('@/views/EditTutorial.vue'),
             meta: {
                 requireAuth: true
             }
@@ -78,6 +78,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
     let token = localStorage.getItem('token');
     if(to.meta.requireAuth) {
+        // if the path require authentication, check token
         if(token) {
             next()
         } else {

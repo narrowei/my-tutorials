@@ -22,7 +22,7 @@
     import api from './axios.js'
 
     export default {
-        name: 'home',
+        name: 'Home',
         components: {
             Menu
         },
@@ -31,22 +31,23 @@
         },
         methods:{
             get_User() {
-                    api.GetUser().then(({data}) => {
-                        if (data.code === 401) {
-                            console.log('token');
-                            this.$message({
-                                type: 'info',
-                                message: 'You need login first!'
-                            });
-                            this.$router.push({name: 'login'});
-                            this.$store.dispatch('UserLogout');
-                            console.log(this.$store.state.username);
-                        } else {
-                            this.$store.dispatch('UserName', localStorage.username);
-                            this.$store.dispatch('UserLogin', data.token);
-                            console.log('already logged in');
-                        }
-                    })
+                // check token to get login data info
+                api.GetUser().then(({data}) => {
+                    if (data.code === 401) {
+                        console.log('token');
+                        this.$message({
+                            type: 'info',
+                            message: 'You need login first!'
+                        });
+                        this.$router.push({name: 'login'});
+                        this.$store.dispatch('UserLogout');
+                        console.log(this.$store.state.username);
+                    } else {
+                        this.$store.dispatch('UserName', localStorage.username);
+                        this.$store.dispatch('UserLogin', data.token);
+                        console.log('already logged in');
+                    }
+                })
                 }
             },
     }

@@ -44,6 +44,7 @@
                     name: '',
                     password: '',
                 },
+                // form validation rules
                 rules: {
                     name: [
                         { required: true, message: 'Please input username.', trigger: 'blur'},
@@ -59,13 +60,16 @@
             SignUp,
         },
         methods: {
+            // handle panel tab click
             handleClick(tab, event) {},
 
+            // reset form
             resetForm(formName){
                 this.$refs[formName].resetFields();
             },
 
             submitForm(formName) {
+                // before submission, validate form
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         let userInfo = {
@@ -78,10 +82,11 @@
                                     type: 'success',
                                     message: 'Login successfully.'
                                 });
-                                //this.$store.dispatch('UserLogin', userInfo.token)
+
                                 this.$store.dispatch('UserName', data.email);
                                 this.$store.dispatch('UserLogin', data.token);
                                 let redirect = decodeURIComponent(this.$route.query.redirect || '/');
+                                // when login successfully, redirect to home page
                                 this.$router.push({
                                     path: redirect
                                 })

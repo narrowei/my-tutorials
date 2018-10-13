@@ -53,9 +53,9 @@ export default {
     mounted () {
         this.get_TutorialAmount();
         this.get_Tutorial();
-        console.log(this.$route.query.search);
     },
     methods: {
+        // get all tutorial for display
         get_Tutorial() {
             setTimeout(() => {
                 api.getTutorialsByPageId(1).then(({data}) => {
@@ -64,11 +64,13 @@ export default {
             }, 100)
         },
         get_TutorialAmount(){
+            // get the amount of tutorials
             api.getTutorialAmount().then(({data})=>{
                 this.maxSize = data.size;
             })
         },
         handleCurrentChange(val) {
+            // handle pagination
             api.getTutorialsByPageId(val).then(({data}) => {
                 this.tutorials = data
             })
@@ -77,11 +79,13 @@ export default {
     },
     computed: {
         gridStyle() {
+            // compute for grid style
             return {
                 gridTemplateColumns: `repeat(${this.numberOfColumn}, minmax(360px, 360px))`
             }
         },
         filteredTutorial() {
+            // handle select by keywords
             return this.tutorials.filter(tutorial => {
                 return tutorial.name.toLowerCase().includes(this.search.toLowerCase())
             })

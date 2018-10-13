@@ -27,6 +27,7 @@
         name: 'contact',
         data() {
             return {
+                // static data
                 developers: [{
                     name: 'Yuheng Wei',
                     studentID: '12640862',

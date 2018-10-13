@@ -43,6 +43,7 @@
         },
         props:['id','name','description','tutor','time','attachment','price'],
         computed: {
+            // compute tutorial name length. If it's too long, append '...' at last
             title() {
                 const maxLen = this.maxLen;
                 const name = this.name.toString();
@@ -54,6 +55,7 @@
         methods:{
             submitForm(data){
                 api.enrollTutorial({id:data}).then(({data})=>{
+                    // call back function, return error message
                     if (data.success==="success") {
                         this.$message({
                             type: 'success',

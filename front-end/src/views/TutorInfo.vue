@@ -82,7 +82,7 @@
     import Vue from 'vue'
 
     export default{
-        name: 'tutorInfo',
+        name: 'TutorInfo',
         data(){
             return {
                 tutor: [],
@@ -99,9 +99,10 @@
         },
 
         methods:{
+            // handle collapse tabs
             handleChange(val) {
-                console.log(val);
             },
+            // fetch data of the specific tutor
             fetchData(){
                 let tutorID = this.$route.query.id;
 

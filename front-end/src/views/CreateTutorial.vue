@@ -93,6 +93,7 @@
                     price:'',
                     attachment:'',
                 },
+                // rules for validation
                 rules: {
                     name: [
                         { required: true, message: 'Please input tutorial name.', trigger: 'blur'},
@@ -121,11 +122,13 @@
             'editor': Editor
         },
         methods: {
+            // format datetime before sending to the back-end
             datetimeFormat(val) {
                 this.form.date = val;
                 console.log(val);
             },
             onSubmit(formName) {
+                // validate the form before submission
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         api.createTutorial(this.form).then(({data})=>{
@@ -134,6 +137,7 @@
                                     type: 'success',
                                     message: 'Tutorial created!'
                                 });
+                                // if tutorial is created successfully, direct to myinfo page
                                 this.$router.push('/myInfo')
                             }else if(data.code === 401){
                                 this.$message({

@@ -54,6 +54,15 @@
     export default {
         name: "editTutorial",
         data() {
+            var validateTutorialName = (rule, value, callback) => {
+
+                let reg = /^[a-zA-Z0-9-_:\ \.]{3,50}$/;
+                if (value !== '' && !reg.test(value)) {
+                    callback(new Error('Only underscore, hyphen, comma, dot, space, and alphanumeric characters allowed.'));
+                } else {
+                    callback();
+                }
+            };
             var validateImageUrl = (rule, value, callback) => {
 
                 let reg = /https?:\/\/.+\.(gif|jpg|jpeg|tiff|png)$/;
@@ -86,9 +95,12 @@
                     attachment:'',
                     classId : null,
                 },
+                // rules for validation
                 rules: {
                     name: [
-                        { required: true, message: 'Please input tutorial name.', trigger: 'blur'}
+                        { required: true, message: 'Please input tutorial name.', trigger: 'blur'},
+                        { min: 3, max: 50, message: 'Tutorial name length must be 3-50 characters.', trigger: 'blur'},
+                        { validator: validateTutorialName, trigger: 'blur'},
                     ],
                     date: [
                         { required: true, message: 'Please input date.', trigger: 'blur'}
@@ -112,11 +124,13 @@
             'editor': Editor
         },
         methods: {
+            // format datetime before sending to the back-end
             datetimeFormat(val) {
                 this.form.date = val;
                 console.log(val);
             },
             onSubmit(formName) {
+                // validate the form before submission
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         api.updateTutorial(this.form).then(({data})=>{
@@ -125,6 +139,7 @@
                                     type: 'success',
                                     message: 'Tutorial updated!'
                                 });
+                                // if tutorial is updated successfully, direct to tutorial info page
                                 this.$router.push('/tutorialInfo?id='+this.form.classId)
                             }else{
                                 this.$message({
@@ -140,14 +155,12 @@
                 });
             },
             fetchData(){
+                // fetch the tutorial data using get request
                 let tutorialID = this.$route.query.id;
                 api.viewTutorial(tutorialID).then(({data}) => {
                     this.form.name = data.name;
                     let dates = data.time;
-                    //this.form.date[0] = dates.substring(0,10)+' '+dates.substring(11,16);
-                    //this.form.date[1] = dates.substring(19,29)+' '+dates.substring(30,35);
                     this.form.date = [dates.substring(0,10)+' '+dates.substring(11,16),dates.substring(19,29)+' '+dates.substring(30,35)];
-                    //this.form.date = dates.split(',');
                     this.form.maxNumberStudent = data.maxNumberStudent;
                     this.form.description = data.description;
                     this.form.video_link = data.videoLink;
