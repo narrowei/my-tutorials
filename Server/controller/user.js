@@ -18,13 +18,22 @@ userRouter.use(cors());
 //get user
 userRouter.get('/',checkToken ,function(req, res, next) {
     //res.header("Access-Control-Allow-Origin", "*");
-    if(req.headers['authorization']){
+    if (req.headers['authorization']) {
         let token = req.headers['authorization'];
         let decoded = jwt.decode(token, 'secret');
-        res.json({token: createToken(decoded.name)});
+        let email = decoded.name;
+        db.get("select ID, name from user where email=$email", {$email: email}, (err, row) => {
+                if (err) {
+                    return res.json({success: 'user not found'});
+                } else {
+                    res.json({token: createToken(decoded.name), id: row.ID});
+                }
+            }
+        )
     }
-    //res.json({});
 });
+
+
 
 // create a new user
 userRouter.post('/register', function(req, res) {
@@ -76,7 +85,8 @@ userRouter.post('/login', function(req, res) {
                 	if(result){
                         res.json({success: 'success',
                             token: createToken(rows[0].email),
-                            email: rows[0].email
+                            email: rows[0].email,
+                            id: rows[0].ID
                         });
 					}else{
                         res.json({success: 'failed'});

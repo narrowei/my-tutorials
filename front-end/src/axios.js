@@ -15,7 +15,8 @@ axios.interceptors.request.use = instance.interceptors.request.use
 instance.interceptors.request.use(config => {
 	if(localStorage.getItem('token')) {
 		config.headers.Authorization = `${localStorage.getItem('token')}`
-			.replace(/(^\")|(\"$)/g, '')
+			.replace(/(^\")|(\"$)/g, '');
+        config.headers.userId = `${localStorage.getItem('id')}`;
 	}else{
         config.headers.Authorization = '';
     }

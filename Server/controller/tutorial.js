@@ -49,42 +49,31 @@ tutorialRouter.get('/size', function(req, res, next) {
 });
 
 // create tutorial
-tutorialRouter.post('/',checkToken, function(req, res) {
-    let email;
-    if(req.headers['authorization']){
-        let token = req.headers['authorization'];
-        let decoded = jwt.decode(token, 'secret');
-        email = decoded.name;
+tutorialRouter.post('/', checkToken, function (req, res) {
+    let userID;
+    if (!req.headers['userid']) {
+        return res.json({fail: 'you need login first'});
     }
-    let userID='';
-
-    db.get("select ID,name from user where email=$email",{$email:email}, (err,row)=>{
-        if(err){
-            return res.json({success: 'user not found'});
-        }else{
-            userID = row.ID;
-
-            let newClass = [
-                userID,
-                req.body.name,
-                req.body.description,
-                req.body.maxNumberStudent,
-                req.body.date[0]+' - '+req.body.date[1],
-                req.body.price,
-                req.body.attachment,
-                req.body.video_link
-            ];
-            db.run("INSERT INTO 'class'(tutorID, name, description, maxNumberStudent, time, price, attachment, videoLink) VALUES (?,?,?,?,?,?,?,?)",
-                newClass, function (err) {
-                    if (err) {
-                        console.log(err);
-                        return res.json({success: 'failed creating tutorial'});
-                    }else{
-                        return res.json({success: 'success'});
-                    }
-                });
-        }
-    });
+    userID = req.headers['userid'];
+    let newClass = [
+        userID,
+        req.body.name,
+        req.body.description,
+        req.body.maxNumberStudent,
+        req.body.date[0] + ' - ' + req.body.date[1],
+        req.body.price,
+        req.body.attachment,
+        req.body.video_link
+    ];
+    db.run("INSERT INTO 'class'(tutorID, name, description, maxNumberStudent, time, price, attachment, videoLink) VALUES (?,?,?,?,?,?,?,?)",
+        newClass, function (err) {
+            if (err) {
+                console.log(err);
+                return res.json({success: 'failed creating tutorial'});
+            } else {
+                return res.json({success: 'success'});
+            }
+        });
 });
 
 // view tutorial info

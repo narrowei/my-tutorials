@@ -8,7 +8,8 @@ Vue.use(Vuex);
 const state = {
 	token: null,
 	activeName: 'first',
-	username: null
+	username: null,
+	id: null
 }
 
 export default new Vuex.Store({

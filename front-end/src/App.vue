@@ -43,8 +43,8 @@
                         this.$store.dispatch('UserLogout');
                         console.log(this.$store.state.username);
                     } else {
+                        this.$store.dispatch('UserLogin', data);
                         this.$store.dispatch('UserName', localStorage.username);
-                        this.$store.dispatch('UserLogin', data.token);
                         console.log('already logged in');
                     }
                 })
