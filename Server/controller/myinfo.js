@@ -9,7 +9,6 @@ const checkToken = require('../middleware/checkToken.js');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 let bodyParser = require('body-parser');
-var now = require("performance-now");
 myinfoRouter.use( bodyParser.json() );       // to support JSON-encoded bodies
 myinfoRouter.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
@@ -36,7 +35,6 @@ myinfoRouter.get('/',checkToken ,function(req, res, next) {
 
 // get enrolled tutorial
 myinfoRouter.get('/enrolled', checkToken, function (req, res, next) {
-    var start = now();
     let userID;
     if (!req.headers['userid']) {
         return res.json({fail: 'you need login first'});
@@ -47,8 +45,6 @@ myinfoRouter.get('/enrolled', checkToken, function (req, res, next) {
             if (err) {
                 throw err;
             } else if (rows.length > 0) {
-                var end = now();
-                console.log("performance:" + (end-start).toFixed(3)); // ~ 0.002 on my system
                 res.json(rows);
             } else {
                 return res.json({success: 'null'});
